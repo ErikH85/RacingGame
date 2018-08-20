@@ -2,14 +2,12 @@ package com.example.RacingGame;
 
 public class User {
     private int id;
-    private String name;
     private String email;
     private String username;
     private String password;
 
-    public User(int id, String name, String email, String username, String password) {
+    public User(int id, String email, String username, String password) {
         this.id = id;
-        this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
@@ -21,14 +19,6 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {

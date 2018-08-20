@@ -26,14 +26,13 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String postRegister(@RequestParam String name,
-                               @RequestParam String email,
+    public String postRegister(@RequestParam String email,
                                @RequestParam String username,
                                @RequestParam String password,
                                Model model) {
 
-        if (loginRepository.addUser(name, email, username, password)) {
-            model.addAttribute("welcome", "Welcome " + name);
+        if (loginRepository.addUser(email, username, password)) {
+            model.addAttribute("welcome", "Welcome ");
             return "mypages";
         }
         model.addAttribute("error", "Username or Email is already taken");
