@@ -7,6 +7,21 @@ let app = new PIXI.Application({
         resolution: 1
     }
 );
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+
+    this.play = function(){
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }
+}
 
 
 document.body.appendChild(app.view);
@@ -17,8 +32,13 @@ PIXI.loader
     .load(setup);
 
 let audi, state,road;
+let mySound;
+let accelerate;
 
 function setup() {
+
+    accelerate = new sound("accelerate.mp3");
+    accelerate.play();
 
     road = new PIXI.Sprite(PIXI.loader.resources["road1.png"].texture);
     audi = new PIXI.Sprite(PIXI.loader.resources["Audi.png"].texture);
@@ -47,18 +67,19 @@ function setup() {
 
     //Left arrow key `press` method
     left.press = () => {
-        //Change the cat's velocity when the key is pressed
         audi.vx = -5;
         audi.vy = 0;
+        mySound = new sound("tires.mp3");
+        mySound.play();
     };
 
-    //Left arrow key `release` method
+
     left.release = () => {
-        //If the left arrow has been released, and the right arrow isn't down,
-        //and the cat isn't moving vertically:
-        //Stop the cat
         if (!right.isDown && audi.vy === 0) {
             audi.vx = 0;
+            mySound.stop();
+            accelerate = new sound("accelerate.mp3");
+            accelerate.play();
         }
     };
 
@@ -70,6 +91,8 @@ function setup() {
     up.release = () => {
         if (!down.isDown && audi.vx === 0) {
             audi.vy = 0;
+            accelerate = new sound("accelerate.mp3");
+            accelerate.play();
         }
     };
 
@@ -77,10 +100,15 @@ function setup() {
     right.press = () => {
         audi.vx = 5;
         audi.vy = 0;
+        mySound = new sound("tires.mp3");
+        mySound.play();
     };
     right.release = () => {
         if (!left.isDown && audi.vy === 0) {
             audi.vx = 0;
+            mySound.stop();
+            accelerate = new sound("accelerate.mp3");
+            accelerate.play();
         }
     };
 
@@ -88,10 +116,15 @@ function setup() {
     down.press = () => {
         audi.vy = 5;
         audi.vx = 0;
+        mySound = new sound("tires.mp3");
+        mySound.play();
     };
     down.release = () => {
         if (!up.isDown && audi.vx === 0) {
             audi.vy = 0;
+            mySound.stop();
+            accelerate = new sound("accelerate.mp3");
+            accelerate.play();
         }
     };
 
