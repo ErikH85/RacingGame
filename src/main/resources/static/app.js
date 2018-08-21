@@ -1,4 +1,3 @@
-
 var app = new PIXI.Application({
         width: 840,
         height: 1000,
@@ -7,7 +6,6 @@ var app = new PIXI.Application({
         resolution: 1
     }
 );
-
 
 document.body.appendChild(app.view);
 
@@ -18,6 +16,7 @@ PIXI.Loader.shared
     .load(setup);
 
 var audi, police, taxi, ambulance, state, road;
+var b = new Bump(PIXI);
 
 function setup() {
 
@@ -73,8 +72,12 @@ function setup() {
 
     var texture = PIXI.Texture.from('road1.png');
 
+    //väljer en bakgrundsbild för att användas som texture till TilingSprite
+    var texture = PIXI.Texture.fromImage('road1.png');
+
+    //sätter bilens utgångsposition samt ursprungshastighet
     audi.x = 350;
-    audi.y = 250;
+    audi.y = 300;
     audi.vx = 0;
     audi.vy = 0;
 
@@ -89,36 +92,35 @@ function setup() {
         app.screen.height
     );
 
-
+    //lägger till ("stage'ar") den repeterande bakgrunden och spelar-bilen
     app.stage.addChild(tilingRoad);
     app.stage.addChild(audi);
     app.stage.addChild(police);
     app.stage.addChild(ambulance);
     app.stage.addChild(taxi);
 
+    //sätter enums för piltangenterna keycodes
     var left = keyboard(37),
-        up = keyboard(38),
-        right = keyboard(39),
-        down = keyboard(40);
+    up = keyboard(38),
+    right = keyboard(39),
+    down = keyboard(40);
 
-    //Left arrow key `press` method
+    //definerar vad som skall hända vid dessa events
+
+    //vänster
+
     left.press = () => {
-        //Change the cat's velocity when the key is pressed
         audi.vx = -5;
         audi.vy = 0;
     };
 
-    //Left arrow key `release` method
     left.release = () => {
-        //If the left arrow has been released, and the right arrow isn't down,
-        //and the cat isn't moving vertically:
-        //Stop the cat
         if (!right.isDown && audi.vy === 0) {
             audi.vx = 0;
         }
     };
 
-    //Up
+    //Uppåt
     up.press = () => {
         audi.vy = -5;
         audi.vx = 0;
@@ -129,7 +131,7 @@ function setup() {
         }
     };
 
-    //Right
+    //Höger
     right.press = () => {
         audi.vx = 5;
         audi.vy = 0;
@@ -140,7 +142,7 @@ function setup() {
         }
     };
 
-    //Down
+    //Nedåt
     down.press = () => {
         audi.vy = 5;
         audi.vx = 0;
@@ -151,7 +153,7 @@ function setup() {
         }
     };
 
-    let p2left = keyboard(65),
+    var p2left = keyboard(65),
         p2up = keyboard(87),
         p2right = keyboard(68),
         p2down = keyboard(83);
@@ -206,7 +208,7 @@ function setup() {
         }
     };
 
-    let p3left = keyboard(74),
+    var p3left = keyboard(74),
         p3up = keyboard(73),
         p3right = keyboard(76),
         p3down = keyboard(75);
@@ -268,21 +270,35 @@ function setup() {
     app.ticker.add(delta => gameLoop(delta));
 
     var count = 0;
+
     app.ticker.add(function() {
         count += 0.005;
-        tilingRoad.tilePosition.y += 5;
+        tilingRoad.tilePosition.y += 10;
+
+        //lägga in collision här
+
+        //testar collision samt lägger på bounce-effekt
+        b.hit(police, audi, true, true);
+
     });
-}
+
+
+    /*
+    function boxesIntersect(a, b)
+    {
+        var ab = a.getBounds();
+        var bb = b.getBounds();
+        return ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
+    }
+    */
 
 function gameLoop(delta){
 
-    //Update the current game state:
     state(delta);
 }
 
 function play(delta) {
 
-    //Use the cat's velocity to make it move
     audi.x += audi.vx;
     audi.y += audi.vy;
     road.x += road.vx;
@@ -293,14 +309,13 @@ function play(delta) {
 
     taxi.x += taxi.vx;
     taxi.y += taxi.vy;
-
 }
 
 function update(){
 
-
 }
 
+//sätter eventhandlers för olika keyCodes
 function keyboard(keyCode) {
     var key = {};
     key.code = keyCode;
@@ -318,7 +333,6 @@ function keyboard(keyCode) {
         event.preventDefault();
     };
 
-    //The `upHandler`
     key.upHandler = event => {
         if (event.keyCode === key.code) {
             if (key.isDown && key.release) key.release();
@@ -328,7 +342,6 @@ function keyboard(keyCode) {
         event.preventDefault();
     };
 
-    //Attach event listeners
     window.addEventListener(
         "keydown", key.downHandler.bind(key), false
     );
@@ -336,4 +349,5 @@ function keyboard(keyCode) {
         "keyup", key.upHandler.bind(key), false
     );
     return key;
+}
 }
