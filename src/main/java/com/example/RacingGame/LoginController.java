@@ -30,7 +30,7 @@ public class LoginController {
 
         if (loginRepository.addUser(email, username, password)) {
             model.addAttribute("welcome", "Welcome ");
-            return "game";
+            return "redirect:game";
         }
         model.addAttribute("error", "Username or Email is already taken");
         return "index";
@@ -48,7 +48,7 @@ public class LoginController {
             HttpSession session = request.getSession(true);
             session.setAttribute("User", username);
             model.addAttribute("welcome", "Welcome " + username);
-            return "game";
+            return "redirect:game";
         }
         model.addAttribute("error", "Wrong username or password");
         return "index";
@@ -63,5 +63,10 @@ public class LoginController {
         HttpSession session = request.getSession(true);
         session.invalidate();
         return "index";
+    }
+
+    @GetMapping("/game")
+    public String getGame() {
+        return "game";
     }
 }
