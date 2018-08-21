@@ -1,5 +1,4 @@
-
-let app = new PIXI.Application({
+var app = new PIXI.Application({
         width: 840,
         height: 1000,
         antialias: true,
@@ -23,57 +22,116 @@ function sound(src) {
     }
 }
 
-
 document.body.appendChild(app.view);
 
-PIXI.loader
+PIXI.Loader.shared
     .add("road1.png")
     .add("Audi.png")
+    .add("Taxi.png")
     .load(setup);
 
-let audi, state,road;
-let mySound;
-let accelerate;
+
+var audi, police, taxi, ambulance, state, road, mySound, accelerate;
+var b = new Bump(PIXI);
 
 function setup() {
 
-    accelerate = new sound("accelerate.mp3");
-    accelerate.play();
+    //Start police
+    var policeAnimation = [];
+    var maxFrames = 3;
 
-    road = new PIXI.Sprite(PIXI.loader.resources["road1.png"].texture);
-    audi = new PIXI.Sprite(PIXI.loader.resources["Audi.png"].texture);
+    for (var i = 1; i <= maxFrames; i++){
 
+        var policeAnimationFrames = {
+            texture: PIXI.Texture.from("police" + i + ".png"),
+            time: 100
+        };
+
+        policeAnimation.push(policeAnimationFrames);
+    }
+
+    police = new PIXI.AnimatedSprite(policeAnimation);
+    police.play();
+
+    police.x = 350;
+    police.y = 125;
+    police.vx = 0;
+    police.vy = 0;
+    //End police
+
+    //Start ambulance
+    var ambulanceAnimation = [];
+    var maxFrames = 3;
+
+    for (var i = 1; i <= maxFrames; i++){
+
+        var ambulanceAnimationFrames = {
+            texture: PIXI.Texture.from("ambulance" + i + ".png"),
+            time: 100
+        };
+
+        ambulanceAnimation.push(ambulanceAnimationFrames);
+    }
+
+    ambulance = new PIXI.AnimatedSprite(ambulanceAnimation);
+    ambulance.play();
+
+    ambulance.x = 300;
+    ambulance.y = 300;
+    ambulance.vx = 0;
+    ambulance.vy = 0;
+    //End ambulance
+
+    road = new PIXI.Sprite(PIXI.Loader.shared.resources["road1.png"].texture);
+    audi = new PIXI.Sprite(PIXI.Loader.shared.resources["Audi.png"].texture);;
+    taxi = new PIXI.Sprite(PIXI.Loader.shared.resources["Taxi.png"].texture);
+
+    var texture = PIXI.Texture.from('road1.png');
+
+    //väljer en bakgrundsbild för att användas som texture till TilingSprite
     var texture = PIXI.Texture.fromImage('road1.png');
 
+    //sätter bilens utgångsposition samt ursprungshastighet
     audi.x = 350;
-    audi.y = 250;
+    audi.y = 300;
     audi.vx = 0;
     audi.vy = 0;
 
-    var tilingRoad = new PIXI.extras.TilingSprite(
+    taxi.x = 350;
+    taxi.y = 350;
+    taxi.vx = 0;
+    taxi.vy = 0;
+
+    var tilingRoad = new PIXI.TilingSprite(
         texture,
         app.screen.width,
         app.screen.height
     );
 
-
+    //lägger till ("stage'ar") den repeterande bakgrunden och spelar-bilen
     app.stage.addChild(tilingRoad);
     app.stage.addChild(audi);
+    app.stage.addChild(police);
+    app.stage.addChild(ambulance);
+    app.stage.addChild(taxi);
 
-    let left = keyboard(37),
-        up = keyboard(38),
-        right = keyboard(39),
-        down = keyboard(40);
+    //sätter enums för piltangenterna keycodes
+    var left = keyboard(37),
+    up = keyboard(38),
+    right = keyboard(39),
+    down = keyboard(40);
 
-    //Left arrow key `press` method
+    //definerar vad som skall hända vid dessa events
+
+    //vänster
+
     left.press = () => {
         audi.vx = -5;
         audi.vy = 0;
         mySound = new sound("tires.mp3");
         mySound.play();
     };
-
-
+    
     left.release = () => {
         if (!right.isDown && audi.vy === 0) {
             audi.vx = 0;
@@ -83,7 +141,7 @@ function setup() {
         }
     };
 
-    //Up
+    //Uppåt
     up.press = () => {
         audi.vy = -5;
         audi.vx = 0;
@@ -96,7 +154,7 @@ function setup() {
         }
     };
 
-    //Right
+    //Höger
     right.press = () => {
         audi.vx = 5;
         audi.vy = 0;
@@ -112,7 +170,7 @@ function setup() {
         }
     };
 
-    //Down
+    //Nedåt
     down.press = () => {
         audi.vy = 5;
         audi.vx = 0;
@@ -128,43 +186,171 @@ function setup() {
         }
     };
 
+    var p2left = keyboard(65),
+        p2up = keyboard(87),
+        p2right = keyboard(68),
+        p2down = keyboard(83);
+
+    //Left arrow key `press` method
+    p2left.press = () => {
+        //Change the cat's velocity when the key is pressed
+        police.vx = -5;
+        police.vy = 0;
+    };
+
+    //Left arrow key `release` method
+    p2left.release = () => {
+        //If the left arrow has been released, and the right arrow isn't down,
+        //and the cat isn't moving vertically:
+        //Stop the cat
+        if (!p2right.isDown && police.vy === 0) {
+            police.vx = 0;
+        }
+    };
+
+    //Up
+    p2up.press = () => {
+        police.vy = -5;
+        police.vx = 0;
+    };
+    p2up.release = () => {
+        if (!p2down.isDown && police.vx === 0) {
+            police.vy = 0;
+        }
+    };
+
+    //Right
+    p2right.press = () => {
+        police.vx = 5;
+        police.vy = 0;
+    };
+    p2right.release = () => {
+        if (!p2left.isDown && police.vy === 0) {
+            police.vx = 0;
+        }
+    };
+
+    //Down
+    p2down.press = () => {
+        police.vy = 5;
+        police.vx = 0;
+    };
+    p2down.release = () => {
+        if (!p2up.isDown && police.vx === 0) {
+            police.vy = 0;
+        }
+    };
+
+    var p3left = keyboard(74),
+        p3up = keyboard(73),
+        p3right = keyboard(76),
+        p3down = keyboard(75);
+
+    //Left arrow key `press` method
+    p3left.press = () => {
+        //Change the cat's velocity when the key is pressed
+        taxi.vx = -5;
+        taxi.vy = 0;
+    };
+
+    //Left arrow key `release` method
+    p3left.release = () => {
+        //If the left arrow has been released, and the right arrow isn't down,
+        //and the cat isn't moving vertically:
+        //Stop the cat
+        if (!p3right.isDown && taxi.vy === 0) {
+            taxi.vx = 0;
+        }
+    };
+
+    //Up
+    p3up.press = () => {
+        taxi.vy = -5;
+        taxi.vx = 0;
+    };
+    p3up.release = () => {
+        if (!p3down.isDown && taxi.vx === 0) {
+            taxi.vy = 0;
+        }
+    };
+
+    //Right
+    p3right.press = () => {
+        taxi.vx = 5;
+        taxi.vy = 0;
+    };
+    p3right.release = () => {
+        if (!p3left.isDown && taxi.vy === 0) {
+            taxi.vx = 0;
+        }
+    };
+
+    //Down
+    p3down.press = () => {
+        taxi.vy = 5;
+        taxi.vx = 0;
+    };
+    p3down.release = () => {
+        if (!p3up.isDown && taxi.vx === 0) {
+            taxi.vy = 0;
+        }
+    };
+
     //Set the game state
     state = play;
 
     //Start the game loop
     app.ticker.add(delta => gameLoop(delta));
 
-    let count = 0;
+    var count = 0;
+
     app.ticker.add(function() {
         count += 0.005;
-        tilingRoad.tilePosition.y += 5;
+        tilingRoad.tilePosition.y += 10;
+
+        //lägga in collision här
+
+        //testar collision samt lägger på bounce-effekt
+        b.hit(police, audi, true, true);
+
     });
-}
+
+
+    /*
+    function boxesIntersect(a, b)
+    {
+        var ab = a.getBounds();
+        var bb = b.getBounds();
+        return ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
+    }
+    */
 
 function gameLoop(delta){
 
-    //Update the current game state:
     state(delta);
 }
 
 function play(delta) {
 
-    //Use the cat's velocity to make it move
     audi.x += audi.vx;
     audi.y += audi.vy;
     road.x += road.vx;
     road.y += road.vy;
 
+    police.x += police.vx;
+    police.y += police.vy;
 
+    taxi.x += taxi.vx;
+    taxi.y += taxi.vy;
 }
 
 function update(){
 
-
 }
 
+//sätter eventhandlers för olika keyCodes
 function keyboard(keyCode) {
-    let key = {};
+    var key = {};
     key.code = keyCode;
     key.isDown = false;
     key.isUp = true;
@@ -180,7 +366,6 @@ function keyboard(keyCode) {
         event.preventDefault();
     };
 
-    //The `upHandler`
     key.upHandler = event => {
         if (event.keyCode === key.code) {
             if (key.isDown && key.release) key.release();
@@ -190,7 +375,6 @@ function keyboard(keyCode) {
         event.preventDefault();
     };
 
-    //Attach event listeners
     window.addEventListener(
         "keydown", key.downHandler.bind(key), false
     );
@@ -198,4 +382,5 @@ function keyboard(keyCode) {
         "keyup", key.upHandler.bind(key), false
     );
     return key;
+}
 }
