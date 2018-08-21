@@ -79,8 +79,8 @@ function setup() {
     ambulance = new PIXI.AnimatedSprite(ambulanceAnimation);
     ambulance.play();
 
-    ambulance.x = 300;
-    ambulance.y = 300;
+    ambulance.x = 495;
+    ambulance.y = 10;
     ambulance.vx = 0;
     ambulance.vy = 0;
     //End ambulance
@@ -100,8 +100,8 @@ function setup() {
     audi.vx = 0;
     audi.vy = 0;
 
-    taxi.x = 350;
-    taxi.y = 350;
+    taxi.x = 495;
+    taxi.y = 300;
     taxi.vx = 0;
     taxi.vy = 0;
 
@@ -241,61 +241,6 @@ function setup() {
     p2down.release = () => {
         if (!p2up.isDown && police.vx === 0) {
             police.vy = 0;
-        }
-    };
-
-    var p3left = keyboard(74),
-        p3up = keyboard(73),
-        p3right = keyboard(76),
-        p3down = keyboard(75);
-
-    //Left arrow key `press` method
-    p3left.press = () => {
-        //Change the cat's velocity when the key is pressed
-        taxi.vx = -5;
-        taxi.vy = 0;
-    };
-
-    //Left arrow key `release` method
-    p3left.release = () => {
-        //If the left arrow has been released, and the right arrow isn't down,
-        //and the cat isn't moving vertically:
-        //Stop the cat
-        if (!p3right.isDown && taxi.vy === 0) {
-            taxi.vx = 0;
-        }
-    };
-
-    //Up
-    p3up.press = () => {
-        taxi.vy = -5;
-        taxi.vx = 0;
-    };
-    p3up.release = () => {
-        if (!p3down.isDown && taxi.vx === 0) {
-            taxi.vy = 0;
-        }
-    };
-
-    //Right
-    p3right.press = () => {
-        taxi.vx = 5;
-        taxi.vy = 0;
-    };
-    p3right.release = () => {
-        if (!p3left.isDown && taxi.vy === 0) {
-            taxi.vx = 0;
-        }
-    };
-
-    //Down
-    p3down.press = () => {
-        taxi.vy = 5;
-        taxi.vx = 0;
-    };
-    p3down.release = () => {
-        if (!p3up.isDown && taxi.vx === 0) {
-            taxi.vy = 0;
         }
     };
 
