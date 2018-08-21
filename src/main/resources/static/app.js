@@ -36,6 +36,9 @@ var b = new Bump(PIXI);
 
 function setup() {
 
+    accelerate = new sound("accelerate.mp3");
+    accelerate.play();
+
     //Start police
     var policeAnimation = [];
     var maxFrames = 3;
