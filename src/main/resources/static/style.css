@@ -8,8 +8,9 @@ html {
 
 body {
     height: 100%;
-    background: url("http://wnynewsnow.com/wp-content/uploads/2017/06/Police-lights-background.jpg") no-repeat center;
+    background-image: url("https://i0.wp.com/wnynewsnow.com/wp-content/uploads/2017/06/Police-lights-background.jpg");
     background-size: cover;
+    background-repeat: no-repeat;
     font-family: 'Titillium Web', sans-serif;
 }
 
@@ -130,20 +131,6 @@ textarea {
 .field-wrap {
     position: relative;
     margin-bottom: 40px;
-}
-
-.top-row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-.top-row > div {
-    float: left;
-    width: 48%;
-    margin-right: 4%;
-}
-.top-row > div:last-child {
-    margin: 0;
 }
 
 .button {
