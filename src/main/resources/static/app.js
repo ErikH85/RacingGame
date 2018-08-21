@@ -1,5 +1,5 @@
 
-let app = new PIXI.Application({
+var app = new PIXI.Application({
         width: 840,
         height: 1000,
         antialias: true,
@@ -11,40 +11,79 @@ let app = new PIXI.Application({
 
 document.body.appendChild(app.view);
 
-PIXI.loader
+PIXI.Loader.shared
     .add("road1.png")
     .add("Audi.png")
-    .add("Police.png")
     .add("Taxi.png")
     .load(setup);
 
-let audi, police, taxi, state, road;
+var audi, police, taxi, ambulance, state, road;
 
 function setup() {
 
-    road = new PIXI.Sprite(PIXI.loader.resources["road1.png"].texture);
-    audi = new PIXI.Sprite(PIXI.loader.resources["Audi.png"].texture);
-    police = new PIXI.Sprite(PIXI.loader.resources["Police.png"].texture);
-    taxi = new PIXI.Sprite(PIXI.loader.resources["Taxi.png"].texture);
+    //Start police
+    var policeAnimation = [];
+    var maxFrames = 3;
 
-    var texture = PIXI.Texture.fromImage('road1.png');
+    for (var i = 1; i <= maxFrames; i++){
+
+        var policeAnimationFrames = {
+            texture: PIXI.Texture.from("police" + i + ".png"),
+            time: 100
+        };
+
+        policeAnimation.push(policeAnimationFrames);
+    }
+
+    police = new PIXI.AnimatedSprite(policeAnimation);
+    police.play();
+
+    police.x = 350;
+    police.y = 125;
+    police.vx = 0;
+    police.vy = 0;
+    //End police
+
+    //Start ambulance
+    var ambulanceAnimation = [];
+    var maxFrames = 3;
+
+    for (var i = 1; i <= maxFrames; i++){
+
+        var ambulanceAnimationFrames = {
+            texture: PIXI.Texture.from("ambulance" + i + ".png"),
+            time: 100
+        };
+
+        ambulanceAnimation.push(ambulanceAnimationFrames);
+    }
+
+    ambulance = new PIXI.AnimatedSprite(ambulanceAnimation);
+    ambulance.play();
+
+    ambulance.x = 300;
+    ambulance.y = 300;
+    ambulance.vx = 0;
+    ambulance.vy = 0;
+    //End ambulance
+
+    road = new PIXI.Sprite(PIXI.Loader.shared.resources["road1.png"].texture);
+    audi = new PIXI.Sprite(PIXI.Loader.shared.resources["Audi.png"].texture);;
+    taxi = new PIXI.Sprite(PIXI.Loader.shared.resources["Taxi.png"].texture);
+
+    var texture = PIXI.Texture.from('road1.png');
 
     audi.x = 350;
     audi.y = 250;
     audi.vx = 0;
     audi.vy = 0;
 
-    police.x = 350;
-    police.y = 125;
-    police.vx = 0;
-    police.vy = 0;
-
     taxi.x = 350;
     taxi.y = 350;
     taxi.vx = 0;
     taxi.vy = 0;
 
-    var tilingRoad = new PIXI.extras.TilingSprite(
+    var tilingRoad = new PIXI.TilingSprite(
         texture,
         app.screen.width,
         app.screen.height
@@ -54,9 +93,10 @@ function setup() {
     app.stage.addChild(tilingRoad);
     app.stage.addChild(audi);
     app.stage.addChild(police);
+    app.stage.addChild(ambulance);
     app.stage.addChild(taxi);
 
-    let left = keyboard(37),
+    var left = keyboard(37),
         up = keyboard(38),
         right = keyboard(39),
         down = keyboard(40);
@@ -227,7 +267,7 @@ function setup() {
     //Start the game loop
     app.ticker.add(delta => gameLoop(delta));
 
-    let count = 0;
+    var count = 0;
     app.ticker.add(function() {
         count += 0.005;
         tilingRoad.tilePosition.y += 5;
@@ -262,7 +302,7 @@ function update(){
 }
 
 function keyboard(keyCode) {
-    let key = {};
+    var key = {};
     key.code = keyCode;
     key.isDown = false;
     key.isUp = true;
