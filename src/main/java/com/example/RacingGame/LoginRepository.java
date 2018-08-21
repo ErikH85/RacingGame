@@ -11,11 +11,13 @@ import java.sql.SQLException;
 @Component
 public class LoginRepository {
 
+    boolean status = false;
+
     @Autowired
     public DataSource dataSource;
 
+
     public boolean addUser(String email, String username, String password) {
-        boolean status = false;
 
         try {
             Connection conn = dataSource.getConnection();
@@ -41,9 +43,7 @@ public class LoginRepository {
         return status;
     }
 
-    public String[] getUser(String username, String password) {
-        String status = "false";
-        String[] result = new String[2];
+    public boolean getUser(String username, String password) {
 
         try {
             Connection conn = dataSource.getConnection();
@@ -53,15 +53,13 @@ public class LoginRepository {
             ResultSet resultSet = ps.executeQuery();
 
             if (resultSet.next()) {
-                status = "true";
-                result[0] = status;
-                return result;
+                status = true;
+                return status;
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        result[0] = status;
-        return result;
+        return status;
     }
 }

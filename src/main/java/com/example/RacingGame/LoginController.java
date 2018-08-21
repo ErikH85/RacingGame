@@ -18,10 +18,7 @@ public class LoginController {
     private LoginRepository loginRepository;
 
     @GetMapping("/")
-    public String index(HttpServletResponse response) {
-        Cookie guest = new Cookie("GuestCookie", "guest");
-        guest.setMaxAge(1000);
-        response.addCookie(guest);
+    public String index() {
         return "index";
     }
 
@@ -33,7 +30,7 @@ public class LoginController {
 
         if (loginRepository.addUser(email, username, password)) {
             model.addAttribute("welcome", "Welcome ");
-            return "mypages";
+            return "game";
         }
         model.addAttribute("error", "Username or Email is already taken");
         return "index";
@@ -43,19 +40,15 @@ public class LoginController {
     public String postLogin(@RequestParam String username,
                             @RequestParam String password,
                             HttpServletRequest request,
-                            HttpServletResponse response,
                             Model model) {
 
-        String[] result = loginRepository.getUser(username, password);
+        boolean status = loginRepository.getUser(username, password);
 
-        if (result[0].equals("true")) {
+        if (status) {
             HttpSession session = request.getSession(true);
             session.setAttribute("User", username);
-            Cookie guest = new Cookie("GuestCookie", "guest");
-            guest.setMaxAge(0);
-            response.addCookie(guest);
-            model.addAttribute("welcome", "Welcome " + result[1]);
-            return "mypages";
+            model.addAttribute("welcome", "Welcome " + username);
+            return "game";
         }
         model.addAttribute("error", "Wrong username or password");
         return "index";
