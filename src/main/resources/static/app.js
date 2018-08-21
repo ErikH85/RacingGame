@@ -11,8 +11,8 @@ document.body.appendChild(app.view);
 
 PIXI.Loader.shared
     .add("road1.png")
-    .add("Audi.png")
-    .add("Taxi.png")
+    .add("audi.png")
+    .add("taxi.png")
     .load(setup);
 
 var audi, police, taxi, ambulance, state, road;
@@ -67,8 +67,8 @@ function setup() {
     //End ambulance
 
     road = new PIXI.Sprite(PIXI.Loader.shared.resources["road1.png"].texture);
-    audi = new PIXI.Sprite(PIXI.Loader.shared.resources["Audi.png"].texture);;
-    taxi = new PIXI.Sprite(PIXI.Loader.shared.resources["Taxi.png"].texture);
+    audi = new PIXI.Sprite(PIXI.Loader.shared.resources["audi.png"].texture);;
+    taxi = new PIXI.Sprite(PIXI.Loader.shared.resources["taxi.png"].texture);
 
     var texture = PIXI.Texture.from('road1.png');
 
