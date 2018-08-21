@@ -13,23 +13,38 @@ document.body.appendChild(app.view);
 
 PIXI.loader
   .add("road1.png")
-    .add("Audi.png")
+    .add("audi2.png")
+    .add("police2.png")
   .load(setup);
 
-let audi, state,road;
+let audi, police, state,road;
+
+let b = new Bump(PIXI);
 
 function setup() {
 
     road = new PIXI.Sprite(PIXI.loader.resources["road1.png"].texture);
-    audi = new PIXI.Sprite(PIXI.loader.resources["Audi.png"].texture);
+    audi = new PIXI.Sprite(PIXI.loader.resources["audi2.png"].texture);
+    police = new PIXI.Sprite(PIXI.loader.resources["police2.png"].texture);
 
+    //väljer en bakgrundsbild för att användas som texture till TilingSprite
     var texture = PIXI.Texture.fromImage('road1.png');
 
+    console.log(audi.width);
+
+    //sätter bilens utgångsposition samt ursprungshastighet
     audi.x = 350;
-    audi.y = 250;
+    audi.y = 300;
     audi.vx = 0;
     audi.vy = 0;
 
+    police.x = 500;
+    police.y = 500;
+    police.vx = 0;
+    police.vy = 0;
+
+
+    // skapar en tilingSprite för repeterande bakgrund
     var tilingRoad = new PIXI.extras.TilingSprite(
     texture,
     app.screen.width,
@@ -37,32 +52,36 @@ function setup() {
     );
 
 
+    //lägger till ("stage'ar") den repeterande bakgrunden och spelar-bilen
     app.stage.addChild(tilingRoad);
     app.stage.addChild(audi);
+    app.stage.addChild(police);
 
+
+
+
+    //sätter enums för piltangenterna keycodes
     let left = keyboard(37),
         up = keyboard(38),
         right = keyboard(39),
         down = keyboard(40);
 
-    //Left arrow key `press` method
+    //definerar vad som skall hända vid dessa events
+
+    //vänster
+
     left.press = () => {
-        //Change the cat's velocity when the key is pressed
         audi.vx = -5;
         audi.vy = 0;
     };
 
-    //Left arrow key `release` method
     left.release = () => {
-        //If the left arrow has been released, and the right arrow isn't down,
-        //and the cat isn't moving vertically:
-        //Stop the cat
         if (!right.isDown && audi.vy === 0) {
             audi.vx = 0;
         }
     };
 
-    //Up
+    //Uppåt
     up.press = () => {
         audi.vy = -5;
         audi.vx = 0;
@@ -73,7 +92,7 @@ function setup() {
         }
     };
 
-    //Right
+    //Höger
     right.press = () => {
         audi.vx = 5;
         audi.vy = 0;
@@ -84,7 +103,7 @@ function setup() {
         }
     };
 
-    //Down
+    //Nedåt
     down.press = () => {
         audi.vy = 5;
         audi.vx = 0;
@@ -101,35 +120,48 @@ function setup() {
     //Start the game loop
     app.ticker.add(delta => gameLoop(delta));
 
+
     let count = 0;
     app.ticker.add(function() {
         count += 0.005;
-        tilingRoad.tilePosition.y += 5;
+        tilingRoad.tilePosition.y += 10;
+
+        //lägga in collision här
+
+        //testar collision samt lägger på bounce-effekt
+        b.hit(police, audi, true, true);
+
     });
-}
+
+
+    /*
+    function boxesIntersect(a, b)
+    {
+        var ab = a.getBounds();
+        var bb = b.getBounds();
+        return ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
+    }
+    */
 
 function gameLoop(delta){
 
-    //Update the current game state:
     state(delta);
 }
 
 function play(delta) {
 
-    //Use the cat's velocity to make it move
     audi.x += audi.vx;
     audi.y += audi.vy;
     road.x += road.vx;
     road.y += road.vy;
 
-
 }
 
 function update(){
 
-
 }
 
+//sätter eventhandlers för olika keyCodes
 function keyboard(keyCode) {
     let key = {};
     key.code = keyCode;
@@ -147,7 +179,6 @@ function keyboard(keyCode) {
         event.preventDefault();
     };
 
-    //The `upHandler`
     key.upHandler = event => {
         if (event.keyCode === key.code) {
             if (key.isDown && key.release) key.release();
@@ -157,7 +188,6 @@ function keyboard(keyCode) {
         event.preventDefault();
     };
 
-    //Attach event listeners
     window.addEventListener(
         "keydown", key.downHandler.bind(key), false
     );
@@ -165,6 +195,8 @@ function keyboard(keyCode) {
         "keyup", key.upHandler.bind(key), false
     );
     return key;
+}
+
 }
 
 
