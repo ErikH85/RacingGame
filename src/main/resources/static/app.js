@@ -20,19 +20,25 @@ let audi, state,road;
 
 function setup() {
 
-  road = new PIXI.Sprite(PIXI.loader.resources["road1.png"].texture);
-  audi = new PIXI.Sprite(PIXI.loader.resources["Audi.png"].texture);
+    road = new PIXI.Sprite(PIXI.loader.resources["road1.png"].texture);
+    audi = new PIXI.Sprite(PIXI.loader.resources["Audi.png"].texture);
 
-  audi.x = 350;
-  audi.y = 250;
-  audi.vx =0;
-  audi.vy=0;
-    road.x = 0;
-    road.y = 0;
-    road.vx =0;
-    road.vy=0;
-  app.stage.addChild(road);
-  app.stage.addChild(audi);
+    var texture = PIXI.Texture.fromImage('road1.png');
+
+    audi.x = 350;
+    audi.y = 250;
+    audi.vx = 0;
+    audi.vy = 0;
+
+    var tilingRoad = new PIXI.extras.TilingSprite(
+    texture,
+    app.screen.width,
+    app.screen.height
+    );
+
+
+    app.stage.addChild(tilingRoad);
+    app.stage.addChild(audi);
 
     let left = keyboard(37),
         up = keyboard(38),
@@ -58,12 +64,12 @@ function setup() {
 
     //Up
     up.press = () => {
-        road.vy = -5;
-        road.vx = 0;
+        audi.vy = -5;
+        audi.vx = 0;
     };
     up.release = () => {
-        if (!down.isDown && road.vx === 0) {
-            road.vy = 0;
+        if (!down.isDown && audi.vx === 0) {
+            audi.vy = 0;
         }
     };
 
@@ -80,12 +86,12 @@ function setup() {
 
     //Down
     down.press = () => {
-        road.vy = 5;
-        road.vx = 0;
+        audi.vy = 5;
+        audi.vx = 0;
     };
     down.release = () => {
-        if (!up.isDown && road.vx === 0) {
-            road.vy = 0;
+        if (!up.isDown && audi.vx === 0) {
+            audi.vy = 0;
         }
     };
 
@@ -94,6 +100,12 @@ function setup() {
 
     //Start the game loop
     app.ticker.add(delta => gameLoop(delta));
+
+    let count = 0;
+    app.ticker.add(function() {
+        count += 0.005;
+        tilingRoad.tilePosition.y += 5;
+    });
 }
 
 function gameLoop(delta){
