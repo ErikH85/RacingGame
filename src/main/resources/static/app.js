@@ -21,7 +21,7 @@ PIXI.Loader.shared
     .add("engine.mp3")
     .load(setup);
 
-var audi, policeCPU, policeP2, vehicle, state, road, tires, accelerate, hpgui, lifegui, scoregui, crash, brake;
+var audi, policeCPU, policeP2, vehicle, state, road, tires, accelerate, hpgui, lifegui, scoregui, crash, brake, music;
 var oncomingLeftLane = 300;
 var oncomingRightLane = 175;
 var leftLane = 430;
@@ -63,9 +63,15 @@ function setup() {
     scoregui.x=700;
     scoregui.y=30;
 
+    music = new Audio('music.mp3');
+    music.volume= 0.3;
+    music.play();
+    music.addEventListener("ended", music.play);
     accelerate = new Audio('engine.mp3');
     crash = new Audio('crash.mp3');
     accelerate.play();
+    accelerate.addEventListener("ended", accelerate.play);
+
 
     //Start police
     var policeAnimation = [];
