@@ -32,10 +32,11 @@ PIXI.Loader.shared
     .add("semi.png")
     .add("van.png")
     .add("muscle.png")
+    .add("viper.png")
     .load(setup);
 
 
-var audi, police, taxi, ambulance, state, road, mySound, accelerate;
+var audi, police, policeP2, taxi, ambulance, state, road, mySound, accelerate;
 var oncommingLeftLane = 215;
 var oncommingRightLane = 100;
 var leftLane = 360;
@@ -61,13 +62,13 @@ function setup() {
         policeAnimation.push(policeAnimationFrames);
     }
 
-    police = new PIXI.AnimatedSprite(policeAnimation);
-    police.play();
+    policeP2 = new PIXI.AnimatedSprite(policeAnimation);
+    policeP2.play();
 
-    police.x = rightLane;
-    police.y = 700;
-    police.vx = 0;
-    police.vy = 0;
+    policeP2.x = rightLane;
+    policeP2.y = 700;
+    policeP2.vx = 0;
+    policeP2.vy = 0;
     //End police
 
     //Start ambulance
@@ -108,7 +109,7 @@ function setup() {
     //lägger till ("stage'ar") den repeterande bakgrunden och spelar-bilen
     app.stage.addChild(tilingRoad);
     app.stage.addChild(audi);
-    app.stage.addChild(police);
+    app.stage.addChild(policeP2);
 
     //sätter enums för piltangenterna keycodes
     var left = keyboard(37),
@@ -181,8 +182,8 @@ function setup() {
     //Left arrow key `press` method
     p2left.press = () => {
         //Change the cat's velocity when the key is pressed
-        police.vx = -5;
-        police.vy = 0;
+        policeP2.vx = -5;
+        policeP2.vy = 0;
     };
 
     //Left arrow key `release` method
@@ -190,41 +191,41 @@ function setup() {
         //If the left arrow has been released, and the right arrow isn't down,
         //and the cat isn't moving vertically:
         //Stop the cat
-        if (!p2right.isDown && police.vy === 0) {
-            police.vx = 0;
+        if (!p2right.isDown && policeP2.vy === 0) {
+            policeP2.vx = 0;
         }
     };
 
     //Up
     p2up.press = () => {
-        police.vy = -5;
-        police.vx = 0;
+        policeP2.vy = -5;
+        policeP2.vx = 0;
     };
     p2up.release = () => {
-        if (!p2down.isDown && police.vx === 0) {
-            police.vy = 0;
+        if (!p2down.isDown && policeP2.vx === 0) {
+            policeP2.vy = 0;
         }
     };
 
     //Right
     p2right.press = () => {
-        police.vx = 5;
-        police.vy = 0;
+        policeP2.vx = 5;
+        policeP2.vy = 0;
     };
     p2right.release = () => {
-        if (!p2left.isDown && police.vy === 0) {
-            police.vx = 0;
+        if (!p2left.isDown && policeP2.vy === 0) {
+            policeP2.vx = 0;
         }
     };
 
     //Down
     p2down.press = () => {
-        police.vy = 5;
-        police.vx = 0;
+        policeP2.vy = 5;
+        policeP2.vx = 0;
     };
     p2down.release = () => {
-        if (!p2up.isDown && police.vx === 0) {
-            police.vy = 0;
+        if (!p2up.isDown && policeP2.vx === 0) {
+            policeP2.vy = 0;
         }
     };
 
@@ -257,6 +258,9 @@ function setup() {
                 vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["taxi.png"].texture);
                 break;
             case 6:
+                vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["viper.png"].texture);
+                break;
+            case 7:
                 vehicle = ambulance = new PIXI.AnimatedSprite(ambulanceAnimation);
                 ambulance.play();
                 break;
@@ -271,7 +275,7 @@ function setup() {
             vehicleVelocity = 20;
         }
 
-        vehicleYPos = Math.floor(Math.random() * (0 - (-50000)) + (-50000));
+        vehicleYPos = Math.floor(Math.random() * (0 - (-90000)) + (-90000));
 
         vehicle.x = vehicleXPos;
         vehicle.y = vehicleYPos;
@@ -282,6 +286,7 @@ function setup() {
 
         app.stage.addChild(vehicle);
     }
+    //End Traffic
 
     //Set the game state
     state = play;
@@ -298,7 +303,7 @@ function setup() {
         //lägga in collision här
 
         //testar collision samt lägger på bounce-effekt
-        b.hit(police, audi, true, true);
+        b.hit(policeP2, audi, true, true);
 
     });
 
@@ -323,8 +328,8 @@ function play(delta) {
     audi.y += audi.vy;
     road.x += road.vx;
     road.y += road.vy;
-    police.x += police.vx;
-    police.y += police.vy;
+    policeP2.x += policeP2.vx;
+    policeP2.y += policeP2.vy;
 
     for (i = 0; i < vehicles.length; i++) {
         vehicles[i].y += vehicles[i].vy;
