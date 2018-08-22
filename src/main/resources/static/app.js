@@ -36,7 +36,7 @@ var b = new Bump(PIXI);
 
 function setup() {
 
-    accelerate = new sound("accelerate.mp3");
+    accelerate = new sound("engine.mp3");
     accelerate.play();
 
     //Start police
@@ -139,8 +139,6 @@ function setup() {
         if (!right.isDown && audi.vy === 0) {
             audi.vx = 0;
             mySound.stop();
-            accelerate = new sound("accelerate.mp3");
-            accelerate.play();
         }
     };
 
@@ -152,8 +150,6 @@ function setup() {
     up.release = () => {
         if (!down.isDown && audi.vx === 0) {
             audi.vy = 0;
-            accelerate = new sound("accelerate.mp3");
-            accelerate.play();
         }
     };
 
@@ -168,8 +164,6 @@ function setup() {
         if (!left.isDown && audi.vy === 0) {
             audi.vx = 0;
             mySound.stop();
-            accelerate = new sound("accelerate.mp3");
-            accelerate.play();
         }
     };
 
@@ -177,15 +171,13 @@ function setup() {
     down.press = () => {
         audi.vy = 5;
         audi.vx = 0;
-        mySound = new sound("tires.mp3");
+        mySound = new sound("brake.mp3");
         mySound.play();
     };
     down.release = () => {
         if (!up.isDown && audi.vx === 0) {
             audi.vy = 0;
             mySound.stop();
-            accelerate = new sound("accelerate.mp3");
-            accelerate.play();
         }
     };
 
