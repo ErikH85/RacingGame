@@ -36,8 +36,8 @@ PIXI.Loader.shared
     .load(setup);
 
 var audi, policeCPU, policeP2, vehicle, state, road, mySound, accelerate, hpgui, lifegui, scoregui;
-var oncommingLeftLane = 215;
-var oncommingRightLane = 100;
+var oncommingLeftLane = 300;
+var oncommingRightLane = 175;
 var leftLane = 430;
 var rightLane = 560;
 var b = new Bump(PIXI);
