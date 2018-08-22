@@ -36,8 +36,8 @@ PIXI.Loader.shared
     .load(setup);
 
 var audi, policeCPU, policeP2, vehicle, state, road, mySound, accelerate, hpgui, lifegui, scoregui;
-var oncommingLeftLane = 300;
-var oncommingRightLane = 175;
+var oncomingLeftLane = 300;
+var oncomingRightLane = 175;
 var leftLane = 430;
 var rightLane = 560;
 var b = new Bump(PIXI);
@@ -271,6 +271,7 @@ function setup() {
     var count = 0;
     var vehicles = [];
     var policeVehicles = [];
+    var lastSpawnedOncomingVehicle = Date.now();
     var lastSpawnedVehicle = Date.now();
     var lastSpawnedPoliceVehicle = Date.now();
 
@@ -281,6 +282,20 @@ function setup() {
         scoregui.text = 'score' + '\n' + score;
 
         //lägga in collision här
+
+        for (var i = 0; i < policeVehicles.length ; i++) {
+            if(c.hit(audi,policeVehicles[i], true,true)){
+                hp -= 1;
+                hpgui.text = 'hp: ' + hp;
+                if(hp<=0){
+                    life -=1;
+                    hp=100;
+                    lifegui.text = 'life x ' + life;
+
+                }
+            }
+        }
+
 
         for (var i = 0; i < vehicles.length ; i++) {
             if(c.hit(audi,vehicles[i], true,true)){
@@ -314,8 +329,8 @@ function setup() {
         var vehicleYPos;
         var vehicleVelocity;
 
-        if(Date.now() > lastSpawnedVehicle + 5000) {
-            lastSpawnedVehicle = Date.now();
+        if(Date.now() > lastSpawnedOncomingVehicle + 5000) {
+            lastSpawnedOncomingVehicle = Date.now();
             var typeOfVehicle = Math.floor(Math.random() * (8 - 1) + 1);
             var vehicleSpeed = Math.floor(Math.random() * (3 - 1) + 1);
 
@@ -344,13 +359,19 @@ function setup() {
                     break;
             }
 
-            if (vehicleSpeed === 1) {
-                vehicleXPos = oncommingRightLane;
-                vehicleVelocity = 15;
+            if (Date.now() > lastSpawnedVehicle + 15000) {
+                vehicleSpeed = 3;
+            }
 
+            if (vehicleSpeed === 1) {
+                vehicleXPos = oncomingRightLane;
+                vehicleVelocity = 15;
             } else if (vehicleSpeed === 2) {
-                vehicleXPos = oncommingLeftLane;
+                vehicleXPos = oncomingLeftLane;
                 vehicleVelocity = 20;
+            } else if (vehicleSpeed === 3) {
+                vehicleXPos = rightLane;
+                vehicleVelocity = 15;
             }
 
             vehicleYPos = -300;
@@ -370,7 +391,7 @@ function setup() {
         var policeYPos;
         var policeVelocity;
 
-        if(Date.now() > lastSpawnedPoliceVehicle + 10000) {
+        if(Date.now() > lastSpawnedPoliceVehicle + 15000) {
             lastSpawnedPoliceVehicle = Date.now();
             var policeSpeed = Math.floor(Math.random() * (3 - 1) + 1);
 
