@@ -64,7 +64,7 @@ function setup() {
     scoregui.y=30;
 
     music = new Audio('music.mp3');
-    music.volume= 0.3;
+    music.volume= 0.5;
     music.play();
     music.addEventListener("ended", music.play);
     accelerate = new Audio('engine.mp3');
