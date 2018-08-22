@@ -28,10 +28,18 @@ PIXI.Loader.shared
     .add("road1.png")
     .add("audi.png")
     .add("taxi.png")
+    .add("truck.png")
+    .add("semi.png")
+    .add("van.png")
+    .add("muscle.png")
     .load(setup);
 
 
 var audi, police, taxi, ambulance, state, road, mySound, accelerate;
+var oncommingLeftLane = 215;
+var oncommingRightLane = 100;
+var leftLane = 360;
+var rightLane = 560;
 var b = new Bump(PIXI);
 
 function setup() {
@@ -47,7 +55,7 @@ function setup() {
 
         var policeAnimationFrames = {
             texture: PIXI.Texture.from("police" + i + ".png"),
-            time: 100
+            time: 125
         };
 
         policeAnimation.push(policeAnimationFrames);
@@ -56,8 +64,8 @@ function setup() {
     police = new PIXI.AnimatedSprite(policeAnimation);
     police.play();
 
-    police.x = 350;
-    police.y = 125;
+    police.x = rightLane;
+    police.y = 700;
     police.vx = 0;
     police.vy = 0;
     //End police
@@ -70,40 +78,26 @@ function setup() {
 
         var ambulanceAnimationFrames = {
             texture: PIXI.Texture.from("ambulance" + i + ".png"),
-            time: 100
+            time: 125
         };
 
         ambulanceAnimation.push(ambulanceAnimationFrames);
     }
-
-    ambulance = new PIXI.AnimatedSprite(ambulanceAnimation);
-    ambulance.play();
-
-    ambulance.x = 495;
-    ambulance.y = 10;
-    ambulance.vx = 0;
-    ambulance.vy = 0;
     //End ambulance
 
     road = new PIXI.Sprite(PIXI.Loader.shared.resources["road1.png"].texture);
-    audi = new PIXI.Sprite(PIXI.Loader.shared.resources["audi.png"].texture);;
-    taxi = new PIXI.Sprite(PIXI.Loader.shared.resources["taxi.png"].texture);
+    audi = new PIXI.Sprite(PIXI.Loader.shared.resources["audi.png"].texture);
 
     var texture = PIXI.Texture.from('road1.png');
 
     //väljer en bakgrundsbild för att användas som texture till TilingSprite
-    var texture = PIXI.Texture.fromImage('road1.png');
+    var texture = PIXI.Texture.from('road1.png');
 
     //sätter bilens utgångsposition samt ursprungshastighet
-    audi.x = 350;
+    audi.x = rightLane;
     audi.y = 300;
     audi.vx = 0;
     audi.vy = 0;
-
-    taxi.x = 495;
-    taxi.y = 300;
-    taxi.vx = 0;
-    taxi.vy = 0;
 
     var tilingRoad = new PIXI.TilingSprite(
         texture,
@@ -115,8 +109,6 @@ function setup() {
     app.stage.addChild(tilingRoad);
     app.stage.addChild(audi);
     app.stage.addChild(police);
-    app.stage.addChild(ambulance);
-    app.stage.addChild(taxi);
 
     //sätter enums för piltangenterna keycodes
     var left = keyboard(37),
@@ -129,7 +121,7 @@ function setup() {
     //vänster
 
     left.press = () => {
-        audi.vx = -5;
+        audi.vx = -8;
         audi.vy = 0;
         mySound = new sound("tires.mp3");
         mySound.play();
@@ -155,7 +147,7 @@ function setup() {
 
     //Höger
     right.press = () => {
-        audi.vx = 5;
+        audi.vx = 8;
         audi.vy = 0;
         mySound = new sound("tires.mp3");
         mySound.play();
@@ -236,6 +228,61 @@ function setup() {
         }
     };
 
+    //Traffic
+    var numberOfVehicles = 50;
+    var vehicle;
+    var vehicleXPos;
+    var vehicleYPos;
+    var vehicleVelocity;
+    var vehicles = [];
+
+    for (var i = 0; i < numberOfVehicles; i++) {
+        var typeOfVehicle = Math.floor(Math.random() * (7 - 1) + 1);
+        var vehicleSpeed = Math.floor(Math.random() * (3 - 1) + 1);
+
+        switch (typeOfVehicle) {
+            case 1:
+                vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["truck.png"].texture);
+                break;
+            case 2:
+                vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["semi.png"].texture);
+                break;
+            case 3:
+                vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["van.png"].texture);
+                break;
+            case 4:
+                vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["muscle.png"].texture);
+                break;
+            case 5:
+                vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["taxi.png"].texture);
+                break;
+            case 6:
+                vehicle = ambulance = new PIXI.AnimatedSprite(ambulanceAnimation);
+                ambulance.play();
+                break;
+        }
+
+        if (vehicleSpeed == 1) {
+            vehicleXPos = oncommingRightLane;
+            vehicleVelocity = 15;
+
+        } else if (vehicleSpeed == 2) {
+            vehicleXPos = oncommingLeftLane;
+            vehicleVelocity = 20;
+        }
+
+        vehicleYPos = Math.floor(Math.random() * (0 - (-50000)) + (-50000));
+
+        vehicle.x = vehicleXPos;
+        vehicle.y = vehicleYPos;
+
+        vehicle.vy = vehicleVelocity;
+
+        vehicles.push(vehicle);
+
+        app.stage.addChild(vehicle);
+    }
+
     //Set the game state
     state = play;
 
@@ -276,12 +323,12 @@ function play(delta) {
     audi.y += audi.vy;
     road.x += road.vx;
     road.y += road.vy;
-
     police.x += police.vx;
     police.y += police.vy;
 
-    taxi.x += taxi.vx;
-    taxi.y += taxi.vy;
+    for (i = 0; i < vehicles.length; i++) {
+        vehicles[i].y += vehicles[i].vy;
+    }
 }
 
 function update(){
