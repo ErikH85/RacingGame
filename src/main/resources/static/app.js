@@ -31,6 +31,8 @@ var c = new Bump(PIXI);
 var hp = 100;
 var life = 3;
 var score = 0;
+var leftBoundary;
+var rightBoundary;
 
 function setup() {
 
@@ -106,6 +108,18 @@ function setup() {
     road = new PIXI.Sprite(PIXI.Loader.shared.resources["road1.png"].texture);
     audi = new PIXI.Sprite(PIXI.Loader.shared.resources["audi.png"].texture);
 
+
+    leftBoundary = new PIXI.Graphics();
+    //leftBoundary.beginFill(0xFF0000);
+    leftBoundary.drawRect(0, 0, 4, 1000);
+    leftBoundary.x = 132;
+
+    rightBoundary = new PIXI.Graphics();
+    //rightBoundary.beginFill(0xFF0000);
+    rightBoundary.drawRect(0, 0, 4, 1000);
+    rightBoundary.x = 710;
+
+
     var texture = PIXI.Texture.from('road1.png');
 
     //väljer en bakgrundsbild för att användas som texture till TilingSprite
@@ -123,6 +137,8 @@ function setup() {
         app.screen.height
     );
 
+
+
     //lägger till ("stage'ar") den repeterande bakgrunden och spelar-bilen
     app.stage.addChild(tilingRoad);
     app.stage.addChild(audi);
@@ -130,6 +146,8 @@ function setup() {
     app.stage.addChild(hpgui);
     app.stage.addChild(lifegui);
     app.stage.addChild(scoregui);
+    //app.stage.addChild(leftBoundary);
+    //app.stage.addChild(rightBoundary);
 
     //sätter enums för piltangenterna keycodes
     var left = keyboard(37),
@@ -269,6 +287,8 @@ function setup() {
         scoregui.text = 'score' + '\n' + score;
 
         //lägga in collision här
+        b.hit(audi, leftBoundary, true, true);
+        b.hit(audi, rightBoundary, true, true);
 
         for (var i = 0; i < policeVehicles.length ; i++) {
             if(c.hit(audi,policeVehicles[i], true,true)){
@@ -362,8 +382,10 @@ function setup() {
                 vehicleXPos = oncomingLeftLane;
                 vehicleVelocity = 20;
             } else if (vehicleSpeed === 3) {
+                vehicle.anchor.set(0.5);
                 vehicle.rotation = Math.PI;
-                vehicleXPos = rightLane + 100;
+
+                vehicleXPos = rightLane + 50;
                 vehicleVelocity = 1;
             }
 
@@ -378,6 +400,7 @@ function setup() {
 
             app.stage.addChild(vehicle);
         }
+
 
         //Pursuing cop cars
         var policeXPos;
