@@ -139,7 +139,7 @@ function setup() {
     //lägger till ("stage'ar") den repeterande bakgrunden och spelar-bilen
     app.stage.addChild(tilingRoad);
     app.stage.addChild(audi);
-    app.stage.addChild(police2);
+    app.stage.addChild(policeP2);
     app.stage.addChild(hpgui);
     app.stage.addChild(lifegui);
     app.stage.addChild(scoregui);
@@ -288,7 +288,7 @@ function setup() {
         //c.hit(vehicle, audi, true, true);
       
         //testar collision samt lägger på bounce-effekt
-        if(b.hit(police2, audi, true, true)){
+        if(b.hit(policeP2, audi, true, true)){
             hp -= 1;
             hpgui.text = 'hp: ' + hp;
             if(hp<=0){
