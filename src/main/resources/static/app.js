@@ -358,7 +358,8 @@ function setup() {
                     break;
             }
 
-            if (Date.now() > lastSpawnedVehicle + 15000) {
+            if (Date.now() > lastSpawnedVehicle + 30000) {
+                lastSpawnedVehicle = Date.now();
                 vehicleSpeed = 3;
             }
 
@@ -369,8 +370,9 @@ function setup() {
                 vehicleXPos = oncomingLeftLane;
                 vehicleVelocity = 20;
             } else if (vehicleSpeed === 3) {
-                vehicleXPos = rightLane;
-                vehicleVelocity = 15;
+                vehicle.rotation = Math.PI;
+                vehicleXPos = rightLane + 100;
+                vehicleVelocity = 1;
             }
 
             vehicleYPos = -300;
