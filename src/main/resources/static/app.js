@@ -35,16 +35,45 @@ PIXI.Loader.shared
     .add("viper.png")
     .load(setup);
 
-
-var audi, policeCPU, policeP2, vehicle, state, road, mySound, accelerate;
+var audi, policeCPU, policeP2, vehicle, state, road, mySound, accelerate, hpgui, lifegui, scoregui;
 var oncommingLeftLane = 215;
 var oncommingRightLane = 100;
 var leftLane = 430;
 var rightLane = 560;
 var b = new Bump(PIXI);
 var c = new Bump(PIXI);
+var hp = 100;
+var life = 3;
+var score = 0;
 
 function setup() {
+
+    var style = new PIXI.TextStyle({
+        fontFamily: 'Arial',
+        fontSize: 30,
+        fontStyle: 'italic',
+        fontWeight: 'bold',
+        fill: ['red', 'cyan'], // gradient
+        stroke: 'black',
+        strokeThickness: 5,
+        dropShadow: true,
+        dropShadowColor: '#000000',
+        dropShadowBlur: 4,
+        dropShadowAngle: Math.PI / 6,
+        dropShadowDistance: 6,
+    });
+
+    hpgui = new PIXI.Text('hp: '+hp , style);
+    hpgui.x = 30;
+    hpgui.y = 30;
+
+    lifegui = new PIXI.Text('life x ' +life , style);
+    lifegui.x=30;
+    lifegui.y=70;
+
+    scoregui = new PIXI.Text('score ' +'\n'+ score , style);
+    scoregui.x=700;
+    scoregui.y=30;
 
     accelerate = new sound("engine.mp3");
     accelerate.play();
@@ -110,7 +139,10 @@ function setup() {
     //lägger till ("stage'ar") den repeterande bakgrunden och spelar-bilen
     app.stage.addChild(tilingRoad);
     app.stage.addChild(audi);
-    app.stage.addChild(policeP2);
+    app.stage.addChild(police2);
+    app.stage.addChild(hpgui);
+    app.stage.addChild(lifegui);
+    app.stage.addChild(scoregui);
 
     //sätter enums för piltangenterna keycodes
     var left = keyboard(37),
@@ -245,7 +277,8 @@ function setup() {
     app.ticker.add(function() {
         count += 1;
         tilingRoad.tilePosition.y += 10;
-        //console.log(count);
+        score += 1;
+        scoregui.text = 'score' + '\n' + score;
 
         //lägga in collision här
         b.hit(audi, policeP2, true, true);
@@ -255,7 +288,16 @@ function setup() {
         //c.hit(vehicle, audi, true, true);
       
         //testar collision samt lägger på bounce-effekt
-        b.hit(policeP2, audi, true, true);
+        if(b.hit(police2, audi, true, true)){
+            hp -= 1;
+            hpgui.text = 'hp: ' + hp;
+            if(hp<=0){
+                life -=1;
+                hp=100;
+                extralife.text = 'life x ' + life;
+
+            }
+        }
 
         //Traffic
         var vehicleXPos;
