@@ -6,21 +6,6 @@ var app = new PIXI.Application({
         resolution: 1
     }
 );
-function sound(src) {
-    this.sound = document.createElement("audio");
-    this.sound.src = src;
-    this.sound.setAttribute("preload", "auto");
-    this.sound.setAttribute("controls", "none");
-    this.sound.style.display = "none";
-    document.body.appendChild(this.sound);
-
-    this.play = function(){
-        this.sound.play();
-    };
-    this.stop = function(){
-        this.sound.pause();
-    }
-}
 
 document.body.appendChild(app.view);
 
@@ -33,9 +18,10 @@ PIXI.Loader.shared
     .add("van.png")
     .add("muscle.png")
     .add("viper.png")
+    .add("engine.mp3")
     .load(setup);
 
-var audi, policeCPU, policeP2, vehicle, state, road, mySound, accelerate, hpgui, lifegui, scoregui, crash;
+var audi, policeCPU, policeP2, vehicle, state, road, tires, accelerate, hpgui, lifegui, scoregui, crash, brake;
 var oncomingLeftLane = 300;
 var oncomingRightLane = 175;
 var leftLane = 430;
@@ -75,7 +61,8 @@ function setup() {
     scoregui.x=700;
     scoregui.y=30;
 
-    accelerate = new sound("engine.mp3");
+    accelerate = new Audio('engine.mp3');
+    crash = new Audio('crash.mp3');
     accelerate.play();
 
     //Start police
@@ -157,14 +144,14 @@ function setup() {
     left.press = () => {
         audi.vx = -8;
         audi.vy = 0;
-        mySound = new sound("tires.mp3");
-        mySound.play();
+        tires = new Audio('tires.mp3')
+        tires.play();
     };
     
     left.release = () => {
         if (!right.isDown && audi.vy === 0) {
             audi.vx = 0;
-            mySound.stop();
+            tires.pause();
         }
     };
 
@@ -183,13 +170,13 @@ function setup() {
     right.press = () => {
         audi.vx = 8;
         audi.vy = 0;
-        mySound = new sound("tires.mp3");
-        mySound.play();
+        tires = new Audio('tires.mp3');
+        tires.play();
     };
     right.release = () => {
         if (!left.isDown && audi.vy === 0) {
             audi.vx = 0;
-            mySound.stop();
+            tires.pause();
         }
     };
 
@@ -197,13 +184,13 @@ function setup() {
     down.press = () => {
         audi.vy = 5;
         audi.vx = 0;
-        mySound = new sound("brake.mp3");
-        mySound.play();
+        brake = new Audio('brake.mp3');
+        brake.play();
     };
     down.release = () => {
         if (!up.isDown && audi.vx === 0) {
             audi.vy = 0;
-            mySound.stop();
+            brake.pause();
         }
     };
 
@@ -293,8 +280,8 @@ function setup() {
                 }
                 hp -= 1;
                 hpgui.text = 'hp: ' + hp;
-                crash = new sound('crash.mp3');
                 crash.play();
+
             }
         }
 
@@ -309,7 +296,6 @@ function setup() {
                 }
                 hp -= 1;
                 hpgui.text = 'hp: ' + hp;
-                crash = new sound('crash.mp3');
                 crash.play();
             }
         }
@@ -326,7 +312,6 @@ function setup() {
             }
             hp -= 1;
             hpgui.text = 'hp: ' + hp;
-            crash = new sound('crash.mp3');
             crash.play();
         }
 
