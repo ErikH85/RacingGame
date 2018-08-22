@@ -300,7 +300,10 @@ function setup() {
 
         //testar collision samt lägger på bounce-effekt
         b.hit(audi, police, true, true);
-       // c.hit(vehicle, audi, true, true);
+        for (var i = 0; i < vehicles.length ; i++) {
+            c.hit(audi,vehicles[i], true,true);
+        }
+        //c.hit(vehicle, audi, true, true);
 
     });
 
