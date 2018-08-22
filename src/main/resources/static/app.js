@@ -282,6 +282,20 @@ function setup() {
 
         //lägga in collision här
 
+        for (var i = 0; i < policeVehicles.length ; i++) {
+            if(c.hit(audi,policeVehicles[i], true,true)){
+                hp -= 1;
+                hpgui.text = 'hp: ' + hp;
+                if(hp<=0){
+                    life -=1;
+                    hp=100;
+                    lifegui.text = 'life x ' + life;
+
+                }
+            }
+        }
+
+
         for (var i = 0; i < vehicles.length ; i++) {
             if(c.hit(audi,vehicles[i], true,true)){
                 hp -= 1;
