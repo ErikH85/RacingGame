@@ -73,9 +73,32 @@ function setup() {
     accelerate.addEventListener("ended", accelerate.play);
 
 
+    //ANIMATIONS
+    //Start sheriff
+    var sheriffAnimation = [];
+    var maxFrames = 3;
+
+    for (var i = 1; i <= maxFrames; i++){
+
+        var sheriffAnimationFrames = {
+            texture: PIXI.Texture.from("sheriff" + i + ".png"),
+            time: 125
+        };
+
+        sheriffAnimation.push(sheriffAnimationFrames);
+    }
+
+    policeP2 = new PIXI.AnimatedSprite(sheriffAnimation);
+    policeP2.play();
+
+    policeP2.x = rightLane;
+    policeP2.y = 700;
+    policeP2.vx = 0;
+    policeP2.vy = 0;
+    //End Sheriff
+
     //Start police
     var policeAnimation = [];
-    var maxFrames = 3;
 
     for (var i = 1; i <= maxFrames; i++){
 
@@ -86,19 +109,10 @@ function setup() {
 
         policeAnimation.push(policeAnimationFrames);
     }
-
-    policeP2 = new PIXI.AnimatedSprite(policeAnimation);
-    policeP2.play();
-
-    policeP2.x = rightLane;
-    policeP2.y = 700;
-    policeP2.vx = 0;
-    policeP2.vy = 0;
     //End police
 
     //Start ambulance
     var ambulanceAnimation = [];
-    var maxFrames = 3;
 
     for (var i = 1; i <= maxFrames; i++){
 
@@ -110,6 +124,7 @@ function setup() {
         ambulanceAnimation.push(ambulanceAnimationFrames);
     }
     //End ambulance
+    //END ANIMATIONS
 
     road = new PIXI.Sprite(PIXI.Loader.shared.resources["road1.png"].texture);
     audi = new PIXI.Sprite(PIXI.Loader.shared.resources["audi.png"].texture);
@@ -341,7 +356,8 @@ function setup() {
             crash.play();
         }
 
-        //Traffic
+        //TRAFFIC
+        //Vehicles
         var vehicleXPos;
         var vehicleYPos;
         var vehicleVelocity;
@@ -408,7 +424,7 @@ function setup() {
         }
 
 
-        //Pursuing cop cars
+        //Cops
         var policeXPos;
         var policeYPos;
         var policeVelocity;
@@ -440,7 +456,7 @@ function setup() {
 
             app.stage.addChild(policeCPU);
         }
-        //End Traffic
+        //END TRAFFIC
 
     });
 
