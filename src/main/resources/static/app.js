@@ -16,7 +16,7 @@ function sound(src) {
 
     this.play = function(){
         this.sound.play();
-    }
+    };
     this.stop = function(){
         this.sound.pause();
     }
@@ -284,28 +284,29 @@ function setup() {
 
         for (var i = 0; i < vehicles.length ; i++) {
             if(c.hit(audi,vehicles[i], true,true)){
+                if(hp <= 1){
+                    life -=1;
+                    hp=101;
+                    lifegui.text = 'life x ' + life;
+                    hpgui.text = 'hp: ' + hp;
+                }
                 hp -= 1;
                 hpgui.text = 'hp: ' + hp;
-                if(hp<=0){
-                    life -=1;
-                    hp=100;
-                    lifegui.text = 'life x ' + life;
-
-                }
             }
         }
         //c.hit(vehicle, audi, true, true);
       
         //testar collision samt lägger på bounce-effekt
         if(b.hit(audi, policeP2, true, true)){
-            hp -= 1;
-            hpgui.text = 'hp: ' + hp;
-            if(hp<=0){
+            if(hp <= 1){
                 life -=1;
-                hp=100;
+                hp=101;
                 lifegui.text = 'life x ' + life;
+                hpgui.text = 'hp: ' + hp;
 
             }
+            hp -= 1;
+            hpgui.text = 'hp: ' + hp;
         }
 
         //Traffic
