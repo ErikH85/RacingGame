@@ -377,8 +377,10 @@ function setup() {
                 vehicleXPos = oncomingLeftLane;
                 vehicleVelocity = 20;
             } else if (vehicleSpeed === 3) {
+                vehicle.anchor.set(0.5);
                 vehicle.rotation = Math.PI;
-                vehicleXPos = rightLane + 100;
+
+                vehicleXPos = rightLane + 50;
                 vehicleVelocity = 1;
             }
 
