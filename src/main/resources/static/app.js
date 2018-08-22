@@ -35,7 +35,7 @@ PIXI.Loader.shared
     .add("viper.png")
     .load(setup);
 
-var audi, policeCPU, policeP2, vehicle, state, road, mySound, accelerate, hpgui, lifegui, scoregui;
+var audi, policeCPU, policeP2, vehicle, state, road, mySound, accelerate, hpgui, lifegui, scoregui, crash;
 var oncomingLeftLane = 300;
 var oncomingRightLane = 175;
 var leftLane = 430;
@@ -285,14 +285,16 @@ function setup() {
 
         for (var i = 0; i < policeVehicles.length ; i++) {
             if(c.hit(audi,policeVehicles[i], true,true)){
+                if(hp <= 1){
+                    life -=1;
+                    hp=101;
+                    lifegui.text = 'life x ' + life;
+                    hpgui.text = 'hp: ' + hp;
+                }
                 hp -= 1;
                 hpgui.text = 'hp: ' + hp;
-                if(hp<=0){
-                    life -=1;
-                    hp=100;
-                    lifegui.text = 'life x ' + life;
-
-                }
+                crash = new sound('crash.mp3');
+                crash.play();
             }
         }
 
@@ -307,6 +309,8 @@ function setup() {
                 }
                 hp -= 1;
                 hpgui.text = 'hp: ' + hp;
+                crash = new sound('crash.mp3');
+                crash.play();
             }
         }
         //c.hit(vehicle, audi, true, true);
@@ -322,6 +326,8 @@ function setup() {
             }
             hp -= 1;
             hpgui.text = 'hp: ' + hp;
+            crash = new sound('crash.mp3');
+            crash.play();
         }
 
         //Traffic
