@@ -41,6 +41,7 @@ var oncommingRightLane = 100;
 var leftLane = 360;
 var rightLane = 560;
 var b = new Bump(PIXI);
+var c = new Bump(PIXI);
 
 function setup() {
 
@@ -298,7 +299,8 @@ function setup() {
         //lägga in collision här
 
         //testar collision samt lägger på bounce-effekt
-        b.hit(police, audi, true, true);
+        b.hit(audi, police, true, true);
+       // c.hit(vehicle, audi, true, true);
 
     });
 
