@@ -281,20 +281,29 @@ function setup() {
         scoregui.text = 'score' + '\n' + score;
 
         //lägga in collision här
-        b.hit(audi, policeP2, true, true);
+
         for (var i = 0; i < vehicles.length ; i++) {
-            c.hit(audi,vehicles[i], true,true);
+            if(c.hit(audi,vehicles[i], true,true)){
+                hp -= 1;
+                hpgui.text = 'hp: ' + hp;
+                if(hp<=0){
+                    life -=1;
+                    hp=100;
+                    lifegui.text = 'life x ' + life;
+
+                }
+            }
         }
         //c.hit(vehicle, audi, true, true);
       
         //testar collision samt lägger på bounce-effekt
-        if(b.hit(policeP2, audi, true, true)){
+        if(b.hit(audi, policeP2, true, true)){
             hp -= 1;
             hpgui.text = 'hp: ' + hp;
             if(hp<=0){
                 life -=1;
                 hp=100;
-                extralife.text = 'life x ' + life;
+                lifegui.text = 'life x ' + life;
 
             }
         }
