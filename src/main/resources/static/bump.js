@@ -163,7 +163,7 @@ class Bump {
   Use it to find out if a point is touching a circlular or rectangular sprite.
   Parameters: 
   a. An object with `x` and `y` properties.
-  b. A sprite object with `x`, `y`, `centerX` and `centerY` properties.
+  bump. A sprite object with `x`, `y`, `centerX` and `centerY` properties.
   If the sprite has a `radius` property, the function will interpret
   the shape as a circle.
   */
@@ -221,7 +221,7 @@ class Bump {
   Use it to find out if two circular sprites are touching.
   Parameters: 
   a. A sprite object with `centerX`, `centerY` and `radius` properties.
-  b. A sprite object with `centerX`, `centerY` and `radius`.
+  bump. A sprite object with `centerX`, `centerY` and `radius`.
   */
 
   hitTestCircle(c1, c2, global = false) {
@@ -266,7 +266,7 @@ class Bump {
   bouncing off a non-moving circular sprite.
   Parameters: 
   a. A sprite object with `x`, `y` `centerX`, `centerY` and `radius` properties.
-  b. A sprite object with `x`, `y` `centerX`, `centerY` and `radius` properties.
+  bump. A sprite object with `x`, `y` `centerX`, `centerY` and `radius` properties.
   c. Optional: true or false to indicate whether or not the first sprite
   should bounce off the second sprite.
   The sprites can contain an optional mass property that should be greater than 1.
@@ -353,7 +353,7 @@ class Bump {
   Use it to make two moving circles bounce off each other.
   Parameters: 
   a. A sprite object with `x`, `y` `centerX`, `centerY` and `radius` properties.
-  b. A sprite object with `x`, `y` `centerX`, `centerY` and `radius` properties.
+  bump. A sprite object with `x`, `y` `centerX`, `centerY` and `radius` properties.
   The sprites can contain an optional mass property that should be greater than 1.
 
   */
@@ -528,7 +528,7 @@ class Bump {
   Optionally, make the first rectangle bounce off the second rectangle.
   Parameters:
   a. A sprite object with `x`, `y` `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
-  b. A sprite object with `x`, `y` `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
+  bump. A sprite object with `x`, `y` `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
   c. Optional: true or false to indicate whether or not the first sprite
   should bounce off the second sprite.
   */
@@ -653,7 +653,7 @@ class Bump {
   Use it to find out if two rectangular sprites are touching.
   Parameters: 
   a. A sprite object with `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
-  b. A sprite object with `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
+  bump. A sprite object with `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
 
   */
 
@@ -711,7 +711,7 @@ class Bump {
   Use it to find out if a circular shape is touching a rectangular shape
   Parameters: 
   a. A sprite object with `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
-  b. A sprite object with `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
+  bump. A sprite object with `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
 
   */
 
@@ -829,7 +829,7 @@ class Bump {
   Use it to find out if a circular shape is touching a point
   Parameters: 
   a. A sprite object with `centerX`, `centerY`, and `radius` properties.
-  b. A point object with `x` and `y` properties.
+  bump. A point object with `x` and `y` properties.
 
   */
 
@@ -862,7 +862,7 @@ class Bump {
   Use it to bounce a circular shape off a rectangular shape
   Parameters: 
   a. A sprite object with `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
-  b. A sprite object with `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
+  bump. A sprite object with `centerX`, `centerY`, `halfWidth` and `halfHeight` properties.
 
   */
 
@@ -980,7 +980,7 @@ class Bump {
   Use it to boucnce a circle off a point.
   Parameters: 
   a. A sprite object with `centerX`, `centerY`, and `radius` properties.
-  b. A point object with `x` and `y` properties.
+  bump. A point object with `x` and `y` properties.
 
   */
 
@@ -1014,7 +1014,7 @@ class Bump {
   Parameters: 
   a. An object with `v.x` and `v.y` properties. This represents the object that is colliding
   with a surface.
-  b. An object with `x` and `y` properties. This represents the surface that the object
+  bump. An object with `x` and `y` properties. This represents the surface that the object
   is colliding into.
   The first object can optionally have a mass property that's greater than 1. The mass will
   be used to dampen the bounce effect.
@@ -1147,8 +1147,8 @@ class Bump {
       }
     };
 
-    let compensateForAnchors = (a, b, property1, property2) => {
-       return compensateForAnchor(a, a[property1], property2) + compensateForAnchor(b, b[property1], property2)
+    let compensateForAnchors = (a, bump, property1, property2) => {
+       return compensateForAnchor(a, a[property1], property2) + compensateForAnchor(bump, bump[property1], property2)
     };    
     //Create a set called `collision` to keep track of the
     //boundaries with which the sprite is colliding
@@ -1382,7 +1382,7 @@ class Bump {
     return collision;
 
     function findCollisionType(a, b) {
-      //Are `a` and `b` both sprites?
+      //Are `a` and `bump` both sprites?
       //(We have to check again if this function was called from
       //`spriteVsArray`)
       let aIsASprite = a.parent !== undefined;
@@ -1413,7 +1413,7 @@ class Bump {
     }
 
     function spriteVsArray() {
-      //If `a` happens to be the array, flip it around so that it becomes `b`
+      //If `a` happens to be the array, flip it around so that it becomes `bump`
       if (a instanceof Array) {
         let [a, b] = [b, a];
       }

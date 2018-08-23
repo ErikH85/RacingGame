@@ -26,7 +26,7 @@ var oncomingLeftLane = 300;
 var oncomingRightLane = 175;
 var leftLane = 430;
 var rightLane = 560;
-var b = new Bump(PIXI);
+var bump = new Bump(PIXI);
 var c = new Bump(PIXI);
 var hp = 100;
 var life = 3;
@@ -286,54 +286,42 @@ function setup() {
         score += 1;
         scoregui.text = 'score' + '\n' + score;
 
-        //lägga in collision här
-        b.hit(audi, leftBoundary, true, true);
-        b.hit(audi, rightBoundary, true, true);
 
-        for (var i = 0; i < policeVehicles.length ; i++) {
-            if(c.hit(audi,policeVehicles[i], true,true)){
-                if(hp <= 1){
-                    life -=1;
-                    hp=101;
-                    lifegui.text = 'life x ' + life;
-                    hpgui.text = 'hp: ' + hp;
-                }
-                hp -= 1;
-                hpgui.text = 'hp: ' + hp;
-                crash.play();
 
+        //Collision
+        bump.hit(audi, policeP2, true, true);
+        bump.hit(audi, leftBoundary, true, true);
+        bump.hit(audi, rightBoundary, true, true);
+
+
+        bump.hit(policeP2, leftBoundary, true, true);
+        bump.hit(policeP2, rightBoundary, true, true);
+
+
+        for (var i = 0; i < vehicles.length; i++) {
+            bump.hit(audi,vehicles[i],true, true);
+            bump.hit(vehicles[i], policeP2, true, true);
+            bump.hit(vehicles[i], leftBoundary, true, true);
+            bump.hit(vehicles[i], rightBoundary, true, true);
+        }
+        for (var i = 0; i < policeVehicles.length; i++) {
+            bump.hit(audi, policeVehicles[i], true, true);
+            bump.hit(policeVehicles[i], leftBoundary, true, true);
+            bump.hit(policeVehicles[i], rightBoundary, true, true);
+        }
+        for (var i = 0; i < vehicles.length; i++) {
+            for (var j = 0; j < policeVehicles.length; j++) {
+                bump.hit(vehicles[i],policeVehicles[j], true, true);
             }
         }
-
-
-        for (var i = 0; i < vehicles.length ; i++) {
-            if(c.hit(audi,vehicles[i], true,true)){
-                if(hp <= 1){
-                    life -=1;
-                    hp=101;
-                    lifegui.text = 'life x ' + life;
-                    hpgui.text = 'hp: ' + hp;
-                }
-                hp -= 1;
-                hpgui.text = 'hp: ' + hp;
-                crash.play();
-            }
+        for (var i = 0; i < policeVehicles.length; i++) {
+            bump.hit(policeP2,policeVehicles[i], true);
         }
-        //c.hit(vehicle, audi, true, true);
-      
-        //testar collision samt lägger på bounce-effekt
-        if(b.hit(audi, policeP2, true, true)){
-            if(hp <= 1){
-                life -=1;
-                hp=101;
-                lifegui.text = 'life x ' + life;
-                hpgui.text = 'hp: ' + hp;
+        //End Collision
 
-            }
-            hp -= 1;
-            hpgui.text = 'hp: ' + hp;
-            crash.play();
-        }
+
+
+
 
         //Traffic
         var vehicleXPos;
@@ -433,17 +421,21 @@ function setup() {
             policeVehicles.push(policeCPU);
 
             app.stage.addChild(policeCPU);
+
+
         }
+
+
         //End Traffic
 
     });
 
 
     /*
-    function boxesIntersect(a, b)
+    function boxesIntersect(a, bump)
     {
         var ab = a.getBounds();
-        var bb = b.getBounds();
+        var bb = bump.getBounds();
         return ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
     }
     */
