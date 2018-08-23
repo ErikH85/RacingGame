@@ -10,7 +10,7 @@ var app = new PIXI.Application({
 document.body.appendChild(app.view);
 
 PIXI.Loader.shared
-    .add("road1.png")
+    .add("road.png")
     .add("audi.png")
     .add("taxi.png")
     .add("truck.png")
@@ -129,7 +129,7 @@ function setup() {
     //End ambulance
     //END ANIMATIONS
 
-    road = new PIXI.Sprite(PIXI.Loader.shared.resources["road1.png"].texture);
+    road = new PIXI.Sprite(PIXI.Loader.shared.resources["road.png"].texture);
     audi = new PIXI.Sprite(PIXI.Loader.shared.resources["audi.png"].texture);
 
 
@@ -144,10 +144,10 @@ function setup() {
     rightBoundary.x = 710;
 
 
-    var texture = PIXI.Texture.from('road1.png');
+    var texture = PIXI.Texture.from('road.png');
 
     //väljer en bakgrundsbild för att användas som texture till TilingSprite
-    var texture = PIXI.Texture.from('road1.png');
+    var texture = PIXI.Texture.from('road.png');
 
     //sätter bilens utgångsposition samt ursprungshastighet
     audi.x = rightLane;
@@ -364,7 +364,7 @@ function setup() {
         var vehicleYPos;
         var vehicleVelocity;
 
-        if (Date.now() > lastSpawnedOncomingVehicle + 2000) {
+        if (Date.now() > lastSpawnedOncomingVehicle + 1500) {
             lastSpawnedOncomingVehicle = Date.now();
             var typeOfVehicle = Math.floor(Math.random() * (8 - 1) + 1);
             var vehicleSpeed = Math.floor(Math.random() * (3 - 1) + 1);
@@ -445,7 +445,7 @@ function setup() {
             //}
             if (policeSpeed === 2) {
                 policeXPos = leftLane;
-                policeVelocity = -4;
+                policeVelocity = -7;
             }
 
             policeYPos = 1100;
@@ -466,11 +466,11 @@ function setup() {
         var itemYPos;
         var itemVelocity = 10;
 
-        if (Date.now() > lastSpawnedItem + 15000) {
+        if (Date.now() > lastSpawnedItem + 6000) {
             lastSpawnedItem = Date.now();
             var typeOfItem = Math.floor(Math.random() * (4 - 1) + 1);
-            itemXPos = Math.floor(Math.random() * (700 - 100) + 100);
-            itemYPos = Math.floor(Math.random() * (400 - 1) + 1);
+            itemXPos = Math.floor(Math.random() * (550 - 250) + 200);
+            itemYPos = -100;
 
             switch (typeOfItem) {
                 case 1:
@@ -484,8 +484,9 @@ function setup() {
                 case 3:
                     item = new PIXI.Sprite(PIXI.Loader.shared.resources["spikestrip.png"].texture);
                     itemXPos = 900;
-                    itemYPos = audi.y - 100;
+                    itemYPos = audi.y - 50;
                     item.vx = -7;
+                    item.vy = 2;
                     spikestrip = true;
                     break;
             }
@@ -549,6 +550,7 @@ function setup() {
                 }
             } else {
                 items[i].x += items[i].vx;
+                items[i].y += items[i].vy;
                 if (items[i].x < -300) {
                     app.stage.removeChild(items[i]);
                     items.splice(i, 1);
