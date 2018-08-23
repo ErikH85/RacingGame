@@ -354,7 +354,6 @@ function setup() {
         count += 1;
         tilingRoad.tilePosition.x -= 10;
         score += 1;
-        console.log(score);
         scoregui.text = 'score' + '\n' + score;
 
         if(hp <= 1){
@@ -391,23 +390,22 @@ function setup() {
 
         }
         //Collision
-<<<<<<< HEAD
-        if(bump.hit(audi, policeP2, true, true)){
+        if(bump.hit(audi, sheriff, true, true)){
             crash.play();
             hp -= 2;
             hpgui.text = 'hp: ' + hp;
         }
-        if(bump.hit(audi, leftBoundary, true, true)){
+        if(bump.hit(audi, topBoundary, true, true)){
             crash.play();
         }
-        if(bump.hit(audi, rightBoundary, true, true)){
+        if(bump.hit(audi, bottomBoundary, true, true)){
             crash.play();
         }
 
-        if(bump.hit(policeP2, leftBoundary, true, true)){
+        if(bump.hit(sheriff, topBoundary, true, true)){
             crash.play();
         }
-        if(bump.hit(policeP2, rightBoundary, true, true)){
+        if(bump.hit(sheriff, bottomBoundary, true, true)){
             crash.play();
         }
 
@@ -417,11 +415,11 @@ function setup() {
                 hp -= 2;
                 hpgui.text = 'hp: ' + hp;
             }
-            if(bump.hit(vehicles[i], policeP2, true, true)){
+            if(bump.hit(vehicles[i], sheriff, true, true)){
                 crash.play();
             }
-            bump.hit(vehicles[i], leftBoundary, true, true);
-            bump.hit(vehicles[i], rightBoundary, true, true);
+            bump.hit(vehicles[i], topBoundary, true, true);
+            bump.hit(vehicles[i], bottomBoundary, true, true);
         }
         for (var i = 0; i < policeVehicles.length; i++) {
             if(bump.hit(audi, policeVehicles[i], true, true)){
@@ -429,27 +427,9 @@ function setup() {
                 hp -= 2;
                 hpgui.text = 'hp: ' + hp;
             }
-            bump.hit(policeVehicles[i], leftBoundary, true, true);
-            bump.hit(policeVehicles[i], rightBoundary, true, true);
-=======
-        bump.hit(audi, sheriff, true, true);
-        bump.hit(audi, topBoundary, true, true);
-        bump.hit(audi, bottomBoundary, true, true);
-
-        bump.hit(sheriff, topBoundary, true, true);
-        bump.hit(sheriff, bottomBoundary, true, true);
-
-        for (var i = 0; i < vehicles.length; i++) {
-            bump.hit(audi,vehicles[i],true, true);
-            bump.hit(vehicles[i], sheriff, true, true);
-            bump.hit(vehicles[i], topBoundary, true, true);
-            bump.hit(vehicles[i], bottomBoundary, true, true);
-        }
-        for (var i = 0; i < policeVehicles.length; i++) {
-            bump.hit(audi, policeVehicles[i], true, true);
             bump.hit(policeVehicles[i], topBoundary, true, true);
             bump.hit(policeVehicles[i], bottomBoundary, true, true);
->>>>>>> sidescrolling
+
         }
         for (var i = 0; i < vehicles.length; i++) {
             for (var j = 0; j < policeVehicles.length; j++) {
@@ -457,13 +437,9 @@ function setup() {
             }
         }
         for (var i = 0; i < policeVehicles.length; i++) {
-<<<<<<< HEAD
-            if(bump.hit(policeP2,policeVehicles[i], true)){
+            if(bump.hit(sheriff,policeVehicles[i], true)){
                 crash.play();
             }
-=======
-            bump.hit(sheriff,policeVehicles[i], true);
->>>>>>> sidescrolling
         }
 
         for (var i = 0; i < vehicles.length; i++) {
