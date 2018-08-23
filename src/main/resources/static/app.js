@@ -619,7 +619,7 @@ function setup() {
 }
 
 
-function statemachine(){
+function whichState(carHP){
 
     var STATE = {
         ONE: {sprite: 1, name: "One"},
@@ -631,7 +631,7 @@ function statemachine(){
 
     var currentState = STATE.ONE;
 
-    var carHP = 100;
+    carHP = 100;
 
 
     switch (carHP) {
@@ -651,6 +651,8 @@ function statemachine(){
             currentState = STATE.FIVE;
             break;
     }
+
+    return currentState.sprite;   // return Sprite 1, 2, 3, 4, eller 5....
 
 }
 
