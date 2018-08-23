@@ -24,6 +24,7 @@ PIXI.Loader.shared
     .add("wrench.png")
     .add("spikestrip.png")
     .add("engine.mp3")
+    .add("black.png")
     .load(setup);
 
 var audi, policeCPU, policeP2, vehicle, state, item, spikestrip, road, tires, accelerate, hpgui, lifegui, scoregui, crash, brake, music,engine,siren,honk,honkfade;
@@ -165,6 +166,7 @@ function setup() {
         app.screen.width,
         app.screen.height
     );
+
 
     //lägger till ("stage'ar") den repeterande bakgrunden och spelar-bilen
     app.stage.addChild(tilingRoad);
@@ -329,24 +331,80 @@ function setup() {
         count += 1;
         tilingRoad.tilePosition.y += 10;
         score += 1;
+        console.log(score);
         scoregui.text = 'score' + '\n' + score;
 
-        //Collision
-        bump.hit(audi, policeP2, true, true);
-        bump.hit(audi, leftBoundary, true, true);
-        bump.hit(audi, rightBoundary, true, true);
+        if(hp <= 1){
+            life -= 1;
+            lifegui.text = 'life x ' + life;
+            hp = 100;
+            hpgui.text = 'hp: ' + hp;
+        }
 
-        bump.hit(policeP2, leftBoundary, true, true);
-        bump.hit(policeP2, rightBoundary, true, true);
+        if (life < 0){
+            app.stage.removeChild(tilingRoad);
+            let gameOver = new PIXI.Sprite(PIXI.Loader.shared.resources["black.png"].texture);
+            let style2 = new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 90,
+                fontStyle: 'italic',
+                fontWeight: 'bold',
+                fill: ['red', 'cyan'], // gradient
+                stroke: 'black',
+                strokeThickness: 5,
+                dropShadow: true,
+                dropShadowColor: '#000000',
+                dropShadowBlur: 4,
+                dropShadowAngle: Math.PI / 6,
+                dropShadowDistance: 6,
+            });
+            let message = new PIXI.Text("Game over", style2);
+            message.x = 500;
+            message.y = 100;
+            app.stage.addChild(gameOver);
+            app.stage.addChild(message);
+            app.stage.addChild(scoregui);
+            app.ticker.stop();
+
+        }
+        //Collision
+        if(bump.hit(audi, policeP2, true, true)){
+            crash.play();
+            hp -= 2;
+            hpgui.text = 'hp: ' + hp;
+        }
+        if(bump.hit(audi, leftBoundary, true, true)){
+            crash.play();
+        }
+        if(bump.hit(audi, rightBoundary, true, true)){
+            crash.play();
+        }
+
+        if(bump.hit(policeP2, leftBoundary, true, true)){
+            crash.play();
+        }
+        if(bump.hit(policeP2, rightBoundary, true, true)){
+            crash.play();
+        }
 
         for (var i = 0; i < vehicles.length; i++) {
-            bump.hit(audi,vehicles[i],true, true);
-            bump.hit(vehicles[i], policeP2, true, true);
+            if(bump.hit(audi,vehicles[i],true, true)){
+                crash.play();
+                hp -= 2;
+                hpgui.text = 'hp: ' + hp;
+            }
+            if(bump.hit(vehicles[i], policeP2, true, true)){
+                crash.play();
+            }
             bump.hit(vehicles[i], leftBoundary, true, true);
             bump.hit(vehicles[i], rightBoundary, true, true);
         }
         for (var i = 0; i < policeVehicles.length; i++) {
-            bump.hit(audi, policeVehicles[i], true, true);
+            if(bump.hit(audi, policeVehicles[i], true, true)){
+                crash.play();
+                hp -= 2;
+                hpgui.text = 'hp: ' + hp;
+            }
             bump.hit(policeVehicles[i], leftBoundary, true, true);
             bump.hit(policeVehicles[i], rightBoundary, true, true);
         }
@@ -356,7 +414,9 @@ function setup() {
             }
         }
         for (var i = 0; i < policeVehicles.length; i++) {
-            bump.hit(policeP2,policeVehicles[i], true);
+            if(bump.hit(policeP2,policeVehicles[i], true)){
+                crash.play();
+            }
         }
         //End Collision
 
