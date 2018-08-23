@@ -364,9 +364,6 @@ function setup() {
                 if(!(vehicles[i] === vehicles[j])){
                     bump.hit(vehicles[i], vehicles[j],true);
                 }
-
-
-                //if(i == j ! bump)
             }
         }
         //End Collision
@@ -620,3 +617,86 @@ function setup() {
             return key;
         }
 }
+
+
+function statemachine(){
+
+    var STATE = {
+        ONE: {sprite: 1, name: "One"},
+        TWO: {sprite: 2, name: "Two"},
+        THREE: {sprite: 3, name: "Three"},
+        FOUR: {sprite: 4, name: "Four"},
+        FIVE: {sprite: 5, name: "Five"}
+    };
+
+    var currentState = STATE.ONE;
+
+    var carHP = 100;
+
+
+    switch (carHP) {
+        case 90:
+            currentState = STATE.ONE;
+            break;
+        case 70:
+            currentState = STATE.TWO;
+            break;
+        case 50:
+            currentState = STATE.THREE;
+            break;
+        case 30:
+            currentState = STATE.FOUR;
+            break;
+        case 10:
+            currentState = STATE.FIVE;
+            break;
+    }
+
+}
+
+
+/*
+var SIZE = {
+  SMALL : {value: 0, name: "Small", code: "S"},
+  MEDIUM: {value: 1, name: "Medium", code: "M"},
+  LARGE : {value: 2, name: "Large", code: "L"}
+};
+
+var currentSize = SIZE.MEDIUM;
+if (currentSize == SIZE.MEDIUM) {
+  // this alerts: "1: Medium"
+  alert(currentSize.value + ": " + currentSize.name);
+}
+
+
+var STATE = {
+        ONE: {sprite: normal, name: "One"},
+        TWO: {sprite: lite skadad, name: "Two"},
+        THREE: {sprite: ganska skadad, name: "Three"},
+        FOUR: {sprite: skapligt skadad, name: "Four"},
+        FIVE: {sprite: mycket skadad, name: "Five"}
+    };
+
+
+    if(carHP >= 90){
+        set State = ONE
+    }
+
+    var s = STATE.ONE;
+
+
+    switch (s) {
+        case STATE.ONE:
+
+            break;
+        case STATE.TWO:
+            break;
+        case STATE.THREE:
+            break;
+        case STATE.FOUR:
+            break;
+        case STATE.FIVE:
+            break;
+
+    }
+ */
