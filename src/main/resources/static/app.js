@@ -30,7 +30,7 @@ var oncomingRightLane = 175;
 var leftLane = 430;
 var rightLane = 560;
 var bump = new Bump(PIXI);
-var c = new Bump(PIXI);
+//var c = new Bump(PIXI);
 var hp = 100;
 var life = 3;
 var score = 0;
@@ -135,12 +135,12 @@ function setup() {
 
     leftBoundary = new PIXI.Graphics();
     //leftBoundary.beginFill(0xFF0000);
-    leftBoundary.drawRect(0, 0, 4, 1000);
-    leftBoundary.x = 132;
+    leftBoundary.drawRect(0, 0, 104, 1000);
+    leftBoundary.x = 32;
 
     rightBoundary = new PIXI.Graphics();
     //rightBoundary.beginFill(0xFF0000);
-    rightBoundary.drawRect(0, 0, 4, 1000);
+    rightBoundary.drawRect(0, 0, 104, 1000);
     rightBoundary.x = 710;
 
 
