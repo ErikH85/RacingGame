@@ -24,7 +24,7 @@ PIXI.Loader.shared
     .add("engine.mp3")
     .load(setup);
 
-var audi, policeCPU, policeP2, vehicle, state, item, spikestrip, road, tires, accelerate, hpgui, lifegui, scoregui, crash, brake, music;
+var audi, policeCPU, policeP2, vehicle, state, item, spikestrip, road, tires, accelerate, hpgui, lifegui, scoregui, crash, brake, music,engine,siren,honk,honkfade;
 var oncomingLeftLane = 300;
 var oncomingRightLane = 175;
 var leftLane = 430;
@@ -38,6 +38,7 @@ var leftBoundary;
 var rightBoundary;
 
 function setup() {
+
 
     var style = new PIXI.TextStyle({
         fontFamily: 'Arial',
@@ -67,13 +68,15 @@ function setup() {
     scoregui.y = 30;
 
     music = new Audio('music.mp3');
-    music.volume = 0.5;
+    music.volume = 0.3;
     music.play();
     music.addEventListener("ended", music.play);
-    accelerate = new Audio('engine.mp3');
+    engine = new Audio('engine.mp3');
+    engine.volume = 0.5;
+    engine.play();
+    engine.addEventListener("ended", engine.play);
     crash = new Audio('crash.mp3');
-    accelerate.play();
-    accelerate.addEventListener("ended", accelerate.play);
+
 
 
     //ANIMATIONS
@@ -175,9 +178,20 @@ function setup() {
     var left = keyboard(37),
         up = keyboard(38),
         right = keyboard(39),
-        down = keyboard(40);
+        down = keyboard(40),
+        space = keyboard(32);
 
     //definerar vad som skall hända vid dessa events
+
+    space.press = () => {
+        honk = new Audio('honk.mp3')
+        honk.play();
+    };
+
+    space.release = () => {
+            honkfade = new Audio('honkfade.mp3');
+            honk.pause();
+    };
 
     //vänster
 
@@ -199,10 +213,15 @@ function setup() {
     up.press = () => {
         audi.vy = -5;
         audi.vx = 0;
+        accelerate = new Audio('acceleration.mp3');
+        accelerate.volume = 0.9;
+        accelerate.play();
     };
     up.release = () => {
         if (!down.isDown && audi.vx === 0) {
             audi.vy = 0;
+            accelerate.pause();
+
         }
     };
 
@@ -456,6 +475,8 @@ function setup() {
             policeCPU.vy = policeVelocity;
 
             policeVehicles.push(policeCPU);
+            siren = new Audio('siren.mp3');
+            siren.play();
 
             app.stage.addChild(policeCPU);
         }
