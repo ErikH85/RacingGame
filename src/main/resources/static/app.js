@@ -363,8 +363,8 @@ function setup() {
                 dropShadowDistance: 6,
             });
             let message = new PIXI.Text("Game over", style2);
-            message.x = 500;
-            message.y = 100;
+            message.x = 957;
+            message.y = 400;
             app.stage.addChild(gameOver);
             app.stage.addChild(message);
             app.stage.addChild(scoregui);
