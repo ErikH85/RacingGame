@@ -18,10 +18,13 @@ PIXI.Loader.shared
     .add("van.png")
     .add("muscle.png")
     .add("viper.png")
+    .add("money.png")
+    .add("wrench.png")
+    .add("spikestrip.png")
     .add("engine.mp3")
     .load(setup);
 
-var audi, policeCPU, policeP2, vehicle, state, road, tires, accelerate, hpgui, lifegui, scoregui, crash, brake, music;
+var audi, policeCPU, policeP2, vehicle, state, item, spikestrip, road, tires, accelerate, hpgui, lifegui, scoregui, crash, brake, music;
 var oncomingLeftLane = 300;
 var oncomingRightLane = 175;
 var leftLane = 430;
@@ -51,20 +54,20 @@ function setup() {
         dropShadowDistance: 6,
     });
 
-    hpgui = new PIXI.Text('hp: '+hp , style);
+    hpgui = new PIXI.Text('hp: ' + hp, style);
     hpgui.x = 30;
     hpgui.y = 30;
 
-    lifegui = new PIXI.Text('life x ' +life , style);
-    lifegui.x=30;
-    lifegui.y=70;
+    lifegui = new PIXI.Text('life x ' + life, style);
+    lifegui.x = 30;
+    lifegui.y = 70;
 
-    scoregui = new PIXI.Text('score ' +'\n'+ score , style);
-    scoregui.x=700;
-    scoregui.y=30;
+    scoregui = new PIXI.Text('score ' + '\n' + score, style);
+    scoregui.x = 700;
+    scoregui.y = 30;
 
     music = new Audio('music.mp3');
-    music.volume= 0.5;
+    music.volume = 0.5;
     music.play();
     music.addEventListener("ended", music.play);
     accelerate = new Audio('engine.mp3');
@@ -78,7 +81,7 @@ function setup() {
     var sheriffAnimation = [];
     var maxFrames = 3;
 
-    for (var i = 1; i <= maxFrames; i++){
+    for (var i = 1; i <= maxFrames; i++) {
 
         var sheriffAnimationFrames = {
             texture: PIXI.Texture.from("sheriff" + i + ".png"),
@@ -100,7 +103,7 @@ function setup() {
     //Start police
     var policeAnimation = [];
 
-    for (var i = 1; i <= maxFrames; i++){
+    for (var i = 1; i <= maxFrames; i++) {
 
         var policeAnimationFrames = {
             texture: PIXI.Texture.from("police" + i + ".png"),
@@ -114,7 +117,7 @@ function setup() {
     //Start ambulance
     var ambulanceAnimation = [];
 
-    for (var i = 1; i <= maxFrames; i++){
+    for (var i = 1; i <= maxFrames; i++) {
 
         var ambulanceAnimationFrames = {
             texture: PIXI.Texture.from("ambulance" + i + ".png"),
@@ -158,8 +161,6 @@ function setup() {
         app.screen.height
     );
 
-
-
     //lägger till ("stage'ar") den repeterande bakgrunden och spelar-bilen
     app.stage.addChild(tilingRoad);
     app.stage.addChild(audi);
@@ -172,9 +173,9 @@ function setup() {
 
     //sätter enums för piltangenterna keycodes
     var left = keyboard(37),
-    up = keyboard(38),
-    right = keyboard(39),
-    down = keyboard(40);
+        up = keyboard(38),
+        right = keyboard(39),
+        down = keyboard(40);
 
     //definerar vad som skall hända vid dessa events
 
@@ -186,7 +187,7 @@ function setup() {
         tires = new Audio('tires.mp3')
         tires.play();
     };
-    
+
     left.release = () => {
         if (!right.isDown && audi.vy === 0) {
             audi.vx = 0;
@@ -297,11 +298,13 @@ function setup() {
     var count = 0;
     var vehicles = [];
     var policeVehicles = [];
+    var items = [];
+    var lastSpawnedItem = Date.now();
     var lastSpawnedOncomingVehicle = Date.now();
     var lastSpawnedVehicle = Date.now();
     var lastSpawnedPoliceVehicle = Date.now();
 
-    app.ticker.add(function() {
+    app.ticker.add(function () {
         count += 1;
         tilingRoad.tilePosition.y += 10;
         score += 1;
@@ -311,11 +314,11 @@ function setup() {
         b.hit(audi, leftBoundary, true, true);
         b.hit(audi, rightBoundary, true, true);
 
-        for (var i = 0; i < policeVehicles.length ; i++) {
-            if(c.hit(audi,policeVehicles[i], true,true)){
-                if(hp <= 1){
-                    life -=1;
-                    hp=101;
+        for (var i = 0; i < policeVehicles.length; i++) {
+            if (c.hit(audi, policeVehicles[i], true, true)) {
+                if (hp <= 1) {
+                    life -= 1;
+                    hp = 101;
                     lifegui.text = 'life x ' + life;
                     hpgui.text = 'hp: ' + hp;
                 }
@@ -326,12 +329,11 @@ function setup() {
             }
         }
 
-
-        for (var i = 0; i < vehicles.length ; i++) {
-            if(c.hit(audi,vehicles[i], true,true)){
-                if(hp <= 1){
-                    life -=1;
-                    hp=101;
+        for (var i = 0; i < vehicles.length; i++) {
+            if (c.hit(audi, vehicles[i], true, true)) {
+                if (hp <= 1) {
+                    life -= 1;
+                    hp = 101;
                     lifegui.text = 'life x ' + life;
                     hpgui.text = 'hp: ' + hp;
                 }
@@ -341,12 +343,12 @@ function setup() {
             }
         }
         //c.hit(vehicle, audi, true, true);
-      
+
         //testar collision samt lägger på bounce-effekt
-        if(b.hit(audi, policeP2, true, true)){
-            if(hp <= 1){
-                life -=1;
-                hp=101;
+        if (b.hit(audi, policeP2, true, true)) {
+            if (hp <= 1) {
+                life -= 1;
+                hp = 101;
                 lifegui.text = 'life x ' + life;
                 hpgui.text = 'hp: ' + hp;
 
@@ -362,7 +364,7 @@ function setup() {
         var vehicleYPos;
         var vehicleVelocity;
 
-        if(Date.now() > lastSpawnedOncomingVehicle + 5000) {
+        if (Date.now() > lastSpawnedOncomingVehicle + 2000) {
             lastSpawnedOncomingVehicle = Date.now();
             var typeOfVehicle = Math.floor(Math.random() * (8 - 1) + 1);
             var vehicleSpeed = Math.floor(Math.random() * (3 - 1) + 1);
@@ -392,7 +394,7 @@ function setup() {
                     break;
             }
 
-            if (Date.now() > lastSpawnedVehicle + 30000) {
+            if (Date.now() > lastSpawnedVehicle + 8000) {
                 lastSpawnedVehicle = Date.now();
                 vehicleSpeed = 3;
             }
@@ -429,20 +431,21 @@ function setup() {
         var policeYPos;
         var policeVelocity;
 
-        if(Date.now() > lastSpawnedPoliceVehicle + 15000) {
+        if (Date.now() > lastSpawnedPoliceVehicle + 7000) {
             lastSpawnedPoliceVehicle = Date.now();
-            var policeSpeed = Math.floor(Math.random() * (3 - 1) + 1);
+            var policeSpeed =  2; //Math.floor(Math.random() * (3 - 1) + 1);
 
             policeCPU = new PIXI.AnimatedSprite(policeAnimation);
             policeCPU.play();
 
-            if (policeSpeed === 1) {
-                policeXPos = rightLane;
-                policeVelocity = -1;
+            //if (policeSpeed === 1) {
+              //  policeXPos = rightLane;
+               // policeVelocity = -1;
 
-            } else if (policeSpeed === 2) {
+            //}
+            if (policeSpeed === 2) {
                 policeXPos = leftLane;
-                policeVelocity = -2;
+                policeVelocity = -4;
             }
 
             policeYPos = 1100;
@@ -458,6 +461,42 @@ function setup() {
         }
         //END TRAFFIC
 
+        //ITEMS
+        var itemXPos;
+        var itemYPos;
+        var itemVelocity = 10;
+
+        if (Date.now() > lastSpawnedItem + 15000) {
+            lastSpawnedItem = Date.now();
+            var typeOfItem = Math.floor(Math.random() * (4 - 1) + 1);
+            itemXPos = Math.floor(Math.random() * (700 - 100) + 100);
+            itemYPos = Math.floor(Math.random() * (400 - 1) + 1);
+
+            switch (typeOfItem) {
+                case 1:
+                    item = new PIXI.Sprite(PIXI.Loader.shared.resources["money.png"].texture);
+                    item.vy = itemVelocity;
+                    break;
+                case 2:
+                    item = new PIXI.Sprite(PIXI.Loader.shared.resources["wrench.png"].texture);
+                    item.vy = itemVelocity;
+                    break;
+                case 3:
+                    item = new PIXI.Sprite(PIXI.Loader.shared.resources["spikestrip.png"].texture);
+                    itemXPos = 900;
+                    itemYPos = audi.y - 100;
+                    item.vx = -7;
+                    spikestrip = true;
+                    break;
+            }
+
+            item.x = itemXPos;
+            item.y = itemYPos;
+
+            items.push(item);
+
+            app.stage.addChild(item);
+        }
     });
 
 
@@ -470,75 +509,92 @@ function setup() {
     }
     */
 
-function gameLoop(delta){
+    function gameLoop(delta) {
 
-    state(delta);
-}
+        state(delta);
+    }
 
-function play(delta) {
+    function play(delta) {
 
-    audi.x += audi.vx;
-    audi.y += audi.vy;
-    road.x += road.vx;
-    road.y += road.vy;
-    policeP2.x += policeP2.vx;
-    policeP2.y += policeP2.vy;
+        audi.x += audi.vx;
+        audi.y += audi.vy;
+        road.x += road.vx;
+        road.y += road.vy;
+        policeP2.x += policeP2.vx;
+        policeP2.y += policeP2.vy;
 
-    //Vehicles move down and are then removed
-    for(var i = vehicles.length-1; i >= 0; i--) {
-        vehicles[i].y += vehicles[i].vy;
-        if(vehicles[i].y > app.screen.height+100) {
-            app.stage.removeChild(vehicles[i]);
-            vehicles.splice(i, 1);
+        //Vehicles move down and are then removed
+        for (var i = vehicles.length - 1; i >= 0; i--) {
+            vehicles[i].y += vehicles[i].vy;
+            if (vehicles[i].y > app.screen.height + 100) {
+                app.stage.removeChild(vehicles[i]);
+                vehicles.splice(i, 1);
+            }
+        }
+        //PoliceCPU move up and are then removed
+        for (var i = policeVehicles.length - 1; i >= 0; i--) {
+            policeVehicles[i].y += policeVehicles[i].vy;
+            if (policeVehicles[i].y < -300) {
+                app.stage.removeChild(policeVehicles[i]);
+                policeVehicles.splice(i, 1);
+            }
+        }
+        //Items move down (left or right if spikestrip) and are then removed
+        for (var i = items.length - 1; i >= 0; i--) {
+            if (!spikestrip) {
+                items[i].y += items[i].vy;
+                if (items[i].y < -300) {
+                    app.stage.removeChild(items[i]);
+                    items.splice(i, 1);
+                }
+            } else {
+                items[i].x += items[i].vx;
+                if (items[i].x < -300) {
+                    app.stage.removeChild(items[i]);
+                    items.splice(i, 1);
+                    spikestrip = false;
+                }
+            }
         }
     }
-    //PoliceCPU move up and are then removed
-    for(var i = policeVehicles.length-1; i >= 0; i--) {
-        policeVehicles[i].y += policeVehicles[i].vy;
-        if(policeVehicles[i].y < -300) {
-            app.stage.removeChild(policeVehicles[i]);
-            policeVehicles.splice(i, 1);
+
+        function update() {
+
         }
-    }
-}
-
-function update(){
-
-}
 
 //sätter eventhandlers för olika keyCodes
-function keyboard(keyCode) {
-    var key = {};
-    key.code = keyCode;
-    key.isDown = false;
-    key.isUp = true;
-    key.press = undefined;
-    key.release = undefined;
-    //The `downHandler`
-    key.downHandler = event => {
-        if (event.keyCode === key.code) {
-            if (key.isUp && key.press) key.press();
-            key.isDown = true;
-            key.isUp = false;
-        }
-        event.preventDefault();
-    };
-
-    key.upHandler = event => {
-        if (event.keyCode === key.code) {
-            if (key.isDown && key.release) key.release();
+        function keyboard(keyCode) {
+            var key = {};
+            key.code = keyCode;
             key.isDown = false;
             key.isUp = true;
-        }
-        event.preventDefault();
-    };
+            key.press = undefined;
+            key.release = undefined;
+            //The `downHandler`
+            key.downHandler = event => {
+                if (event.keyCode === key.code) {
+                    if (key.isUp && key.press) key.press();
+                    key.isDown = true;
+                    key.isUp = false;
+                }
+                event.preventDefault();
+            };
 
-    window.addEventListener(
-        "keydown", key.downHandler.bind(key), false
-    );
-    window.addEventListener(
-        "keyup", key.upHandler.bind(key), false
-    );
-    return key;
-}
+            key.upHandler = event => {
+                if (event.keyCode === key.code) {
+                    if (key.isDown && key.release) key.release();
+                    key.isDown = false;
+                    key.isUp = true;
+                }
+                event.preventDefault();
+            };
+
+            window.addEventListener(
+                "keydown", key.downHandler.bind(key), false
+            );
+            window.addEventListener(
+                "keyup", key.upHandler.bind(key), false
+            );
+            return key;
+        }
 }
