@@ -633,7 +633,6 @@ function whichState(carHP){
 
     carHP = 100;
 
-
     switch (carHP) {
         case 90:
             currentState = STATE.ONE;
@@ -652,53 +651,6 @@ function whichState(carHP){
             break;
     }
 
-    return currentState.sprite;   // return Sprite 1, 2, 3, 4, eller 5....
+    return currentState;   // return Sprite 1, 2, 3, 4, eller 5....
 
 }
-
-
-/*
-var SIZE = {
-  SMALL : {value: 0, name: "Small", code: "S"},
-  MEDIUM: {value: 1, name: "Medium", code: "M"},
-  LARGE : {value: 2, name: "Large", code: "L"}
-};
-
-var currentSize = SIZE.MEDIUM;
-if (currentSize == SIZE.MEDIUM) {
-  // this alerts: "1: Medium"
-  alert(currentSize.value + ": " + currentSize.name);
-}
-
-
-var STATE = {
-        ONE: {sprite: normal, name: "One"},
-        TWO: {sprite: lite skadad, name: "Two"},
-        THREE: {sprite: ganska skadad, name: "Three"},
-        FOUR: {sprite: skapligt skadad, name: "Four"},
-        FIVE: {sprite: mycket skadad, name: "Five"}
-    };
-
-
-    if(carHP >= 90){
-        set State = ONE
-    }
-
-    var s = STATE.ONE;
-
-
-    switch (s) {
-        case STATE.ONE:
-
-            break;
-        case STATE.TWO:
-            break;
-        case STATE.THREE:
-            break;
-        case STATE.FOUR:
-            break;
-        case STATE.FIVE:
-            break;
-
-    }
- */
