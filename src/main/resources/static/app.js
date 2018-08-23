@@ -18,6 +18,8 @@ PIXI.Loader.shared
     .add("van.png")
     .add("muscle.png")
     .add("viper.png")
+    .add("swat.png")
+    .add("mp.png")
     .add("money.png")
     .add("wrench.png")
     .add("spikestrip.png")
@@ -414,21 +416,26 @@ function setup() {
 
         if (Date.now() > lastSpawnedPoliceVehicle + 7000) {
             lastSpawnedPoliceVehicle = Date.now();
-            var policeSpeed =  2; //Math.floor(Math.random() * (3 - 1) + 1);
+            var typeOfPoliceVehicle = Math.floor(Math.random() * (4 - 1) + 1);
 
-            policeCPU = new PIXI.AnimatedSprite(policeAnimation);
-            policeCPU.play();
 
-            //if (policeSpeed === 1) {
-              //  policeXPos = rightLane;
-               // policeVelocity = -1;
-
-            //}
-            if (policeSpeed === 2) {
-                policeXPos = leftLane;
-                policeVelocity = -7;
+            switch (typeOfPoliceVehicle) {
+                case 1:
+                    policeVelocity = -4;
+                    policeCPU = new PIXI.AnimatedSprite(policeAnimation);
+                    policeCPU.play();
+                    break;
+                case 2:
+                    policeVelocity = -7;
+                    policeCPU = new PIXI.Sprite(PIXI.Loader.shared.resources["swat.png"].texture);
+                    break;
+                case 3:
+                    policeVelocity = -10;
+                    policeCPU = new PIXI.Sprite(PIXI.Loader.shared.resources["mp.png"].texture);
+                    break;
             }
 
+            policeXPos = leftLane;
             policeYPos = 1100;
 
             policeCPU.x = policeXPos;
@@ -439,8 +446,6 @@ function setup() {
             policeVehicles.push(policeCPU);
 
             app.stage.addChild(policeCPU);
-
-
         }
         //END TRAFFIC
 
