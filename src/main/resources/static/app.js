@@ -19,6 +19,10 @@ PIXI.Loader.shared
     .add("muscle.png")
     .add("viper.png")
     .add("swat.png")
+    .add("moderncop.png")
+    .add("classiccop.png")
+    .add("jeep.png")
+    .add("army.png")
     .add("mp.png")
     .add("money.png")
     .add("wrench.png")
@@ -368,7 +372,7 @@ function setup() {
 
         if (Date.now() > lastSpawnedOncomingVehicle + 1500) {
             lastSpawnedOncomingVehicle = Date.now();
-            var typeOfVehicle = Math.floor(Math.random() * (8 - 1) + 1);
+            var typeOfVehicle = Math.floor(Math.random() * (12 - 1) + 1);
             var vehicleSpeed = Math.floor(Math.random() * (3 - 1) + 1);
 
             switch (typeOfVehicle) {
@@ -391,6 +395,18 @@ function setup() {
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["viper.png"].texture);
                     break;
                 case 7:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["moderncop.png"].texture);
+                    break;
+                case 8:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["classiccop.png"].texture);
+                    break;
+                case 9:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["jeep.png"].texture);
+                    break;
+                case 10:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["army.png"].texture);
+                    break;
+                case 11:
                     vehicle = new PIXI.AnimatedSprite(ambulanceAnimation);
                     vehicle.play();
                     break;
@@ -449,7 +465,7 @@ function setup() {
                     policeCPU = new PIXI.Sprite(PIXI.Loader.shared.resources["swat.png"].texture);
                     break;
                 case 3:
-                    policeVelocity = -10;
+                    policeVelocity = -2;
                     policeCPU = new PIXI.Sprite(PIXI.Loader.shared.resources["mp.png"].texture);
                     break;
             }
