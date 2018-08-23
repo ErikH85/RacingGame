@@ -362,6 +362,17 @@ function setup() {
         for (var i = 0; i < policeVehicles.length; i++) {
             bump.hit(policeP2,policeVehicles[i], true);
         }
+
+        for (var i = 0; i < vehicles.length; i++) {
+            for (var j = 0; j < vehicles.length; j++) {
+                if(!(vehicles[i] === vehicles[j])){
+                    bump.hit(vehicles[i], vehicles[j],true);
+                }
+
+
+                //if(i == j ! bump)
+            }
+        }
         //End Collision
 
         //TRAFFIC
