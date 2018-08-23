@@ -138,6 +138,10 @@ function setup() {
     audi = new PIXI.Sprite(PIXI.Loader.shared.resources["audi.png"].texture);
 
 
+
+
+
+
     leftBoundary = new PIXI.Graphics();
     //leftBoundary.beginFill(0xFF0000);
     leftBoundary.drawRect(0, 0, 104, 1000);
@@ -330,6 +334,12 @@ function setup() {
         tilingRoad.tilePosition.y += 10;
         score += 1;
         scoregui.text = 'score' + '\n' + score;
+
+        hp = 1;
+
+        var audiState = whichState(hp);
+        audi.texture = PIXI.Texture.from(`Audi${audiState.sprite}.png`);
+
 
         //Collision
         bump.hit(audi, policeP2, true, true);
@@ -631,9 +641,19 @@ function whichState(carHP){
 
     var currentState = STATE.ONE;
 
-    carHP = 100;
+    if(carHP >= 90) {
+        currentState = STATE.ONE;
+    } else if (carHP >= 70) {
+        currentState = STATE.TWO;
+    } else if (carHP >= 50) {
+        currentState = STATE.THREE;
+    } else if (carHP >= 30) {
+        currentState = STATE.FOUR;
+    } else {
+        currentState = STATE.FIVE;
+    }
 
-    switch (carHP) {
+    /*switch (carHP) {
         case 90:
             currentState = STATE.ONE;
             break;
@@ -649,7 +669,7 @@ function whichState(carHP){
         case 10:
             currentState = STATE.FIVE;
             break;
-    }
+    }*/
 
     return currentState;   // return Sprite 1, 2, 3, 4, eller 5....
 
