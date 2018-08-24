@@ -587,7 +587,7 @@ function setup() {
 
         if (Date.now() > lastSpawnedTraffic + 1500) {
             lastSpawnedTraffic = Date.now();
-            var bTypeOfVehicle = Math.floor(Math.random() * (13 - 1) + 1);
+            var bTypeOfVehicle = Math.floor(Math.random() * (15 - 1) + 1);
             var backgroundTrafficRandomLane = Math.floor(Math.random() * (3 - 1) + 1);
 
             switch (bTypeOfVehicle) {
@@ -627,6 +627,14 @@ function setup() {
                     break;
                 case 12:
                     bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/oldaudi.png"].texture);
+                    break;
+                case 13:
+                    bVehicle = new PIXI.AnimatedSprite(policeAnimation);
+                    bVehicle.play();
+                    break;
+                case 14:
+                    bVehicle = new PIXI.AnimatedSprite(swatAnimation);
+                    bVehicle.play();
                     break;
             }
 
@@ -768,10 +776,10 @@ function setup() {
                 backgroundVehicles.splice(i, 1);
             }
         }
-        //PoliceCPU move right and are then removed
+        //Police move right and are then removed
         for (var i = policeVehicles.length - 1; i >= 0; i--) {
             policeVehicles[i].x += policeVehicles[i].vx;
-            if (policeVehicles[i].x > app.screen.length + 300) {
+            if (policeVehicles[i].x > app.screen.length + 100) {
                 app.stage.removeChild(policeVehicles[i]);
                 policeVehicles.splice(i, 1);
             }
