@@ -10,23 +10,23 @@ var app = new PIXI.Application({
 document.body.appendChild(app.view);
 
 PIXI.Loader.shared
-    .add("road.png")
-    .add("audi.png")
-    .add("taxi.png")
-    .add("truck.png")
-    .add("semi.png")
-    .add("van.png")
-    .add("muscle.png")
-    .add("viper.png")
-    .add("moderncop.png")
-    .add("classiccop.png")
-    .add("jeep.png")
-    .add("army.png")
-    .add("mp.png")
-    .add("money.png")
-    .add("wrench.png")
-    .add("spikestrip.png")
-    .add("black.png")
+    .add("Sprites/road.png")
+    .add("Sprites/audi.png")
+    .add("Sprites/taxi.png")
+    .add("Sprites/truck.png")
+    .add("Sprites/semi.png")
+    .add("Sprites/van.png")
+    .add("Sprites/muscle.png")
+    .add("Sprites/viper.png")
+    .add("Sprites/moderncop.png")
+    .add("Sprites/classiccop.png")
+    .add("Sprites/jeep.png")
+    .add("Sprites/army.png")
+    .add("Sprites/mp.png")
+    .add("Sprites/money.png")
+    .add("Sprites/wrench.png")
+    .add("Sprites/spikestrip.png")
+    .add("Sprites/black.png")
     .load(setup);
 
 var audi;
@@ -113,7 +113,7 @@ function setup() {
     for (var i = 1; i <= maxFrames; i++) {
 
         var sheriffAnimationFrames = {
-            texture: PIXI.Texture.from("sheriff" + i + ".png"),
+            texture: PIXI.Texture.from("Sprites/sheriff" + i + ".png"),
             time: 125
         };
 
@@ -135,7 +135,7 @@ function setup() {
     for (var i = 1; i <= maxFrames; i++) {
 
         var policeAnimationFrames = {
-            texture: PIXI.Texture.from("police" + i + ".png"),
+            texture: PIXI.Texture.from("Sprites/police" + i + ".png"),
             time: 125
         };
         policeAnimation.push(policeAnimationFrames);
@@ -148,7 +148,7 @@ function setup() {
     for (var i = 1; i <= maxFrames; i++) {
 
         var ambulanceAnimationFrames = {
-            texture: PIXI.Texture.from("ambulance" + i + ".png"),
+            texture: PIXI.Texture.from("Sprites/ambulance" + i + ".png"),
             time: 125
         };
         ambulanceAnimation.push(ambulanceAnimationFrames);
@@ -161,7 +161,7 @@ function setup() {
     for (var i = 1; i <= maxFrames; i++) {
 
         var swatAnimationFrames = {
-            texture: PIXI.Texture.from("swat" + i + ".png"),
+            texture: PIXI.Texture.from("Sprites/swat" + i + ".png"),
             time: 125
         };
         swatAnimation.push(swatAnimationFrames);
@@ -170,8 +170,8 @@ function setup() {
 
     //END ANIMATIONS
 
-    road = new PIXI.Sprite(PIXI.Loader.shared.resources["road.png"].texture);
-    audi = new PIXI.Sprite(PIXI.Loader.shared.resources["audi.png"].texture);
+    road = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/road.png"].texture);
+    audi = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/audi.png"].texture);
 
 
     topBoundary = new PIXI.Graphics();
@@ -184,9 +184,9 @@ function setup() {
     //bottomBoundary.beginFill(0xFF0000);
     bottomBoundary.drawRect(-100, 0, 3000, 150);
     bottomBoundary.y = 715;
-    
+
     //väljer en bakgrundsbild för att användas som texture till TilingSprite
-    var texture = PIXI.Texture.from('road.png');
+    var texture = PIXI.Texture.from('Sprites/road.png');
 
     //sätter bilens utgångsposition samt ursprungshastighet
     audi.x = 1000;
@@ -368,7 +368,7 @@ function setup() {
 
 
         var audiState = whichState(hp);
-        audi.texture = PIXI.Texture.from(`Audi${audiState.sprite}.png`);
+        audi.texture = PIXI.Texture.from(`Sprites/Audi${audiState.sprite}.png`);
 
 
 
@@ -381,7 +381,7 @@ function setup() {
 
         if (life < 0){
             app.stage.removeChild(tilingRoad);
-            var gameOver = new PIXI.Sprite(PIXI.Loader.shared.resources["black.png"].texture);
+            var gameOver = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/black.png"].texture);
             var style2 = new PIXI.TextStyle({
                 fontFamily: 'Arial',
                 fontSize: 150,
@@ -519,34 +519,34 @@ function setup() {
 
             switch (typeOfVehicle) {
                 case 1:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["truck.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/truck.png"].texture);
                     break;
                 case 2:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["semi.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/semi.png"].texture);
                     break;
                 case 3:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["van.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/van.png"].texture);
                     break;
                 case 4:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["muscle.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/muscle.png"].texture);
                     break;
                 case 5:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["taxi.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/taxi.png"].texture);
                     break;
                 case 6:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["viper.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/viper.png"].texture);
                     break;
                 case 7:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["moderncop.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/moderncop.png"].texture);
                     break;
                 case 8:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["classiccop.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/classiccop.png"].texture);
                     break;
                 case 9:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["jeep.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/jeep.png"].texture);
                     break;
                 case 10:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["army.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/army.png"].texture);
                     break;
                 case 11:
                     vehicle = new PIXI.AnimatedSprite(ambulanceAnimation);
@@ -621,7 +621,7 @@ function setup() {
                     police.play();
                 case 3:
                     policeVelocity = 2;
-                    police = new PIXI.Sprite(PIXI.Loader.shared.resources["mp.png"].texture);
+                    police = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/mp.png"].texture);
                     break;
             }
 
@@ -655,13 +655,13 @@ function setup() {
 
             switch (typeOfItem) {
                 case 1:
-                    item = new PIXI.Sprite(PIXI.Loader.shared.resources["money.png"].texture);
+                    item = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/money.png"].texture);
                     break;
                 case 2:
-                    item = new PIXI.Sprite(PIXI.Loader.shared.resources["wrench.png"].texture);
+                    item = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/wrench.png"].texture);
                     break;
                 case 3:
-                    item = new PIXI.Sprite(PIXI.Loader.shared.resources["spikestrip.png"].texture);
+                    item = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/spikestrip.png"].texture);
                     itemXPos = 2700;
                     itemyYPos = audi.y;
                     break;
