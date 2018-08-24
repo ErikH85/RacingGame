@@ -26,7 +26,6 @@ PIXI.Loader.shared
     .add("money.png")
     .add("wrench.png")
     .add("spikestrip.png")
-    .add("engine.mp3")
     .add("black.png")
     .load(setup);
 
@@ -94,15 +93,15 @@ function setup() {
     scoregui.x = 700;
     scoregui.y = 30;
 
-    music = new Audio('music.mp3');
+    music = new Audio('Audio/music.mp3');
     music.volume = 0.3;
     music.play();
     music.addEventListener("ended", music.play);
-    engine = new Audio('engine.mp3');
+    engine = new Audio('Audio/engine.mp3');
     engine.volume = 0.5;
     engine.play();
     engine.addEventListener("ended", engine.play);
-    crash = new Audio('crash.mp3');
+    crash = new Audio('Audio/crash.mp3');
 
 
 
@@ -180,6 +179,7 @@ function setup() {
     topBoundary.drawRect(-100, 0, 3000, 150);
     topBoundary.y = -20;
 
+
     bottomBoundary = new PIXI.Graphics();
     //bottomBoundary.beginFill(0xFF0000);
     bottomBoundary.drawRect(-100, 0, 3000, 150);
@@ -224,12 +224,11 @@ function setup() {
     //definerar vad som skall hända vid dessa events
 
     space.press = () => {
-        honk = new Audio('honk.mp3')
+        honk = new Audio('Audio/honk.mp3')
         honk.play();
     };
 
     space.release = () => {
-            honkfade = new Audio('honkfade.mp3');
             honk.pause();
     };
 
@@ -238,7 +237,7 @@ function setup() {
     left.press = () => {
         audi.vx = -8;
         audi.vy = 0;
-        brake = new Audio('brake.mp3');
+        brake = new Audio('Audio/brake.mp3');
         brake.play();
     };
 
@@ -253,7 +252,7 @@ function setup() {
     up.press = () => {
         audi.vy = -5;
         audi.vx = 0;
-        tires = new Audio('tires.mp3')
+        tires = new Audio('Audio/tires.mp3')
         tires.play();
     };
     up.release = () => {
@@ -268,7 +267,7 @@ function setup() {
     right.press = () => {
         audi.vx = 8;
         audi.vy = 0;
-        accelerate = new Audio('acceleration.mp3');
+        accelerate = new Audio('Audio/acceleration.mp3');
         accelerate.play();
     };
     right.release = () => {
@@ -282,7 +281,7 @@ function setup() {
     down.press = () => {
         audi.vy = 5;
         audi.vx = 0;
-        tires = new Audio('tires.mp3');
+        tires = new Audio('Audio/tires.mp3');
         tires.play();
     };
     down.release = () => {
@@ -369,6 +368,13 @@ function setup() {
         score += 1;
         scoregui.text = 'score' + '\n' + score;
 
+
+
+        var audiState = whichState(hp);
+        audi.texture = PIXI.Texture.from(`Audi${audiState.sprite}.png`);
+
+
+
         if(hp <= 1){
             life -= 1;
             lifegui.text = 'life x ' + life;
@@ -427,6 +433,7 @@ function setup() {
             app.ticker.stop();
 
         }
+
         //Collision
         if(bump.hit(audi, sheriff, true, true)){
             crash.play();
@@ -479,15 +486,18 @@ function setup() {
                 crash.play();
             }
         }
-
         for (var i = 0; i < vehicles.length; i++) {
             for (var j = 0; j < vehicles.length; j++) {
                 if(!(vehicles[i] === vehicles[j])){
                     bump.hit(vehicles[i], vehicles[j],true);
                 }
-
-
-                //if(i == j ! bump)
+            }
+        }
+        for (var i = 0; i < policeVehicles.length; i++) {
+            for (var j = 0; j < policeVehicles.length; j++) {
+                if(!(policeVehicles[i] === policeVehicles[j])){
+                    bump.hit(policeVehicles[i], policeVehicles[j],true);
+                }
             }
         }
         for (var i = 0; i < policeVehicles.length; i++) {
@@ -627,7 +637,8 @@ function setup() {
             police.vx = policeVelocity;
 
             policeVehicles.push(police);
-            siren = new Audio('siren.mp3');
+            siren = new Audio('Audio/siren.mp3');
+            siren.volume = 0.5;
             siren.play();
 
             app.stage.addChild(police);
@@ -757,4 +768,51 @@ function setup() {
             );
             return key;
         }
+}
+
+
+function whichState(carHP){
+
+    var STATE = {
+        ONE: {sprite: 1, name: "One"},
+        TWO: {sprite: 2, name: "Two"},
+        THREE: {sprite: 3, name: "Three"},
+        FOUR: {sprite: 4, name: "Four"},
+        FIVE: {sprite: 5, name: "Five"}
+    };
+
+    var currentState = STATE.ONE;
+
+    if(carHP >= 90) {
+        currentState = STATE.ONE;
+    } else if (carHP >= 70) {
+        currentState = STATE.TWO;
+    } else if (carHP >= 50) {
+        currentState = STATE.THREE;
+    } else if (carHP >= 30) {
+        currentState = STATE.FOUR;
+    } else {
+        currentState = STATE.FIVE;
+    }
+
+    /*switch (carHP) {
+        case 90:
+            currentState = STATE.ONE;
+            break;
+        case 70:
+            currentState = STATE.TWO;
+            break;
+        case 50:
+            currentState = STATE.THREE;
+            break;
+        case 30:
+            currentState = STATE.FOUR;
+            break;
+        case 10:
+            currentState = STATE.FIVE;
+            break;
+    }*/
+
+    return currentState;   // return Sprite 1, 2, 3, 4, eller 5....
+
 }
