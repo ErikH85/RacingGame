@@ -51,7 +51,7 @@ var siren;
 var honk;
 var honkfade;
 var backgroundTrafficRightLane = 1010;
-var backgroundTrafficLeftLane = 1025;
+var backgroundTrafficLeftLane = 1130;
 var backgroundTrafficRandomLane;
 var oncomingLeftLane = 300;
 var oncomingRightLane = 175;
@@ -548,7 +548,7 @@ function setup() {
                     vehicleSpeed = 4;
                     vehicleYPos = backgroundTrafficRightLane;
                     vehicleVelocity = -20;
-                } else {
+                } else if (backgroundTrafficRandomLane === 2) {
                     vehicleSpeed = 5;
                     vehicleYPos = backgroundTrafficLeftLane;
                     vehicleVelocity = -25;
