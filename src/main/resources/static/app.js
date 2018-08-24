@@ -367,7 +367,7 @@ function setup() {
             let gameOver = new PIXI.Sprite(PIXI.Loader.shared.resources["black.png"].texture);
             let style2 = new PIXI.TextStyle({
                 fontFamily: 'Arial',
-                fontSize: 90,
+                fontSize: 150,
                 fontStyle: 'italic',
                 fontWeight: 'bold',
                 fill: ['red', 'cyan'], // gradient
@@ -379,15 +379,36 @@ function setup() {
                 dropShadowAngle: Math.PI / 6,
                 dropShadowDistance: 6,
             });
-            let message = new PIXI.Text("Game over", style2);
-            message.x = 957;
-            message.y = 400;
+            let style3 = new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 60,
+                fontStyle: 'italic',
+                fontWeight: 'bold',
+                fill: ['red', 'cyan'], // gradient
+                stroke: 'black',
+                strokeThickness: 5,
+                dropShadow: true,
+                dropShadowColor: '#000000',
+                dropShadowBlur: 4,
+                dropShadowAngle: Math.PI / 6,
+                dropShadowDistance: 6,
+            });
+            let gameOvermsg = new PIXI.Text("GAME OVER", style2);
+            gameOvermsg.x = 850;
+            gameOvermsg.y = 100;
+            let pScore = new PIXI.Text("YOUR SCORE: " + score, style3);
+            pScore.x = 1000;
+            pScore.y =300;
+            let hScore = new PIXI.Text("HIGHSCORE", style3);
+            hScore.x = 1100;
+            hScore.y = 400;
             music.pause();
             engine.pause();
             siren.pause();
             app.stage.addChild(gameOver);
-            app.stage.addChild(message);
-            app.stage.addChild(scoregui);
+            app.stage.addChild(gameOvermsg);
+            app.stage.addChild(pScore);
+            app.stage.addChild(hScore);
             app.ticker.stop();
 
         }
