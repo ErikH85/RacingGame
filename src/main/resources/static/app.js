@@ -619,6 +619,7 @@ function setup() {
                     policeVelocity = 7;
                     police = new PIXI.AnimatedSprite(swatAnimation);
                     police.play();
+                    break;
                 case 3:
                     policeVelocity = 2;
                     police = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/mp.png"].texture);
