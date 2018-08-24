@@ -184,10 +184,7 @@ function setup() {
     //bottomBoundary.beginFill(0xFF0000);
     bottomBoundary.drawRect(-100, 0, 3000, 150);
     bottomBoundary.y = 715;
-
-
-    var texture = PIXI.Texture.from('road.png');
-
+    
     //väljer en bakgrundsbild för att användas som texture till TilingSprite
     var texture = PIXI.Texture.from('road.png');
 
