@@ -454,6 +454,13 @@ function setup() {
                 //if(i == j ! bump)
             }
         }
+        for (var i = 0; i < policeVehicles.length; i++) {
+            for (var j = 0; j < policeVehicles.length; j++) {
+                if(!(policeVehicles[i] === policeVehicles[j])){
+                    bump.hit(policeVehicles[i], policeVehicles[j],true);
+                }
+            }
+        }
         //End Collision
 
         //TRAFFIC
