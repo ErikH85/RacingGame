@@ -27,7 +27,6 @@ PIXI.Loader.shared
     .add("money.png")
     .add("wrench.png")
     .add("spikestrip.png")
-    .add("engine.mp3")
     .add("black.png")
     .load(setup);
 
@@ -95,15 +94,15 @@ function setup() {
     scoregui.x = 700;
     scoregui.y = 30;
 
-    music = new Audio('music.mp3');
+    music = new Audio('Audio/music.mp3');
     music.volume = 0.3;
     music.play();
     music.addEventListener("ended", music.play);
-    engine = new Audio('engine.mp3');
+    engine = new Audio('Audio/engine.mp3');
     engine.volume = 0.5;
     engine.play();
     engine.addEventListener("ended", engine.play);
-    crash = new Audio('crash.mp3');
+    crash = new Audio('Audio/crash.mp3');
 
 
 
@@ -213,12 +212,11 @@ function setup() {
     //definerar vad som skall hända vid dessa events
 
     space.press = () => {
-        honk = new Audio('honk.mp3')
+        honk = new Audio('Audio/honk.mp3')
         honk.play();
     };
 
     space.release = () => {
-            honkfade = new Audio('honkfade.mp3');
             honk.pause();
     };
 
@@ -227,7 +225,7 @@ function setup() {
     left.press = () => {
         audi.vx = -8;
         audi.vy = 0;
-        brake = new Audio('brake.mp3');
+        brake = new Audio('Audio/brake.mp3');
         brake.play();
     };
 
@@ -242,7 +240,7 @@ function setup() {
     up.press = () => {
         audi.vy = -5;
         audi.vx = 0;
-        tires = new Audio('tires.mp3')
+        tires = new Audio('Audio/tires.mp3')
         tires.play();
     };
     up.release = () => {
@@ -257,7 +255,7 @@ function setup() {
     right.press = () => {
         audi.vx = 8;
         audi.vy = 0;
-        accelerate = new Audio('acceleration.mp3');
+        accelerate = new Audio('Audio/acceleration.mp3');
         accelerate.play();
     };
     right.release = () => {
@@ -271,7 +269,7 @@ function setup() {
     down.press = () => {
         audi.vy = 5;
         audi.vx = 0;
-        tires = new Audio('tires.mp3');
+        tires = new Audio('Audio/tires.mp3');
         tires.play();
     };
     down.release = () => {
@@ -616,7 +614,8 @@ function setup() {
             police.vx = policeVelocity;
 
             policeVehicles.push(police);
-            siren = new Audio('siren.mp3');
+            siren = new Audio('Audio/siren.mp3');
+            siren.volume = 0.5;
             siren.play();
 
             app.stage.addChild(police);
