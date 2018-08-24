@@ -164,13 +164,13 @@ function setup() {
 
     topBoundary = new PIXI.Graphics();
     //topBoundary.beginFill(0xFF0000);
-    topBoundary.drawRect(-100, 0, 3000, 50);
-    topBoundary.y = 85;
+    topBoundary.drawRect(-100, 0, 3000, 150);
+    topBoundary.y = -20;
 
     bottomBoundary = new PIXI.Graphics();
     //bottomBoundary.beginFill(0xFF0000);
-    bottomBoundary.drawRect(-100, 0, 3000, 50);
-    bottomBoundary.y = 710;
+    bottomBoundary.drawRect(-100, 0, 3000, 150);
+    bottomBoundary.y = 715;
 
 
     var texture = PIXI.Texture.from('road.png');
@@ -225,14 +225,14 @@ function setup() {
     left.press = () => {
         audi.vx = -8;
         audi.vy = 0;
-        tires = new Audio('tires.mp3')
-        tires.play();
+        brake = new Audio('brake.mp3');
+        brake.play();
     };
 
     left.release = () => {
         if (!right.isDown && audi.vy === 0) {
             audi.vx = 0;
-            tires.pause();
+            brake.pause();
         }
     };
 
@@ -240,14 +240,13 @@ function setup() {
     up.press = () => {
         audi.vy = -5;
         audi.vx = 0;
-        accelerate = new Audio('acceleration.mp3');
-        accelerate.volume = 0.9;
-        accelerate.play();
+        tires = new Audio('tires.mp3')
+        tires.play();
     };
     up.release = () => {
         if (!down.isDown && audi.vx === 0) {
             audi.vy = 0;
-            accelerate.pause();
+            tires.pause();
 
         }
     };
@@ -256,13 +255,13 @@ function setup() {
     right.press = () => {
         audi.vx = 8;
         audi.vy = 0;
-        tires = new Audio('tires.mp3');
-        tires.play();
+        accelerate = new Audio('acceleration.mp3');
+        accelerate.play();
     };
     right.release = () => {
         if (!left.isDown && audi.vy === 0) {
             audi.vx = 0;
-            tires.pause();
+            accelerate.pause();
         }
     };
 
@@ -270,13 +269,13 @@ function setup() {
     down.press = () => {
         audi.vy = 5;
         audi.vx = 0;
-        brake = new Audio('brake.mp3');
-        brake.play();
+        tires = new Audio('tires.mp3');
+        tires.play();
     };
     down.release = () => {
         if (!up.isDown && audi.vx === 0) {
             audi.vy = 0;
-            brake.pause();
+            tires.pause();
         }
     };
 
@@ -383,6 +382,9 @@ function setup() {
             let message = new PIXI.Text("Game over", style2);
             message.x = 957;
             message.y = 400;
+            music.pause();
+            engine.pause();
+            siren.pause();
             app.stage.addChild(gameOver);
             app.stage.addChild(message);
             app.stage.addChild(scoregui);
