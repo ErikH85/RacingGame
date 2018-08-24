@@ -335,7 +335,7 @@ function setup() {
         score += 1;
         scoregui.text = 'score' + '\n' + score;
 
-        hp = 1;
+        hp = 100;
 
         var audiState = whichState(hp);
         audi.texture = PIXI.Texture.from(`Audi${audiState.sprite}.png`);
@@ -368,11 +368,17 @@ function setup() {
         for (var i = 0; i < policeVehicles.length; i++) {
             bump.hit(policeP2,policeVehicles[i], true);
         }
-
         for (var i = 0; i < vehicles.length; i++) {
             for (var j = 0; j < vehicles.length; j++) {
                 if(!(vehicles[i] === vehicles[j])){
                     bump.hit(vehicles[i], vehicles[j],true);
+                }
+            }
+        }
+        for (var i = 0; i < policeVehicles.length; i++) {
+            for (var j = 0; j < policeVehicles.length; j++) {
+                if(!(policeVehicles[i] === policeVehicles[j])){
+                    bump.hit(policeVehicles[i], policeVehicles[j],true);
                 }
             }
         }
