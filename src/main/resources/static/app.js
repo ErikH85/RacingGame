@@ -18,7 +18,6 @@ PIXI.Loader.shared
     .add("van.png")
     .add("muscle.png")
     .add("viper.png")
-    .add("swat.png")
     .add("moderncop.png")
     .add("classiccop.png")
     .add("jeep.png")
@@ -140,7 +139,6 @@ function setup() {
             texture: PIXI.Texture.from("police" + i + ".png"),
             time: 125
         };
-
         policeAnimation.push(policeAnimationFrames);
     }
     //End police
@@ -154,10 +152,23 @@ function setup() {
             texture: PIXI.Texture.from("ambulance" + i + ".png"),
             time: 125
         };
-
         ambulanceAnimation.push(ambulanceAnimationFrames);
     }
     //End ambulance
+
+    //Start SWAT
+    var swatAnimation = [];
+
+    for (var i = 1; i <= maxFrames; i++) {
+
+        var swatAnimationFrames = {
+            texture: PIXI.Texture.from("swat" + i + ".png"),
+            time: 125
+        };
+        swatAnimation.push(swatAnimationFrames);
+    }
+    //End SWAT
+
     //END ANIMATIONS
 
     road = new PIXI.Sprite(PIXI.Loader.shared.resources["road.png"].texture);
@@ -599,8 +610,8 @@ function setup() {
                     break;
                 case 2:
                     policeVelocity = 7;
-                    police = new PIXI.Sprite(PIXI.Loader.shared.resources["swat.png"].texture);
-                    break;
+                    police = new PIXI.AnimatedSprite(swatAnimation);
+                    police.play();
                 case 3:
                     policeVelocity = 2;
                     police = new PIXI.Sprite(PIXI.Loader.shared.resources["mp.png"].texture);
