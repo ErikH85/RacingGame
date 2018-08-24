@@ -56,7 +56,6 @@ var oncomingRightLane = 175;
 var leftLane = 430;
 var rightLane = 560;
 var bump = new Bump(PIXI);
-//var c = new Bump(PIXI);
 var hp = 100;
 var life = 3;
 var score = 0;
@@ -368,12 +367,8 @@ function setup() {
         score += 1;
         scoregui.text = 'score' + '\n' + score;
 
-
-
         var audiState = whichState(hp);
         audi.texture = PIXI.Texture.from(`Sprites/Audi${audiState.sprite}.png`);
-
-
 
         if(hp <= 1){
             life -= 1;
