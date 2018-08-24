@@ -169,6 +169,7 @@ function setup() {
     topBoundary.drawRect(-100, 0, 3000, 150);
     topBoundary.y = -20;
 
+
     bottomBoundary = new PIXI.Graphics();
     //bottomBoundary.beginFill(0xFF0000);
     bottomBoundary.drawRect(-100, 0, 3000, 150);
@@ -358,6 +359,14 @@ function setup() {
         score += 1;
         scoregui.text = 'score' + '\n' + score;
 
+
+        hp = 50;
+
+        var audiState = whichState(hp);
+        audi.texture = PIXI.Texture.from(`Audi${audiState.sprite}.png`);
+
+
+
         if(hp <= 1){
             life -= 1;
             lifegui.text = 'life x ' + life;
@@ -416,6 +425,7 @@ function setup() {
             app.ticker.stop();
 
         }
+
         //Collision
         if(bump.hit(audi, sheriff, true, true)){
             crash.play();
@@ -468,15 +478,18 @@ function setup() {
                 crash.play();
             }
         }
-
         for (var i = 0; i < vehicles.length; i++) {
             for (var j = 0; j < vehicles.length; j++) {
                 if(!(vehicles[i] === vehicles[j])){
                     bump.hit(vehicles[i], vehicles[j],true);
                 }
-
-
-                //if(i == j ! bump)
+            }
+        }
+        for (var i = 0; i < policeVehicles.length; i++) {
+            for (var j = 0; j < policeVehicles.length; j++) {
+                if(!(policeVehicles[i] === policeVehicles[j])){
+                    bump.hit(policeVehicles[i], policeVehicles[j],true);
+                }
             }
         }
         for (var i = 0; i < policeVehicles.length; i++) {
@@ -746,4 +759,51 @@ function setup() {
             );
             return key;
         }
+}
+
+
+function whichState(carHP){
+
+    var STATE = {
+        ONE: {sprite: 1, name: "One"},
+        TWO: {sprite: 2, name: "Two"},
+        THREE: {sprite: 3, name: "Three"},
+        FOUR: {sprite: 4, name: "Four"},
+        FIVE: {sprite: 5, name: "Five"}
+    };
+
+    var currentState = STATE.ONE;
+
+    if(carHP >= 90) {
+        currentState = STATE.ONE;
+    } else if (carHP >= 70) {
+        currentState = STATE.TWO;
+    } else if (carHP >= 50) {
+        currentState = STATE.THREE;
+    } else if (carHP >= 30) {
+        currentState = STATE.FOUR;
+    } else {
+        currentState = STATE.FIVE;
+    }
+
+    /*switch (carHP) {
+        case 90:
+            currentState = STATE.ONE;
+            break;
+        case 70:
+            currentState = STATE.TWO;
+            break;
+        case 50:
+            currentState = STATE.THREE;
+            break;
+        case 30:
+            currentState = STATE.FOUR;
+            break;
+        case 10:
+            currentState = STATE.FIVE;
+            break;
+    }*/
+
+    return currentState;   // return Sprite 1, 2, 3, 4, eller 5....
+
 }
