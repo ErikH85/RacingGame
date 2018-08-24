@@ -37,7 +37,6 @@ var sheriff;
 var vehicle;
 var state;
 var item;
-var spikestrip;
 var road;
 var tires;
 var accelerate;
@@ -51,6 +50,9 @@ var engine;
 var siren;
 var honk;
 var honkfade;
+var backgroundTrafficRightLane = 1010;
+var backgroundTrafficLeftLane = 1025;
+var backgroundTrafficRandomLane;
 var oncomingLeftLane = 300;
 var oncomingRightLane = 175;
 var leftLane = 430;
@@ -347,11 +349,12 @@ function setup() {
     var lastSpawnedItem = Date.now();
     var lastSpawnedOncomingVehicle = Date.now();
     var lastSpawnedVehicle = Date.now();
+    var lastSpawnedTraffic = Date.now();
     var lastSpawnedPoliceVehicle = Date.now();
 
     app.ticker.add(function () {
         count += 1;
-        tilingRoad.tilePosition.x -= 10;
+        tilingRoad.tilePosition.x -= 15;
         score += 1;
         scoregui.text = 'score' + '\n' + score;
 
@@ -364,8 +367,8 @@ function setup() {
 
         if (life < 0){
             app.stage.removeChild(tilingRoad);
-            let gameOver = new PIXI.Sprite(PIXI.Loader.shared.resources["black.png"].texture);
-            let style2 = new PIXI.TextStyle({
+            var gameOver = new PIXI.Sprite(PIXI.Loader.shared.resources["black.png"].texture);
+            var style2 = new PIXI.TextStyle({
                 fontFamily: 'Arial',
                 fontSize: 90,
                 fontStyle: 'italic',
@@ -379,7 +382,7 @@ function setup() {
                 dropShadowAngle: Math.PI / 6,
                 dropShadowDistance: 6,
             });
-            let message = new PIXI.Text("Game over", style2);
+            var message = new PIXI.Text("Game over", style2);
             message.x = 957;
             message.y = 400;
             music.pause();
@@ -509,18 +512,34 @@ function setup() {
                 vehicleSpeed = 3;
             }
 
+            if(Date.now() > lastSpawnedTraffic + 9000) {
+                lastSpawnedTraffic = Date.now();
+                backgroundTrafficRandomLane = Math.floor(Math.random() * (3 - 1) + 1);
+                if (backgroundTrafficRandomLane === 1) {
+                    vehicleSpeed = 4;
+                    vehicleYPos = backgroundTrafficRightLane;
+                    vehicleVelocity = -20;
+                } else {
+                    vehicleSpeed = 5;
+                    vehicleYPos = backgroundTrafficLeftLane;
+                    vehicleVelocity = -25;
+                }
+            }
+
             if (vehicleSpeed === 1) {
                 vehicleYPos = oncomingRightLane;
-                vehicleVelocity = -15;
+                vehicleVelocity = -20;
             } else if (vehicleSpeed === 2) {
                 vehicleYPos = oncomingLeftLane;
-                vehicleVelocity = -20;
+                vehicleVelocity = -25;
             } else if (vehicleSpeed === 3) {
                 vehicle.anchor.set(0.5);
                 vehicle.rotation = Math.PI;
                 vehicleYPos = rightLane + 50;
                 vehicleVelocity = -1;
             }
+
+
 
             vehicleXPos = 2700;
 
@@ -580,7 +599,7 @@ function setup() {
         //ITEMS
         var itemXPos;
         var itemYPos;
-        var itemVelocity = -10;
+        var itemVelocity = -15;
 
         if (Date.now() > lastSpawnedItem + 5000) {
             lastSpawnedItem = Date.now();
@@ -591,25 +610,20 @@ function setup() {
             switch (typeOfItem) {
                 case 1:
                     item = new PIXI.Sprite(PIXI.Loader.shared.resources["money.png"].texture);
-                    item.vx = itemVelocity;
                     break;
                 case 2:
                     item = new PIXI.Sprite(PIXI.Loader.shared.resources["wrench.png"].texture);
-                    item.vx = itemVelocity;
                     break;
                 case 3:
                     item = new PIXI.Sprite(PIXI.Loader.shared.resources["spikestrip.png"].texture);
-                    itemXPos = audi.x + 300;
-                    itemYPos = 0;
-                    item.vx = -3;
-                    item.vy = 7;
-                    spikestrip = true;
+                    itemXPos = 2700;
+                    itemyYPos = audi.y;
                     break;
             }
 
             item.x = itemXPos;
             item.y = itemYPos;
-
+            item.vx = itemVelocity;
             items.push(item);
 
             app.stage.addChild(item);
@@ -640,7 +654,7 @@ function setup() {
         sheriff.x += sheriff.vx;
         sheriff.y += sheriff.vy;
 
-        //Vehicles move down and are then removed
+        //Vehicles move left and are then removed
         for (var i = vehicles.length - 1; i >= 0; i--) {
             vehicles[i].x += vehicles[i].vx;
             if (vehicles[i].x < - 300) {
@@ -648,7 +662,7 @@ function setup() {
                 vehicles.splice(i, 1);
             }
         }
-        //PoliceCPU move up and are then removed
+        //PoliceCPU move right and are then removed
         for (var i = policeVehicles.length - 1; i >= 0; i--) {
             policeVehicles[i].x += policeVehicles[i].vx;
             if (policeVehicles[i].x > app.screen.length + 300) {
@@ -656,25 +670,15 @@ function setup() {
                 policeVehicles.splice(i, 1);
             }
         }
-        //Items move down (left or right if spikestrip) and are then removed
+        //Items move left and are then removed
         for (var i = items.length - 1; i >= 0; i--) {
-            if (!spikestrip) {
                 items[i].x += items[i].vx;
                 if (items[i].x < -300) {
                     app.stage.removeChild(items[i]);
                     items.splice(i, 1);
                 }
-            } else {
-                items[i].x += items[i].vx;
-                items[i].y += items[i].vy;
-                if (items[i].y > app.screen.length + 100) {
-                    app.stage.removeChild(items[i]);
-                    items.splice(i, 1);
-                    spikestrip = false;
-                }
             }
         }
-    }
 
         function update() {
 
