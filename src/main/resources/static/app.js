@@ -370,7 +370,7 @@ function setup() {
             var gameOver = new PIXI.Sprite(PIXI.Loader.shared.resources["black.png"].texture);
             var style2 = new PIXI.TextStyle({
                 fontFamily: 'Arial',
-                fontSize: 90,
+                fontSize: 150,
                 fontStyle: 'italic',
                 fontWeight: 'bold',
                 fill: ['red', 'cyan'], // gradient
@@ -382,15 +382,37 @@ function setup() {
                 dropShadowAngle: Math.PI / 6,
                 dropShadowDistance: 6,
             });
-            var message = new PIXI.Text("Game over", style2);
-            message.x = 957;
-            message.y = 400;
+
+            var style3 = new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 60,
+                fontStyle: 'italic',
+                fontWeight: 'bold',
+                fill: ['red', 'cyan'], // gradient
+                stroke: 'black',
+                strokeThickness: 5,
+                dropShadow: true,
+                dropShadowColor: '#000000',
+                dropShadowBlur: 4,
+                dropShadowAngle: Math.PI / 6,
+                dropShadowDistance: 6,
+            });
+            var gameOvermsg = new PIXI.Text("GAME OVER", style2);
+            gameOvermsg.x = 850;
+            gameOvermsg.y = 100;
+            var pScore = new PIXI.Text("YOUR SCORE: " + score, style3);
+            pScore.x = 1000;
+            pScore.y =300;
+            var hScore = new PIXI.Text("HIGHSCORE", style3);
+            hScore.x = 1100;
+            hScore.y = 400;
             music.pause();
             engine.pause();
             siren.pause();
             app.stage.addChild(gameOver);
-            app.stage.addChild(message);
-            app.stage.addChild(scoregui);
+            app.stage.addChild(gameOvermsg);
+            app.stage.addChild(pScore);
+            app.stage.addChild(hScore);
             app.ticker.stop();
 
         }
@@ -455,6 +477,13 @@ function setup() {
 
 
                 //if(i == j ! bump)
+            }
+        }
+        for (var i = 0; i < policeVehicles.length; i++) {
+            for (var j = 0; j < policeVehicles.length; j++) {
+                if(!(policeVehicles[i] === policeVehicles[j])){
+                    bump.hit(policeVehicles[i], policeVehicles[j],true);
+                }
             }
         }
         //End Collision
