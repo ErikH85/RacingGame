@@ -335,7 +335,7 @@ function setup() {
         score += 1;
         scoregui.text = 'score' + '\n' + score;
 
-        hp = 100;
+        hp = 50;
 
         var audiState = whichState(hp);
         audi.texture = PIXI.Texture.from(`Audi${audiState.sprite}.png`);
