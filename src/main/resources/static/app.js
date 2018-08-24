@@ -48,7 +48,6 @@ var music;
 var engine;
 var siren;
 var honk;
-var honkfade;
 var backgroundTrafficRightLane = 1010;
 var backgroundTrafficLeftLane = 1130;
 var oncomingLeftLane = 300;
@@ -111,7 +110,6 @@ function setup() {
     var maxFrames = 3;
 
     for (var i = 1; i <= maxFrames; i++) {
-
         var sheriffAnimationFrames = {
             texture: PIXI.Texture.from("Sprites/sheriff" + i + ".png"),
             time: 125
@@ -357,6 +355,7 @@ function setup() {
     var lastSpawnedVehicle = Date.now();
     var lastSpawnedTraffic = Date.now();
     var lastSpawnedPoliceVehicle = Date.now();
+    var lastCollision = Date.now();
 
     app.ticker.add(function () {
         count += 1;
@@ -429,8 +428,11 @@ function setup() {
         //Collision
         if(bump.hit(playerOne, sheriff, true, true)){
             crash.play();
-            hp -= 2;
-            hpgui.text = 'hp: ' + hp;
+            if(Date.now()> lastCollision + 150) {
+                hp -= 4;
+                hpgui.text = 'hp: ' + hp;
+                lastCollision = Date.now()
+            }
         }
         if(bump.hit(playerOne, topBoundary, true, true)){
             crash.play();
@@ -449,8 +451,11 @@ function setup() {
         for (var i = 0; i < vehicles.length; i++) {
             if(bump.hit(playerOne,vehicles[i],true, true)){
                 crash.play();
-                hp -= 2;
-                hpgui.text = 'hp: ' + hp;
+                if(Date.now()> lastCollision + 150) {
+                    hp -= 4;
+                    hpgui.text = 'hp: ' + hp;
+                    lastCollision = Date.now()
+                }
             }
             if(bump.hit(vehicles[i], sheriff, true, true)){
                 crash.play();
@@ -461,8 +466,11 @@ function setup() {
         for (var i = 0; i < policeVehicles.length; i++) {
             if(bump.hit(playerOne, policeVehicles[i], true, true)){
                 crash.play();
-                hp -= 2;
-                hpgui.text = 'hp: ' + hp;
+                if(Date.now()> lastCollision + 150) {
+                    hp -= 4;
+                    hpgui.text = 'hp: ' + hp;
+                    lastCollision = Date.now()
+                }
             }
             bump.hit(policeVehicles[i], topBoundary, true, true);
             bump.hit(policeVehicles[i], bottomBoundary, true, true);
