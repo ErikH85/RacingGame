@@ -475,6 +475,13 @@ function setup() {
                 //if(i == j ! bump)
             }
         }
+        for (var i = 0; i < policeVehicles.length; i++) {
+            for (var j = 0; j < policeVehicles.length; j++) {
+                if(!(policeVehicles[i] === policeVehicles[j])){
+                    bump.hit(policeVehicles[i], policeVehicles[j],true);
+                }
+            }
+        }
         //End Collision
 
         //TRAFFIC
@@ -601,29 +608,29 @@ function setup() {
         //ITEMS
         var itemXPos;
         var itemYPos;
-        var itemVelocity = 10;
+        var itemVelocity = -10;
 
-        if (Date.now() > lastSpawnedItem + 6000) {
+        if (Date.now() > lastSpawnedItem + 5000) {
             lastSpawnedItem = Date.now();
             var typeOfItem = Math.floor(Math.random() * (4 - 1) + 1);
-            itemXPos = Math.floor(Math.random() * (550 - 250) + 200);
-            itemYPos = -100;
+            itemXPos = 2700;
+            itemYPos = Math.floor(Math.random() * (650 - 150) + 150);
 
             switch (typeOfItem) {
                 case 1:
                     item = new PIXI.Sprite(PIXI.Loader.shared.resources["money.png"].texture);
-                    item.vy = itemVelocity;
+                    item.vx = itemVelocity;
                     break;
                 case 2:
                     item = new PIXI.Sprite(PIXI.Loader.shared.resources["wrench.png"].texture);
-                    item.vy = itemVelocity;
+                    item.vx = itemVelocity;
                     break;
                 case 3:
                     item = new PIXI.Sprite(PIXI.Loader.shared.resources["spikestrip.png"].texture);
-                    itemXPos = 900;
-                    itemYPos = audi.y - 50;
-                    item.vx = -7;
-                    item.vy = 2;
+                    itemXPos = audi.x + 300;
+                    itemYPos = 0;
+                    item.vx = -3;
+                    item.vy = 7;
                     spikestrip = true;
                     break;
             }
@@ -688,7 +695,7 @@ function setup() {
             } else {
                 items[i].x += items[i].vx;
                 items[i].y += items[i].vy;
-                if (items[i].y < -300) {
+                if (items[i].y > app.screen.length + 100) {
                     app.stage.removeChild(items[i]);
                     items.splice(i, 1);
                     spikestrip = false;
