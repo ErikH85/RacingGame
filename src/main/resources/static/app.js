@@ -541,7 +541,7 @@ function setup() {
                 vehicleSpeed = 3;
             }
 
-            if(Date.now() > lastSpawnedTraffic + 9000) {
+            if(Date.now() > lastSpawnedTraffic + 10000) {
                 lastSpawnedTraffic = Date.now();
                 backgroundTrafficRandomLane = Math.floor(Math.random() * (3 - 1) + 1);
                 if (backgroundTrafficRandomLane === 1) {
@@ -567,8 +567,6 @@ function setup() {
                 vehicleYPos = rightLane + 50;
                 vehicleVelocity = -1;
             }
-
-
 
             vehicleXPos = 2700;
 
