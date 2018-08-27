@@ -252,7 +252,7 @@ function setup() {
     space.press = () => {
         gun = new Audio('Audio/gun.mp3');
         gun.play();
-    }
+    };
 
     ctrl.press = () => {
         honk = new Audio('Audio/honk.mp3')
@@ -260,7 +260,7 @@ function setup() {
     };
 
     ctrl.release = () => {
-            honk.pause();
+        honk.pause();
     };
 
     //vänster
