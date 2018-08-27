@@ -152,9 +152,13 @@ textarea {
     color: white;
 }
 
-#car-select {
+.car-select {
     position: relative;
     background: red;
     color: white;
     width: 100%;
+}
+
+.playerTwoSelect {
+    background: blue;
 }
