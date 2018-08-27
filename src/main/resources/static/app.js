@@ -45,6 +45,7 @@ var scoregui;
 var crash;
 var brake;
 var music;
+var gun;
 var engine;
 var siren;
 var honk;
@@ -215,16 +216,22 @@ function setup() {
         up = keyboard(38),
         right = keyboard(39),
         down = keyboard(40),
+        ctrl = keyboard(17),
         space = keyboard(32);
 
     //definerar vad som skall hända vid dessa events
 
     space.press = () => {
+        gun = new Audio('Audio/gun.mp3');
+        gun.play();
+    }
+
+    ctrl.press = () => {
         honk = new Audio('Audio/honk.mp3')
         honk.play();
     };
 
-    space.release = () => {
+    ctrl.release = () => {
             honk.pause();
     };
 
@@ -705,7 +712,7 @@ function setup() {
 
             policeVehicles.push(police);
             siren = new Audio('Audio/siren.mp3');
-            siren.volume = 0.5;
+            siren.volume = 0.3;
             siren.play();
 
             app.stage.addChild(police);
