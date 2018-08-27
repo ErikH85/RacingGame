@@ -23,8 +23,11 @@
                     <select name="player1" class="car-select">
                         <option value="none">Select car:</option>
                         <option value="1">Muscle car</option>
-                        <option value="2">Sports car</option>
-                        <option value="3">Viper</option>
+                        <option value="2">Viper</option>
+                        <option value="3">Sports car</option>
+                        <option value="4">Regular car</option>
+                        <option value="5">Green truck</option>
+                        <option value="6">Yellow truck</option>
                     </select>
                     <img class="carImg"/>
                 </div>
@@ -43,8 +46,11 @@
                     <select name="player1" class="car-select">
                         <option value="none">Select car:</option>
                         <option value="1">Muscle car</option>
-                        <option value="2">Sports car</option>
-                        <option value="3">Viper</option>
+                        <option value="2">Viper</option>
+                        <option value="3">Sports car</option>
+                        <option value="4">Regular car</option>
+                        <option value="5">Green truck</option>
+                        <option value="6">Yellow truck</option>
                     </select>
                     <img class="carImg"/>
                 </div>
@@ -54,6 +60,8 @@
                         <option value="none">Select car:</option>
                         <option value="7">Classic Cop</option>
                         <option value="8">Modern Cop</option>
+                        <option value="9">S.W.A.T car</option>
+                        <option value="10">Military police car</option>
                     </select>
                     <img class="carImg"/>
                 </div>
@@ -75,26 +83,40 @@
             car = new Audio('Audio/musclecar.mp3');
             car.play();
         } else if (parseInt(this.value) === 2) {
-            imageContainer.attr('src', 'Sprites/van.png');
-            car = new Audio('Audio/sportscar.mp3');
-            car.play();
-        } else if (parseInt(this.value) === 3) {
-            imageContainer.attr('src', 'Sprites/viper.png');
+            imageContainer.attr('src', 'Sprites/RacingCar/Car1/Audi1.png');
             car = new Audio('Audio/viper.mp3');
             car.play();
+        } else if (parseInt(this.value) === 3) {
+            imageContainer.attr('src', 'Sprites/RacingCar/Car3/Car_3_01.png');
+            car = new Audio('Audio/sportscar.mp3');
+            car.play();
         } else if (parseInt(this.value) === 4) {
-            imageContainer.attr('src', 'Sprites/viper.png');
+            imageContainer.attr('src', 'Sprites/RacingCar/Car2/Car_2_01.png');
+            car = new Audio('Audio/regular.mp3');
+            car.play();
         } else if (parseInt(this.value) === 5) {
-            imageContainer.attr('src', 'Sprites/viper.png');
+            imageContainer.attr('src', 'Sprites/RacingCar/Car5/Car_5_01.png');
+            car = new Audio('Audio/greenTruck.mp3');
+            car.play();
         } else if (parseInt(this.value) === 6) {
-            imageContainer.attr('src', 'Sprites/viper.png');
+            imageContainer.attr('src', 'Sprites/RacingCar/Car4/Car_4_01.png');
+            car = new Audio('Audio/yellowTruck.mp3');
+            car.play();
         } else if (parseInt(this.value) === 7) {
-            imageContainer.attr('src', 'Sprites/classiccop.png');
+            imageContainer.attr('src', 'Sprites/PoliceCar/Car1/Car_1_01.png');
             car = new Audio('Audio/classic.mp3');
             car.play();
         } else if (parseInt(this.value) === 8) {
-            imageContainer.attr('src', 'Sprites/viper.png');
+            imageContainer.attr('src', 'Sprites/PoliceCar/Car3/Car_3_01.png');
             car = new Audio('Audio/modern.mp3');
+            car.play();
+        } else if (parseInt(this.value) === 9) {
+            imageContainer.attr('src', 'Sprites/PoliceCar/Car2/Car_2_01.png');
+            car = new Audio('Audio/swat.mp3');
+            car.play();
+        } else if (parseInt(this.value) === 10) {
+            imageContainer.attr('src', 'Sprites/PoliceCar/Car6/Car_6_01.png');
+            car = new Audio('Audio/mp.mp3');
             car.play();
         }
     });
