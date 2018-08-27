@@ -525,7 +525,7 @@ function setup() {
                     lastCollision = Date.now()
                 }
             }
-            if(bump.hit(vehicles[i], sheriff, true, true)){
+            if(bump.hit(vehicles[i], sheriff, true)){
                 sheriff.hp -= 4;
                 crash.play();
             }
