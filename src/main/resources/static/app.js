@@ -24,6 +24,11 @@ PIXI.Loader.shared
     .add("Sprites/RacingCar/Car4/Car_4_03.png")
     .add("Sprites/RacingCar/Car4/Car_4_04.png")
     .add("Sprites/RacingCar/Car4/Car_4_05.png")
+    .add("Sprites/RacingCar/Car6/Car_6_01.png")
+    .add("Sprites/RacingCar/Car6/Car_6_02.png")
+    .add("Sprites/RacingCar/Car6/Car_6_03.png")
+    .add("Sprites/RacingCar/Car6/Car_6_04.png")
+    .add("Sprites/RacingCar/Car6/Car_6_05.png")
     .add("Sprites/PoliceCar/Car1/Car_1_01.png")
     .add("Sprites/PoliceCar/Car1/Car_1_02.png")
     .add("Sprites/PoliceCar/Car1/Car_1_03.png")
@@ -560,7 +565,8 @@ function setup() {
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/semi.png"].texture);
                     break;
                 case 3:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/van.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/RacingCar/Car6/Car_6_01.png"].texture);
+                    vehicle.spriteName = "Sprites/RacingCar/Car4/Car_6_0"
                     break;
                 case 4:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/muscle.png"].texture);
