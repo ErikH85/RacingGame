@@ -572,47 +572,93 @@ function setup() {
             var typeOfVehicle = Math.floor(Math.random() * (12 - 1) + 1);
             var vehicleSpeed = Math.floor(Math.random() * (3 - 1) + 1);
 
+            /*
             switch (typeOfVehicle) {
                 case 1:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/RacingCar/Car4/Car_4_01.png"].texture);
-                    vehicle.spriteName = "Sprites/RacingCar/Car4/Car_4_0";
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["truck.png"].texture);
                     break;
                 case 2:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/semi.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["semi.png"].texture);
                     break;
                 case 3:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/RacingCar/Car6/Car_6_01.png"].texture);
-                    vehicle.spriteName = "Sprites/RacingCar/Car4/Car_6_0"
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["van.png"].texture);
                     break;
                 case 4:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/muscle.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["muscle.png"].texture);
                     break;
                 case 5:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/taxi.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["taxi.png"].texture);
                     break;
                 case 6:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/viper.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["viper.png"].texture);
                     break;
                 case 7:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car3/Car_3_01.png"].texture);
-                    vehicle.spriteName = "Sprites/PoliceCar/Car3/Car_3_0";
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["moderncop.png"].texture);
                     break;
                 case 8:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car1/Car_1_01.png"].texture);
-                    vehicle.spriteName = "Sprites/PoliceCar/Car1/Car_1_0";
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["classiccop.png"].texture);
                     break;
                 case 9:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car5/Car_5_01.png"].texture);
-                    vehicle.spriteName = "Sprites/PoliceCar/Car5/Car_5_0";
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["jeep.png"].texture);
                     break;
                 case 10:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car4/Car_4_01.png"].texture);
-                    vehicle.spriteName = "Sprites/PoliceCar/Car4/Car_4_0";
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["army.png"].texture);
                     break;
                 case 11:
                     vehicle = new PIXI.AnimatedSprite(ambulanceAnimation);
                     vehicle.play();
                     break;
+             */
+
+            switch (typeOfVehicle) {
+                case 1:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["truck.png"].texture);
+                    break;
+                case 2:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["semi.png"].texture);
+                    break;
+                case 3:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["van.png"].texture);
+                    break;
+                case 4:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["muscle.png"].texture);
+                    break;
+                case 5:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["taxi.png"].texture);
+                    break;
+                case 6:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["viper.png"].texture);
+                    break;
+                case 7:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["moderncop.png"].texture);
+                    break;
+                case 8:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["classiccop.png"].texture);
+                    break;
+                case 9:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["jeep.png"].texture);
+                    break;
+                case 10:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["army.png"].texture);
+                    break;
+                case 11:
+                    vehicle = new PIXI.AnimatedSprite(ambulanceAnimation);
+                    vehicle.play();
+                    break;
+                case 12:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car3/Car_3_01.png"].texture);
+                    vehicle.spriteName = "Sprites/PoliceCar/Car3/Car_3_0";
+                    break;
+                case 13:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car1/Car_1_01.png"].texture);
+                    vehicle.spriteName = "Sprites/PoliceCar/Car1/Car_1_0";
+                    break;
+                case 14:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car5/Car_5_01.png"].texture);
+                    vehicle.spriteName = "Sprites/PoliceCar/Car5/Car_5_0";
+                case 15:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car4/Car_4_01.png"].texture);
+                    vehicle.spriteName = "Sprites/PoliceCar/Car4/Car_4_0";
             }
 
             if (Date.now() > lastSpawnedVehicle + 8000) {
