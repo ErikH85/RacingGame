@@ -66,15 +66,22 @@
 <script src="login.js"></script>
 <script>
     $('.carselect').on('change', '.car-select', function (e) {
+        var car;
 
         var imageContainer = $(this).parent().find('.carImg');
 
         if (parseInt(this.value) === 1) {
             imageContainer.attr('src', 'Sprites/muscle.png');
+            car = new Audio('Audio/musclecar.mp3');
+            car.play();
         } else if (parseInt(this.value) === 2) {
             imageContainer.attr('src', 'Sprites/van.png');
+            car = new Audio('Audio/sportscar.mp3');
+            car.play();
         } else if (parseInt(this.value) === 3) {
             imageContainer.attr('src', 'Sprites/viper.png');
+            car = new Audio('Audio/viper.mp3');
+            car.play();
         } else if (parseInt(this.value) === 4) {
             imageContainer.attr('src', 'Sprites/viper.png');
         } else if (parseInt(this.value) === 5) {
@@ -82,9 +89,13 @@
         } else if (parseInt(this.value) === 6) {
             imageContainer.attr('src', 'Sprites/viper.png');
         } else if (parseInt(this.value) === 7) {
-            imageContainer.attr('src', 'Sprites/viper.png');
+            imageContainer.attr('src', 'Sprites/classiccop.png');
+            car = new Audio('Audio/classic.mp3');
+            car.play();
         } else if (parseInt(this.value) === 8) {
             imageContainer.attr('src', 'Sprites/viper.png');
+            car = new Audio('Audio/modern.mp3');
+            car.play();
         }
     });
 </script>
