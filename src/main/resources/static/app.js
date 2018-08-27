@@ -64,7 +64,6 @@ var bottomBoundary;
 
 function setup() {
 
-
     var style = new PIXI.TextStyle({
         fontFamily: 'Arial',
         fontSize: 30,
