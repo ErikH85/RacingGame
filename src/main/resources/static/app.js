@@ -782,10 +782,10 @@ function setup() {
                 backgroundVehicles.splice(i, 1);
             }
         }
-        //PoliceCPU move right and are then removed
+        //Police move right and are then removed
         for (var i = policeVehicles.length - 1; i >= 0; i--) {
             policeVehicles[i].x += policeVehicles[i].vx;
-            if (policeVehicles[i].x > app.screen.length + 300) {
+            if (policeVehicles[i].x > app.screen.length + 100) {
                 app.stage.removeChild(policeVehicles[i]);
                 policeVehicles.splice(i, 1);
             }
