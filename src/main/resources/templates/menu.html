@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="form">
+
+    <ul class="tab-group">
+        <li class="tab active"><a href="#singleplayer">Single Player</a></li>
+        <li class="tab"><a href="#multiplayer">Multiplayer</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="singleplayer">
+            <h1>1 Player</h1>
+
+            <form action="/menu" method="post">
+
+                <div class="carselect field-wrap">
+                    <select name="player1" class="car-select">
+                        <option value="1">Muscle car</option>
+                        <option value="2">Sports car</option>
+                        <option value="3">Viper</option>
+                    </select>
+                    <img class="carImg"/>
+                </div>
+
+                <button type="submit" class="button button-block"/>
+                Start Game</button>
+            </form>
+        </div>
+
+        <div id="multiplayer">
+            <h1>2 Players</h1>
+
+            <form action="/login" method="post">
+
+                <div class="carselect field-wrap">
+                    <h3 style="color: white">Player one</h3>
+                    <select name="player1" class="car-select">
+                        <option value="1">Muscle car</option>
+                        <option value="2">Sports car</option>
+                        <option value="3">Viper</option>
+                    </select>
+                    <img class="carImg"/>
+                </div>
+                <div class="carselect field-wrap">
+                    <h3 style="color: white">Player two</h3>
+                    <select name="player2" class="car-select playerTwoSelect">
+                        <option value="7">Classic Cop</option>
+                        <option value="8">Modern Cop</option>
+                    </select>
+                    <img class="carImg"/>
+                </div>
+                <button class="button button-block"/>
+                Start Game</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src="login.js"></script>
+<script>
+    $('.carselect').on('change', '.car-select', function (e) {
+
+        var imageContainer = $(this).parent().find('.carImg');
+
+        if (parseInt(this.value) === 1) {
+            imageContainer.attr('src', 'Sprites/muscle.png');
+        } else if (parseInt(this.value) === 2) {
+            imageContainer.attr('src', 'Sprites/van.png');
+        } else if (parseInt(this.value) === 3) {
+            imageContainer.attr('src', 'Sprites/viper.png');
+        } else if (parseInt(this.value) === 4) {
+            imageContainer.attr('src', 'Sprites/viper.png');
+        } else if (parseInt(this.value) === 5) {
+            imageContainer.attr('src', 'Sprites/viper.png');
+        } else if (parseInt(this.value) === 6) {
+            imageContainer.attr('src', 'Sprites/viper.png');
+        } else if (parseInt(this.value) === 7) {
+            imageContainer.attr('src', 'Sprites/classiccop.png');
+        } else if (parseInt(this.value) === 8) {
+            imageContainer.attr('src', 'Sprites/viper.png');
+        }
+    });
+</script>
+</body>
+</html>
