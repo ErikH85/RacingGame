@@ -67,7 +67,7 @@ function setup() {
 
     var style = new PIXI.TextStyle({
         fontFamily: 'Arial',
-        fontSize: 30,
+        fontSize: 50,
         fontStyle: 'italic',
         fontWeight: 'bold',
         fill: ['red', 'cyan'], // gradient
@@ -82,15 +82,15 @@ function setup() {
 
     hpgui = new PIXI.Text('hp: ' + hp, style);
     hpgui.x = 30;
-    hpgui.y = 30;
+    hpgui.y = 10;
 
     lifegui = new PIXI.Text('life x ' + life, style);
     lifegui.x = 30;
     lifegui.y = 70;
 
     scoregui = new PIXI.Text('score ' + '\n' + score, style);
-    scoregui.x = 700;
-    scoregui.y = 30;
+    scoregui.x = 2350;
+    scoregui.y = 10;
 
     music = new Audio('Audio/music.mp3');
     music.volume = 0.3;
@@ -371,6 +371,12 @@ function setup() {
             lifegui.text = 'life x ' + life;
             hp = 100;
             hpgui.text = 'hp: ' + hp;
+            app.stage.removeChild(playerOne);
+            app.stage.addChild(playerOne);
+            playerOne.x = 500;
+            playerOne.y = rightLane;
+            playerOne.vx = 0;
+            playerOne.vy = 0;
         }
 
         if (life < 0){
