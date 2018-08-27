@@ -19,6 +19,11 @@ PIXI.Loader.shared
     .add("Sprites/van.png")
     .add("Sprites/muscle.png")
     .add("Sprites/viper.png")
+    .add("Sprites/Player2/Car_3_01.png")
+    .add("Sprites/Player2/Car_3_02.png")
+    .add("Sprites/Player2/Car_3_03.png")
+    .add("Sprites/Player2/Car_3_04.png")
+    .add("Sprites/Player2/Car_3_05.png")
     .add("Sprites/RacingCar/Car4/Car_4_01.png")
     .add("Sprites/RacingCar/Car4/Car_4_02.png")
     .add("Sprites/RacingCar/Car4/Car_4_03.png")
@@ -137,12 +142,15 @@ function setup() {
 
     //ANIMATIONS
     //Start sheriff
+
     var sheriffAnimation = [];
     var maxFrames = 3;
 
+    /*
     for (var i = 1; i <= maxFrames; i++) {
         var sheriffAnimationFrames = {
-            texture: PIXI.Texture.from("Sprites/sheriff" + i + ".png"),
+            //texture: PIXI.Texture.from("Sprites/sheriff" + i + ".png"),
+            texture: PIXI.Texture.from("Sprites/Player2/Car_3_01.png"),
             time: 125
         };
 
@@ -151,11 +159,13 @@ function setup() {
 
     sheriff = new PIXI.AnimatedSprite(sheriffAnimation);
     sheriff.play();
-
+    */
+    sheriff = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Player2/Car_3_01.png"].texture);
     sheriff.x = 700;
     sheriff.y = rightLane;
     sheriff.vx = 0;
     sheriff.vy = 0;
+    sheriff.hp = 100;
     //End Sheriff
 
     //Start police
@@ -402,10 +412,12 @@ function setup() {
         scoregui.text = 'score' + '\n' + score;
 
         var audiState = whichState(hp);
+        var sheriffState = whichState(sheriff.hp);
 
         //audi.texture = PIXI.Texture.from(`Sprites/Audi${audiState.sprite}.png`);
 
         playerOne.texture = PIXI.Texture.from(`Sprites/Audi${audiState.sprite}.png`);
+        sheriff.texture = PIXI.Texture.from(`Sprites/Player2/Car_3_0${audiState.sprite}.png`);
 
 
         if(hp <= 1){
@@ -490,9 +502,11 @@ function setup() {
         }
 
         if(bump.hit(sheriff, topBoundary, true, true)){
+            sheriff.hp -= 4;
             crash.play();
         }
         if(bump.hit(sheriff, bottomBoundary, true, true)){
+            sheriff.hp -= 4;
             crash.play();
         }
 
@@ -512,6 +526,7 @@ function setup() {
                 }
             }
             if(bump.hit(vehicles[i], sheriff, true, true)){
+                sheriff.hp -= 4;
                 crash.play();
             }
             bump.hit(vehicles[i], topBoundary, true, true);
@@ -537,6 +552,7 @@ function setup() {
         }
         for (var i = 0; i < policeVehicles.length; i++) {
             if(bump.hit(sheriff,policeVehicles[i], true)){
+                sheriff.hp -= 4;
                 crash.play();
             }
         }
