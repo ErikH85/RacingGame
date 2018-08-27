@@ -48,6 +48,9 @@ var music;
 var engine;
 var siren;
 var honk;
+var money;
+var repair;
+var spikes;
 var backgroundTrafficRightLane = 1010;
 var backgroundTrafficLeftLane = 1130;
 var oncomingLeftLane = 300;
@@ -356,6 +359,7 @@ function setup() {
     var lastSpawnedTraffic = Date.now();
     var lastSpawnedPoliceVehicle = Date.now();
     var lastCollision = Date.now();
+    var lastItem = Date.now();
 
     app.ticker.add(function () {
         count += 1;
@@ -722,12 +726,15 @@ function setup() {
             switch (typeOfItem) {
                 case 1:
                     item = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/money.png"].texture);
+                    item.itemID = 1;
                     break;
                 case 2:
                     item = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/wrench.png"].texture);
+                    item.itemID = 2;
                     break;
                 case 3:
                     item = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/spikestrip.png"].texture);
+                    item.itemID = 3;
                     itemXPos = 2700;
                     itemyYPos = playerOne.y;
                     break;
@@ -793,6 +800,41 @@ function setup() {
         //Items move left and are then removed
         for (var i = items.length - 1; i >= 0; i--) {
                 items[i].x += items[i].vx;
+                if(bump.hit(playerOne, item)){
+                    if(item.itemID == 1) {
+                        if (Date.now()> lastItem +1000) {
+                            score += 1000;
+                            app.stage.removeChild(items[i]);
+                            money = new Audio('Audio/money.mp3');
+                            money.play();
+                            lastItem= Date.now();
+                        }
+                    }
+                    if(item.itemID == 2) {
+                        if (Date.now()> lastItem +1000) {
+                            hp += 25;
+                            hpgui.text = 'hp: ' + hp;
+                            if (hp> 100){
+                                hp=100;
+                                hpgui.text = 'hp: ' + hp;
+                            }
+                            app.stage.removeChild(items[i]);
+                            repair = new Audio('Audio/repair.mp3');
+                            repair.play();
+                            lastItem= Date.now();
+                        }
+                    }
+                    if(item.itemID == 3) {
+                        if (Date.now()> lastItem +1000) {
+                            hp-=10;
+                            hpgui.text = 'hp: ' + hp;
+                            app.stage.removeChild(items[i]);
+                            spikes = new Audio('Audio/spike.mp3');
+                            spikes.play();
+                            lastItem= Date.now();
+                        }
+                    }
+                }
                 if (items[i].x < -300) {
                     app.stage.removeChild(items[i]);
                     items.splice(i, 1);
