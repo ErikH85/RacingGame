@@ -19,7 +19,11 @@ PIXI.Loader.shared
     .add("Sprites/van.png")
     .add("Sprites/muscle.png")
     .add("Sprites/viper.png")
-    .add("Sprites/moderncop.png")
+    .add("Sprites/policeCar/Car3/Car_3_01.png")
+    .add("Sprites/policeCar/Car3/Car_3_02.png")
+    .add("Sprites/policeCar/Car3/Car_3_03.png")
+    .add("Sprites/policeCar/Car3/Car_3_04.png")
+    .add("Sprites/policeCar/Car3/Car_3_05.png")
     .add("Sprites/classiccop.png")
     .add("Sprites/jeep.png")
     .add("Sprites/army.png")
@@ -452,10 +456,14 @@ function setup() {
         }
 
         for (var i = 0; i < vehicles.length; i++) {
+            //var vehState = whichState(vehicles[i].hp);
+            var vehState = whichState(5);
+            vehicles[i].texture = PIXI.Texture.from(`${vehicles[i].spriteName}${vehState.sprite}.png`);
             if(bump.hit(playerOne,vehicles[i],true, true)){
                 crash.play();
                 if(Date.now()> lastCollision + 150) {
                     hp -= 4;
+                    vehicles[i].hp -= 4;
                     hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
@@ -543,7 +551,8 @@ function setup() {
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/viper.png"].texture);
                     break;
                 case 7:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/moderncop.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/policeCar/Car3/Car_3_01.png"].texture);
+                    vehicle.spriteName = "Sprites/policeCar/Car3/Car_3_0";
                     break;
                 case 8:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/classiccop.png"].texture);
@@ -585,6 +594,8 @@ function setup() {
 
             vehicle.vx = vehicleVelocity;
 
+            vehicle.hp = 100;
+
             vehicles.push(vehicle);
 
             app.stage.addChild(vehicle);
@@ -621,7 +632,7 @@ function setup() {
                     bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/viper.png"].texture);
                     break;
                 case 7:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/moderncop.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/policeCar/Car3/Car_3_01.png"].texture);
                     break;
                 case 8:
                     bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/classiccop.png"].texture);
