@@ -576,27 +576,27 @@ function setup() {
 
             switch (typeOfVehicle) {
                 case 1:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["truck.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/truck.png"].texture);
                     vehicle.hasState = false;
                     break;
                 case 2:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["semi.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/semi.png"].texture);
                     vehicle.hasState = false;
                     break;
                 case 3:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["van.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/van.png"].texture);
                     vehicle.hasState = false;
                     break;
                 case 4:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["muscle.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/muscle.png"].texture);
                     vehicle.hasState = false;
                     break;
                 case 5:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["taxi.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/taxi.png"].texture);
                     vehicle.hasState = false;
                     break;
                 case 6:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["viper.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/viper.png"].texture);
                     vehicle.hasState = false;
                     break;
                 case 7:
@@ -666,27 +666,27 @@ function setup() {
 
         if (Date.now() > lastSpawnedTraffic + 1500) {
             lastSpawnedTraffic = Date.now();
-            var bTypeOfVehicle = Math.floor(Math.random() * (13 - 1) + 1);
+            var bTypeOfVehicle = Math.floor(Math.random() * (12 - 1) + 1);
             var backgroundTrafficRandomLane = Math.floor(Math.random() * (3 - 1) + 1);
 
             switch (bTypeOfVehicle) {
                 case 1:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["truck.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/truck.png"].texture);
                     break;
                 case 2:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["semi.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/semi.png"].texture);
                     break;
                 case 3:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["van.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/van.png"].texture);
                     break;
                 case 4:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["muscle.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/muscle.png"].texture);
                     break;
                 case 5:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["taxi.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/taxi.png"].texture);
                     break;
                 case 6:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["viper.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/viper.png"].texture);
                     break;
                 case 7:
                     bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car3/Car_3_01.png"].texture);
@@ -702,7 +702,7 @@ function setup() {
                     break;
                 case 11:
                     bVehicle = new PIXI.AnimatedSprite(ambulanceAnimation);
-                    vehicle.play();
+                    bVehicle.play();
                     break;
             }
 
