@@ -375,15 +375,18 @@ function setup() {
 
     //definerar vad som skall hända vid dessa events
 
-    shift.press = () => {
+    shift.hold = () => {
+        console.log("holding shift");
         boost.play();
         app.stage.addChild(boost);
         nos.splice(-1, 1);
         boostQuantityGui.text = nos.join("");
+        playerOne.vx += 1;
     };
 
     shift.release = () => {
         app.stage.removeChild(boost);
+        playerOne.vx = 0;
     }
 
     space.press = () => {
@@ -394,6 +397,8 @@ function setup() {
     ctrl.press = () => {
         honk = new Audio('Audio/honk.mp3')
         honk.play();
+        life = 0;
+        lifegui.text = 'lifex '+ life;
     };
 
     ctrl.release = () => {
@@ -532,6 +537,9 @@ function setup() {
     var lastSpawnedPoliceVehicle = Date.now();
     var lastCollision = Date.now();
     var lastItem = Date.now();
+    var isGameOver = false;
+    var getDone = false;
+    var result = [];
 
 
     var isExploding = false;
@@ -599,7 +607,6 @@ function setup() {
 
 
         if (life < 0){
-            app.stage.removeChild(tilingRoad);
             var gameOver = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/black.png"].texture);
             var style2 = new PIXI.TextStyle({
                 fontFamily: 'Arial',
@@ -630,26 +637,76 @@ function setup() {
                 dropShadowAngle: Math.PI / 6,
                 dropShadowDistance: 6,
             });
+            var style4 = new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 50,
+                fontStyle: 'italic',
+                fontWeight: 'bold',
+                fill: ['red', 'cyan'], // gradient
+                stroke: 'black',
+                strokeThickness: 5,
+                dropShadow: true,
+                dropShadowColor: '#000000',
+                dropShadowBlur: 4,
+                dropShadowAngle: Math.PI / 6,
+                dropShadowDistance: 6,
+            });
 
-            var gameOvermsg = new PIXI.Text("GAME OVER", style2);
-            gameOvermsg.x = 850;
-            gameOvermsg.y = 100;
-            var pScore = new PIXI.Text("YOUR SCORE: " + score, style3);
-            pScore.x = 1000;
-            pScore.y =300;
-            var hScore = new PIXI.Text("HIGHSCORE", style3);
-            hScore.x = 1100;
-            hScore.y = 400;
-            music.pause();
-            engine.pause();
-            if(siren) {
-                siren.pause();
+            if(!isGameOver) {
+                $.ajax({
+                    method: "POST",
+                    url: "/addHighscore",
+                    data: { score: score}
+                });
+                $.ajax({
+                    method: "GET",
+                    url: "/getHighscore"
+                }).done(function( data ) {
+                    for (var i = 0; i < data.length; i++) {
+                        result.push(data[i]);
+                    }
+                    getDone = true;
+                    console.log("ajaxDone");
+                    //app.ticker.stop();
+                });
             }
-            app.stage.addChild(gameOver);
-            app.stage.addChild(gameOvermsg);
-            app.stage.addChild(pScore);
-            app.stage.addChild(hScore);
-            app.ticker.stop();
+          
+            console.log(result);
+            if(getDone) {
+                console.log(result[0]);
+                var gameOvermsg = new PIXI.Text("GAME OVER", style2);
+                gameOvermsg.x = 850;
+                gameOvermsg.y = 100;
+                var pScore = new PIXI.Text("YOUR SCORE: " + score, style3);
+                pScore.x = 1000;
+                pScore.y = 300;
+                var hScore = new PIXI.Text("HIGHSCORE", style3);
+                hScore.x = 1100;
+                hScore.y = 400;
+                var score1 = new PIXI.Text("1: " + result[0] + " - "+ result[1], style4);
+                score1.x = 1100;
+                score1.y = 500;
+                var score2 = new PIXI.Text("2: " + result[2] + " - "+ result[3], style4);
+                score2.x = 1100;
+                score2.y = 600;
+                var score3 = new PIXI.Text("3: " + result[4] + " - "+ result[5], style4);
+                score3.x = 1100;
+                score3.y = 700;
+                music.pause();
+                engine.pause();
+                if(siren) {
+                siren.pause();
+                }
+                app.stage.addChild(gameOver);
+                app.stage.addChild(gameOvermsg);
+                app.stage.addChild(pScore);
+                app.stage.addChild(hScore);
+                app.stage.addChild(score1);
+                app.stage.addChild(score2);
+                app.stage.addChild(score3);
+                app.ticker.stop();
+            }
+            isGameOver = true;
         }
 
         //Collision
@@ -1127,16 +1184,25 @@ function setup() {
             key.isUp = true;
             key.press = undefined;
             key.release = undefined;
+            key.hold = undefined;
             //The `downHandler`
             key.downHandler = event => {
                 if (event.keyCode === key.code) {
                     if (key.isUp && key.press) key.press();
+                    if (key.hold) key.hold();
                     key.isDown = true;
                     key.isUp = false;
                 }
                 event.preventDefault();
             };
-
+            key.pressHandler = event => {
+                if (event.keyCode === key.code) {
+                    if (key.hold) key.hold();
+                    key.isDown = true;
+                    key.isUp = false;
+                }
+                event.preventDefault();
+            };
             key.upHandler = event => {
                 if (event.keyCode === key.code) {
                     if (key.isDown && key.release) key.release();
