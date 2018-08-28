@@ -10,6 +10,78 @@ var app = new PIXI.Application({
 document.body.appendChild(app.view);
 
 PIXI.Loader.shared
+    .add("Sprites/PlayerCars/Car1/Car_1_01.png")
+    .add("Sprites/PlayerCars/Car1/Car_1_02.png")
+    .add("Sprites/PlayerCars/Car1/Car_1_03.png")
+    .add("Sprites/PlayerCars/Car1/Car_1_04.png")
+    .add("Sprites/PlayerCars/Car1/Car_1_05.png")
+    .add("Sprites/PlayerCars/Car2/Car_2_01.png")
+    .add("Sprites/PlayerCars/Car2/Car_2_02.png")
+    .add("Sprites/PlayerCars/Car2/Car_2_03.png")
+    .add("Sprites/PlayerCars/Car2/Car_2_04.png")
+    .add("Sprites/PlayerCars/Car2/Car_2_05.png")
+    .add("Sprites/PlayerCars/Car3/Car_3_01.png")
+    .add("Sprites/PlayerCars/Car3/Car_3_02.png")
+    .add("Sprites/PlayerCars/Car3/Car_3_03.png")
+    .add("Sprites/PlayerCars/Car3/Car_3_04.png")
+    .add("Sprites/PlayerCars/Car3/Car_3_05.png")
+    .add("Sprites/PlayerCars/Car4/Car_4_01.png")
+    .add("Sprites/PlayerCars/Car4/Car_4_02.png")
+    .add("Sprites/PlayerCars/Car4/Car_4_03.png")
+    .add("Sprites/PlayerCars/Car4/Car_4_04.png")
+    .add("Sprites/PlayerCars/Car4/Car_4_05.png")
+    .add("Sprites/PlayerCars/Car5/Car_5_01.png")
+    .add("Sprites/PlayerCars/Car5/Car_5_02.png")
+    .add("Sprites/PlayerCars/Car5/Car_5_03.png")
+    .add("Sprites/PlayerCars/Car5/Car_5_04.png")
+    .add("Sprites/PlayerCars/Car5/Car_5_05.png")
+    .add("Sprites/PlayerCars/Car6/Car_6_01.png")
+    .add("Sprites/PlayerCars/Car6/Car_6_02.png")
+    .add("Sprites/PlayerCars/Car6/Car_6_03.png")
+    .add("Sprites/PlayerCars/Car6/Car_6_04.png")
+    .add("Sprites/PlayerCars/Car6/Car_6_05.png")
+
+    .add("Sprites/Player2/Car_3_01.png")
+    .add("Sprites/Player2/Car_3_02.png")
+    .add("Sprites/Player2/Car_3_03.png")
+    .add("Sprites/Player2/Car_3_04.png")
+    .add("Sprites/Player2/Car_3_05.png")
+
+
+
+    .add("Sprites/Traffic/Car1/Car_1_01.png")
+    .add("Sprites/Traffic/Car1/Car_1_02.png")
+    .add("Sprites/Traffic/Car1/Car_1_03.png")
+    .add("Sprites/Traffic/Car1/Car_1_04.png")
+    .add("Sprites/Traffic/Car1/Car_1_05.png")
+    .add("Sprites/Traffic/Car2/Car_2_01.png")
+    .add("Sprites/Traffic/Car2/Car_2_02.png")
+    .add("Sprites/Traffic/Car2/Car_2_03.png")
+    .add("Sprites/Traffic/Car2/Car_2_04.png")
+    .add("Sprites/Traffic/Car2/Car_2_05.png")
+    .add("Sprites/Traffic/Car3/Car_3_01.png")
+    .add("Sprites/Traffic/Car3/Car_3_02.png")
+    .add("Sprites/Traffic/Car3/Car_3_03.png")
+    .add("Sprites/Traffic/Car3/Car_3_04.png")
+    .add("Sprites/Traffic/Car3/Car_3_05.png")
+    .add("Sprites/Traffic/Car4/Car_4_01.png")
+    .add("Sprites/Traffic/Car4/Car_4_02.png")
+    .add("Sprites/Traffic/Car4/Car_4_03.png")
+    .add("Sprites/Traffic/Car4/Car_4_04.png")
+    .add("Sprites/Traffic/Car4/Car_4_05.png")
+    .add("Sprites/Traffic/Car5/Car_5_01.png")
+    .add("Sprites/Traffic/Car5/Car_5_02.png")
+    .add("Sprites/Traffic/Car5/Car_5_03.png")
+    .add("Sprites/Traffic/Car5/Car_5_04.png")
+    .add("Sprites/Traffic/Car5/Car_5_05.png")
+    .add("Sprites/Traffic/Car6/Car_6_01.png")
+    .add("Sprites/Traffic/Car6/Car_6_02.png")
+    .add("Sprites/Traffic/Car6/Car_6_03.png")
+    .add("Sprites/Traffic/Car6/Car_6_04.png")
+    .add("Sprites/Traffic/Car6/Car_6_05.png")
+
+
+
     .add("Sprites/road.png")
     .add("Sprites/audi.png")
     .add("Sprites/oldaudi.png")
@@ -19,41 +91,7 @@ PIXI.Loader.shared
     .add("Sprites/van.png")
     .add("Sprites/muscle.png")
     .add("Sprites/viper.png")
-    .add("Sprites/PlayerCars/Car_1_01.png")
-    .add("Sprites/PlayerCars/Car_1_02.png")
-    .add("Sprites/PlayerCars/Car_1_03.png")
-    .add("Sprites/PlayerCars/Car_1_04.png")
-    .add("Sprites/PlayerCars/Car_1_05.png")
-    .add("Sprites/PlayerCars/Car_2_01.png")
-    .add("Sprites/PlayerCars/Car_2_02.png")
-    .add("Sprites/PlayerCars/Car_2_03.png")
-    .add("Sprites/PlayerCars/Car_2_04.png")
-    .add("Sprites/PlayerCars/Car_2_05.png")
-    .add("Sprites/PlayerCars/Car_3_01.png")
-    .add("Sprites/PlayerCars/Car_3_02.png")
-    .add("Sprites/PlayerCars/Car_3_03.png")
-    .add("Sprites/PlayerCars/Car_3_04.png")
-    .add("Sprites/PlayerCars/Car_3_05.png")
-    .add("Sprites/PlayerCars/Car_4_01.png")
-    .add("Sprites/PlayerCars/Car_4_02.png")
-    .add("Sprites/PlayerCars/Car_4_03.png")
-    .add("Sprites/PlayerCars/Car_4_04.png")
-    .add("Sprites/PlayerCars/Car_4_05.png")
-    .add("Sprites/PlayerCars/Car_5_01.png")
-    .add("Sprites/PlayerCars/Car_5_02.png")
-    .add("Sprites/PlayerCars/Car_5_03.png")
-    .add("Sprites/PlayerCars/Car_5_04.png")
-    .add("Sprites/PlayerCars/Car_5_05.png")
-    .add("Sprites/PlayerCars/Car_6_01.png")
-    .add("Sprites/PlayerCars/Car_6_02.png")
-    .add("Sprites/PlayerCars/Car_6_03.png")
-    .add("Sprites/PlayerCars/Car_6_04.png")
-    .add("Sprites/PlayerCars/Car_6_05.png")
-    .add("Sprites/Player2/Car_3_01.png")
-    .add("Sprites/Player2/Car_3_02.png")
-    .add("Sprites/Player2/Car_3_03.png")
-    .add("Sprites/Player2/Car_3_04.png")
-    .add("Sprites/Player2/Car_3_05.png")
+
     .add("Sprites/RacingCar/Car4/Car_4_01.png")
     .add("Sprites/RacingCar/Car4/Car_4_02.png")
     .add("Sprites/RacingCar/Car4/Car_4_03.png")
@@ -617,7 +655,7 @@ function setup() {
 
         if (Date.now() > lastSpawnedOncomingVehicle + 1500) {
             lastSpawnedOncomingVehicle = Date.now();
-            var typeOfVehicle = Math.floor(Math.random() * (12 - 1) + 1);
+            var typeOfVehicle = Math.floor(Math.random() * (19 - 1) + 1);
             var vehicleSpeed = Math.floor(Math.random() * (3 - 1) + 1);
 
             switch (typeOfVehicle) {
@@ -670,9 +708,39 @@ function setup() {
                     vehicle.play();
                     break;
                 case 12:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car4/Car_4_01.png"].texture);
                     vehicle.hasState = true;
                     vehicle.spriteName = "Sprites/PoliceCar/Car4/Car_4_0";
+                    break;
+                case 13:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car1/Car_1_01.png"].texture);
+                    vehicle.hasState = true;
+                    vehicle.spriteName = "Sprites/Traffic/Car1/Car_1_0";
+                    break;
+                case 14:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car2/Car_2_01.png"].texture);
+                    vehicle.hasState = true;
+                    vehicle.spriteName = "Sprites/Traffic/Car2/Car_2_0";
+                    break;
+                case 15:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car3/Car_3_01.png"].texture);
+                    vehicle.hasState = true;
+                    vehicle.spriteName = "Sprites/Traffic/Car3/Car_3_0";
+                    break;
+                case 16:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car4/Car_4_01.png"].texture);
+                    vehicle.hasState = true;
+                    vehicle.spriteName = "Sprites/Traffic/Car4/Car_4_0";
+                    break;
+                case 17:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car5/Car_5_01.png"].texture);
+                    vehicle.hasState = true;
+                    vehicle.spriteName = "Sprites/Traffic/Car5/Car_5_0";
+                    break;
+                case 18:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car6/Car_6_01.png"].texture);
+                    vehicle.hasState = true;
+                    vehicle.spriteName = "Sprites/Traffic/Car6/Car_6_0";
                     break;
             }
 
