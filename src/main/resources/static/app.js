@@ -288,6 +288,7 @@ function setup() {
         explosionAnimation.push(explosionAnimationFrames);
     }
     explosion = new PIXI.AnimatedSprite(explosionAnimation);
+
     //End explosion
     //END ANIMATIONS
 
@@ -328,6 +329,7 @@ function setup() {
     app.stage.addChild(hpgui);
     app.stage.addChild(lifegui);
     app.stage.addChild(scoregui);
+    app.stage.addChild(explosion);
     //app.stage.addChild(topBoundary);
     //app.stage.addChild(bottomBoundary);
 
@@ -595,22 +597,51 @@ function setup() {
 
         for (var i = 0; i < vehicles.length; i++) {
             if(vehicles[i].hasState == true) {
-                //var vehState = whichState(vehicles[i].hp);
-                var vehState = whichState(5);
-                vehicles[i].texture = PIXI.Texture.from(`${vehicles[i].spriteName}${vehState.sprite}.png`);
+                vehicles[i].hp = 5;
+                var vehState = whichState(vehicles[i].hp);
+                //var vehState = whichState(5);
 
+                if(vehicles[i].hp > 5){
+                vehicles[i].texture = PIXI.Texture.from(`${vehicles[i].spriteName}${vehState.sprite}.png`);
+                }
+
+
+                if(vehState.sprite == 6){
+
+                    explosion.x = 200;
+                    explosion.y = 200;
+
+                    explosion.play();
+                    //set boolean play = false;
+                }
+
+
+
+
+                /*
+                if(){
+                    console.log("state 6");
+                }
+                */
+
+               /* if (vehicles[i].hp == 0){
+                    explosion.x = vehicles[i].x;
+                    explosion.y = vehicles[i].y;
+                    explosion.play();
+                }*/
             }
             if(bump.hit(playerOne,vehicles[i],true, true)){
                 crash.play();
                 if(Date.now()> lastCollision + 150) {
                     hp -= 4;
-                    vehicles[i].hp -= 4;
+                    vehicles[i].hp -= 50;
                     hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
             }
             if(bump.hit(vehicles[i], sheriff, true)){
                 sheriff.hp -= 4;
+                //vehicles[i] -= 50;
                 crash.play();
             }
             bump.hit(vehicles[i], topBoundary, true, true);
@@ -1085,7 +1116,7 @@ function whichState(carHP){
         THREE: {sprite: 3, name: "Three"},
         FOUR: {sprite: 4, name: "Four"},
         FIVE: {sprite: 5, name: "Five"},
-        SIX: {name: "Six"}
+        SIX: {sprite: 6, name: "Six"}
     };
 
     var currentState = STATE.ONE;
@@ -1098,10 +1129,10 @@ function whichState(carHP){
         currentState = STATE.THREE;
     } else if (carHP >= 30) {
         currentState = STATE.FOUR;
-    } else if (carHp >= 10) {
+    } else if (carHP >= 10){
         currentState = STATE.FIVE;
-    } else {
-        currentState = STATE.SIX;
+    } else{
+        currentState = STATE.SIX
     }
 
     /*switch (carHP) {
