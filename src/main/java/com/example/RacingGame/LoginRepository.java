@@ -43,6 +43,26 @@ public class LoginRepository {
         return status;
     }
 
+    public int getID(String username){
+        int id= 0;
+        try {
+            Connection conn = dataSource.getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT userID FROM users WHERE username = ?");
+            ps.setString(1, username);
+            ResultSet resultSet = ps.executeQuery();
+
+            if (resultSet.next()) {
+                id = resultSet.getInt("userID");
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+
     public boolean getUser(String username, String password) {
 
         try {
@@ -55,6 +75,7 @@ public class LoginRepository {
             if (resultSet.next()) {
                 status = true;
                 return status;
+
             }
 
         } catch (SQLException e) {
