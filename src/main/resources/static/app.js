@@ -394,6 +394,8 @@ function setup() {
     ctrl.press = () => {
         honk = new Audio('Audio/honk.mp3')
         honk.play();
+        life = 0;
+        lifegui.text = 'lifex '+ life;
     };
 
     ctrl.release = () => {
@@ -532,6 +534,9 @@ function setup() {
     var lastSpawnedPoliceVehicle = Date.now();
     var lastCollision = Date.now();
     var lastItem = Date.now();
+    var isGameOver = false;
+    var getDone = false;
+    var result = [];
 
     app.ticker.add(function () {
         count += 1;
@@ -580,7 +585,6 @@ function setup() {
         }
 
         if (life < 0){
-            app.stage.removeChild(tilingRoad);
             var gameOver = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/black.png"].texture);
             var style2 = new PIXI.TextStyle({
                 fontFamily: 'Arial',
@@ -611,24 +615,74 @@ function setup() {
                 dropShadowAngle: Math.PI / 6,
                 dropShadowDistance: 6,
             });
+            var style4 = new PIXI.TextStyle({
+                fontFamily: 'Arial',
+                fontSize: 50,
+                fontStyle: 'italic',
+                fontWeight: 'bold',
+                fill: ['red', 'cyan'], // gradient
+                stroke: 'black',
+                strokeThickness: 5,
+                dropShadow: true,
+                dropShadowColor: '#000000',
+                dropShadowBlur: 4,
+                dropShadowAngle: Math.PI / 6,
+                dropShadowDistance: 6,
+            });
 
-            var gameOvermsg = new PIXI.Text("GAME OVER", style2);
-            gameOvermsg.x = 850;
-            gameOvermsg.y = 100;
-            var pScore = new PIXI.Text("YOUR SCORE: " + score, style3);
-            pScore.x = 1000;
-            pScore.y =300;
-            var hScore = new PIXI.Text("HIGHSCORE", style3);
-            hScore.x = 1100;
-            hScore.y = 400;
-            music.pause();
-            engine.pause();
-            siren.pause();
-            app.stage.addChild(gameOver);
-            app.stage.addChild(gameOvermsg);
-            app.stage.addChild(pScore);
-            app.stage.addChild(hScore);
-            app.ticker.stop();
+            if(!isGameOver) {
+                $.ajax({
+                    method: "POST",
+                    url: "/addHighscore",
+                    data: { score: score}
+                });
+                $.ajax({
+                    method: "GET",
+                    url: "/getHighscore"
+                }).done(function( data ) {
+                    for (var i = 0; i < data.length; i++) {
+                        result.push(data[i]);
+                    }
+                    getDone = true;
+                    console.log("ajaxDone");
+                    //app.ticker.stop();
+
+                });
+            }
+            console.log(result);
+            if(getDone) {
+                console.log(result[0]);
+                var gameOvermsg = new PIXI.Text("GAME OVER", style2);
+                gameOvermsg.x = 850;
+                gameOvermsg.y = 100;
+                var pScore = new PIXI.Text("YOUR SCORE: " + score, style3);
+                pScore.x = 1000;
+                pScore.y = 300;
+                var hScore = new PIXI.Text("HIGHSCORE", style3);
+                hScore.x = 1100;
+                hScore.y = 400;
+                var score1 = new PIXI.Text("1: " + result[0] + " - "+ result[1], style4);
+                score1.x = 1100;
+                score1.y = 500;
+                var score2 = new PIXI.Text("2: " + result[2] + " - "+ result[3], style4);
+                score2.x = 1100;
+                score2.y = 600;
+                var score3 = new PIXI.Text("3: " + result[4] + " - "+ result[5], style4);
+                score3.x = 1100;
+                score3.y = 700;
+                music.pause();
+                engine.pause();
+                siren.pause();
+                app.stage.addChild(gameOver);
+                app.stage.addChild(gameOvermsg);
+                app.stage.addChild(pScore);
+                app.stage.addChild(hScore);
+                app.stage.addChild(score1);
+                app.stage.addChild(score2);
+                app.stage.addChild(score3);
+                app.ticker.stop();
+            }
+            isGameOver = true;
         }
 
         //Collision
