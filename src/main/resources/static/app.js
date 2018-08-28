@@ -10,11 +10,11 @@ var app = new PIXI.Application({
 document.body.appendChild(app.view);
 
 PIXI.Loader.shared
-    .add("Sprites/PlayerCars/Car1/Car_1_01.png")
-    .add("Sprites/PlayerCars/Car1/Car_1_02.png")
-    .add("Sprites/PlayerCars/Car1/Car_1_03.png")
-    .add("Sprites/PlayerCars/Car1/Car_1_04.png")
-    .add("Sprites/PlayerCars/Car1/Car_1_05.png")
+    .add("Sprites/PlayerCars/Car1/Audi1.png")
+    .add("Sprites/PlayerCars/Car1/Audi2.png")
+    .add("Sprites/PlayerCars/Car1/Audi3.png")
+    .add("Sprites/PlayerCars/Car1/Audi4.png")
+    .add("Sprites/PlayerCars/Car1/Audi5.png")
     .add("Sprites/PlayerCars/Car2/Car_2_01.png")
     .add("Sprites/PlayerCars/Car2/Car_2_02.png")
     .add("Sprites/PlayerCars/Car2/Car_2_03.png")
@@ -40,6 +40,7 @@ PIXI.Loader.shared
     .add("Sprites/PlayerCars/Car6/Car_6_03.png")
     .add("Sprites/PlayerCars/Car6/Car_6_04.png")
     .add("Sprites/PlayerCars/Car6/Car_6_05.png")
+    .add("Sprites/PlayerCars/Muscle/muscle.png")
 
     .add("Sprites/Player2/Car_3_01.png")
     .add("Sprites/Player2/Car_3_02.png")
@@ -134,7 +135,7 @@ PIXI.Loader.shared
 
 var playerOne;
 var police;
-var sheriff;
+var playerTwo;
 var vehicle;
 var state;
 var item;
@@ -210,7 +211,7 @@ function setup() {
 
 
     //ANIMATIONS
-    //Start sheriff
+    //Start playerTwo
 
     var sheriffAnimation = [];
     var maxFrames = 3;
@@ -218,7 +219,7 @@ function setup() {
     /*
     for (var i = 1; i <= maxFrames; i++) {
         var sheriffAnimationFrames = {
-            //texture: PIXI.Texture.from("Sprites/sheriff" + i + ".png"),
+            //texture: PIXI.Texture.from("Sprites/playerTwo" + i + ".png"),
             texture: PIXI.Texture.from("Sprites/Player2/Car_3_01.png"),
             time: 125
         };
@@ -226,15 +227,15 @@ function setup() {
         sheriffAnimation.push(sheriffAnimationFrames);
     }
 
-    sheriff = new PIXI.AnimatedSprite(sheriffAnimation);
-    sheriff.play();
+    playerTwo = new PIXI.AnimatedSprite(sheriffAnimation);
+    playerTwo.play();
     */
-    sheriff = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Player2/Car_3_01.png"].texture);
-    sheriff.x = 700;
-    sheriff.y = rightLane;
-    sheriff.vx = 0;
-    sheriff.vy = 0;
-    sheriff.hp = 100;
+    playerTwo = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Player2/Car_3_01.png"].texture);
+    playerTwo.x = 700;
+    playerTwo.y = rightLane;
+    playerTwo.vx = 0;
+    playerTwo.vy = 0;
+    playerTwo.hp = 100;
     //End Sheriff
 
     //Start police
@@ -292,7 +293,6 @@ function setup() {
     //END ANIMATIONS
 
     road = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/road.png"].texture);
-    playerOne = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/audi.png"].texture);
 
     topBoundary = new PIXI.Graphics();
     //topBoundary.beginFill(0xFF0000);
@@ -309,6 +309,7 @@ function setup() {
     var texture = PIXI.Texture.from('Sprites/road.png');
 
     //sätter bilens utgångsposition samt ursprungshastighet
+    playerOne = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Muscle/muscle.png"].texture);
     playerOne.x = 1000;
     playerOne.y = rightLane;
     playerOne.vx = 0;
@@ -324,7 +325,7 @@ function setup() {
     //lägger till ("stage'ar") den repeterande bakgrunden och spelar-bilen
     app.stage.addChild(tilingRoad);
     app.stage.addChild(playerOne);
-    app.stage.addChild(sheriff);
+    app.stage.addChild(playerTwo);
     app.stage.addChild(hpgui);
     app.stage.addChild(lifegui);
     app.stage.addChild(scoregui);
@@ -422,8 +423,8 @@ function setup() {
     //Left arrow key `press` method
     p2left.press = () => {
         //Change the cat's velocity when the key is pressed
-        sheriff.vx = -5;
-        sheriff.vy = 0;
+        playerTwo.vx = -5;
+        playerTwo.vy = 0;
     };
 
     //Left arrow key `release` method
@@ -431,41 +432,41 @@ function setup() {
         //If the left arrow has been released, and the right arrow isn't down,
         //and the cat isn't moving vertically:
         //Stop the cat
-        if (!p2right.isDown && sheriff.vy === 0) {
-            sheriff.vx = 0;
+        if (!p2right.isDown && playerTwo.vy === 0) {
+            playerTwo.vx = 0;
         }
     };
 
     //Up
     p2up.press = () => {
-        sheriff.vy = -5;
-        sheriff.vx = 0;
+        playerTwo.vy = -5;
+        playerTwo.vx = 0;
     };
     p2up.release = () => {
-        if (!p2down.isDown && sheriff.vx === 0) {
-            sheriff.vy = 0;
+        if (!p2down.isDown && playerTwo.vx === 0) {
+            playerTwo.vy = 0;
         }
     };
 
     //Right
     p2right.press = () => {
-        sheriff.vx = 5;
-        sheriff.vy = 0;
+        playerTwo.vx = 5;
+        playerTwo.vy = 0;
     };
     p2right.release = () => {
-        if (!p2left.isDown && sheriff.vy === 0) {
-            sheriff.vx = 0;
+        if (!p2left.isDown && playerTwo.vy === 0) {
+            playerTwo.vx = 0;
         }
     };
 
     //Down
     p2down.press = () => {
-        sheriff.vy = 5;
-        sheriff.vx = 0;
+        playerTwo.vy = 5;
+        playerTwo.vx = 0;
     };
     p2down.release = () => {
-        if (!p2up.isDown && sheriff.vx === 0) {
-            sheriff.vy = 0;
+        if (!p2up.isDown && playerTwo.vx === 0) {
+            playerTwo.vy = 0;
         }
     };
 
@@ -494,14 +495,32 @@ function setup() {
         score += 1;
         scoregui.text = 'score' + '\n' + score;
 
-        var audiState = whichState(hp);
-        var sheriffState = whichState(sheriff.hp);
+        var carState = whichState(hp);
+        var sheriffState = whichState(playerTwo.hp);
 
-        //audi.texture = PIXI.Texture.from(`Sprites/Audi${audiState.sprite}.png`);
+        if (player1 == 1) {
+            playerOne.texture = PIXI.Texture.from("Sprites/PlayerCars/Muscle/muscle.png");
+        } else if (player1 == 2) {
+            playerOne.texture = PIXI.Texture.from(`Sprites/Audi${carState.sprite}.png`);
+        } else if (player1 == 3) {
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car3/Car_3_0${carState.sprite}.png`);
+        } else if (player1 == 4) {
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car2/Car_2_0${carState.sprite}.png`);
+        } else if (player1 == 5) {
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car5/Car_5_0${carState.sprite}.png`);
+        } else if (player1 == 6) {
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car4/Car_4_0${carState.sprite}.png`);
+        }
 
-        playerOne.texture = PIXI.Texture.from(`Sprites/Audi${audiState.sprite}.png`);
-        sheriff.texture = PIXI.Texture.from(`Sprites/Player2/Car_3_0${audiState.sprite}.png`);
-
+        if (player2 == 7) {
+            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car1/Car_1_0${carState.sprite}.png`);
+        } else if (player2 == 8) {
+            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car3/Car_3_0${carState.sprite}.png`);
+        } else if (player2 == 9) {
+            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car2/Car_2_0${carState.sprite}.png`);
+        } else if (player2 == 10) {
+            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car6/Car_6_0${carState.sprite}.png`);
+        }
 
         if(hp <= 1){
             life -= 1;
@@ -569,7 +588,7 @@ function setup() {
         }
 
         //Collision
-        if(bump.hit(playerOne, sheriff, true, true)){
+        if(bump.hit(playerOne, playerTwo, true, true)){
             crash.play();
             if(Date.now()> lastCollision + 150) {
                 hp -= 4;
@@ -584,12 +603,12 @@ function setup() {
             crash.play();
         }
 
-        if(bump.hit(sheriff, topBoundary, true, true)){
-            sheriff.hp -= 4;
+        if(bump.hit(playerTwo, topBoundary, true, true)){
+            playerTwo.hp -= 4;
             crash.play();
         }
-        if(bump.hit(sheriff, bottomBoundary, true, true)){
-            sheriff.hp -= 4;
+        if(bump.hit(playerTwo, bottomBoundary, true, true)){
+            playerTwo.hp -= 4;
             crash.play();
         }
 
@@ -609,8 +628,8 @@ function setup() {
                     lastCollision = Date.now()
                 }
             }
-            if(bump.hit(vehicles[i], sheriff, true)){
-                sheriff.hp -= 4;
+            if(bump.hit(vehicles[i], playerTwo, true)){
+                playerTwo.hp -= 4;
                 crash.play();
             }
             bump.hit(vehicles[i], topBoundary, true, true);
@@ -635,8 +654,8 @@ function setup() {
             }
         }
         for (var i = 0; i < policeVehicles.length; i++) {
-            if(bump.hit(sheriff,policeVehicles[i], true)){
-                sheriff.hp -= 4;
+            if(bump.hit(playerTwo,policeVehicles[i], true)){
+                playerTwo.hp -= 4;
                 crash.play();
             }
         }
@@ -963,8 +982,8 @@ function setup() {
         playerOne.y += playerOne.vy;
         road.x += road.vx;
         road.y += road.vy;
-        sheriff.x += sheriff.vx;
-        sheriff.y += sheriff.vy;
+        playerTwo.x += playerTwo.vx;
+        playerTwo.y += playerTwo.vy;
 
         //Vehicles move left and are then removed
         for (var i = vehicles.length - 1; i >= 0; i--) {
@@ -1098,7 +1117,7 @@ function whichState(carHP){
         currentState = STATE.THREE;
     } else if (carHP >= 30) {
         currentState = STATE.FOUR;
-    } else if (carHp >= 10) {
+    } else if (carHP >= 10) {
         currentState = STATE.FIVE;
     } else {
         currentState = STATE.SIX;

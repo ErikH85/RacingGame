@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.springframework.org/schema/mvc">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +8,12 @@
     <script src="/pixi.min.js"></script>
 </head>
 <body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var player1 = /*[[${player1}]]*/ 'default';
+    var player2 = /*[[${player2}]]*/ 'default';
+    /*]]>*/
+</script>
     <script src="/bump.js"></script>
     <script src="/app.js"></script>
 </body>
