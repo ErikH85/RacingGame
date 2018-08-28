@@ -620,39 +620,15 @@ function setup() {
         }
 
         for (var i = 0; i < vehicles.length; i++) {
+
             if(vehicles[i].hasState == true) {
                 vehicles[i].hp = 5;
                 var vehState = whichState(vehicles[i].hp);
-                //var vehState = whichState(5);
 
                 if(vehicles[i].hp > 5){
                 vehicles[i].texture = PIXI.Texture.from(`${vehicles[i].spriteName}${vehState.sprite}.png`);
                 }
 
-
-                /*if(vehState.sprite == 6){
-
-                    explosion.x = 200;
-                    explosion.y = 200;
-
-                    explosion.play();
-                    //set boolean play = false;
-                }*/
-
-
-
-
-                /*
-                if(){
-                    console.log("state 6");
-                }
-                */
-
-               /* if (vehicles[i].hp == 0){
-                    explosion.x = vehicles[i].x;
-                    explosion.y = vehicles[i].y;
-                    explosion.play();
-                }*/
             }
             if(bump.hit(playerOne,vehicles[i],true, true)){
                 crash.play();
