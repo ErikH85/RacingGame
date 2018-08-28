@@ -283,11 +283,12 @@ function setup() {
 
         var explosionAnimationFrames = {
             texture: PIXI.Texture.from("Sprites/Explosions/e" + i + ".png"),
-            time: 250
+            time: 125
         };
         explosionAnimation.push(explosionAnimationFrames);
     }
     explosion = new PIXI.AnimatedSprite(explosionAnimation);
+    explosion.visible = false;
 
     //End explosion
     //END ANIMATIONS
@@ -332,6 +333,8 @@ function setup() {
     app.stage.addChild(explosion);
     //app.stage.addChild(topBoundary);
     //app.stage.addChild(bottomBoundary);
+
+
 
     //sätter enums för piltangenterna keycodes
     var left = keyboard(37),
