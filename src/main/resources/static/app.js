@@ -283,7 +283,7 @@ function setup() {
 
         var explosionAnimationFrames = {
             texture: PIXI.Texture.from("Sprites/Explosions/e" + i + ".png"),
-            time: 125
+            time: 250
         };
         explosionAnimation.push(explosionAnimationFrames);
     }
@@ -490,6 +490,27 @@ function setup() {
     var lastCollision = Date.now();
     var lastItem = Date.now();
 
+
+    var isExploding = false;
+    explosion.loop = false;
+    explosion.onComplete = function() {
+        isExploding = false;
+        explosion.visible = false;
+        explosion.stop();
+        console.log("exploded.");
+        life -= 1;
+        lifegui.text = 'life x ' + life;
+        hp = 100;
+        hpgui.text = 'hp: ' + hp;
+        app.stage.removeChild(playerOne);
+        app.stage.addChild(playerOne);
+        playerOne.x = 500;
+        playerOne.y = rightLane;
+        playerOne.vx = 0;
+        playerOne.vy = 0;
+        playerOne.visible = true;
+    };
+
     app.ticker.add(function () {
         count += 1;
         tilingRoad.tilePosition.x -= 15;
@@ -505,18 +526,16 @@ function setup() {
         sheriff.texture = PIXI.Texture.from(`Sprites/Player2/Car_3_0${audiState.sprite}.png`);
 
 
-        if(hp <= 1){
-            life -= 1;
-            lifegui.text = 'life x ' + life;
-            hp = 100;
-            hpgui.text = 'hp: ' + hp;
-            app.stage.removeChild(playerOne);
-            app.stage.addChild(playerOne);
-            playerOne.x = 500;
-            playerOne.y = rightLane;
-            playerOne.vx = 0;
-            playerOne.vy = 0;
+        if(hp <= 80 && !isExploding){
+            isExploding = true;
+            playerOne.visible = false;
+            explosion.visible = true;
+            explosion.gotoAndPlay(0);
+            explosion.x = playerOne.x;
+            explosion.y = playerOne.y;
+
         }
+
 
         if (life < 0){
             app.stage.removeChild(tilingRoad);
@@ -562,7 +581,9 @@ function setup() {
             hScore.y = 400;
             music.pause();
             engine.pause();
-            siren.pause();
+            if(siren) {
+                siren.pause();
+            }
             app.stage.addChild(gameOver);
             app.stage.addChild(gameOvermsg);
             app.stage.addChild(pScore);
@@ -606,14 +627,14 @@ function setup() {
                 }
 
 
-                if(vehState.sprite == 6){
+                /*if(vehState.sprite == 6){
 
                     explosion.x = 200;
                     explosion.y = 200;
 
                     explosion.play();
                     //set boolean play = false;
-                }
+                }*/
 
 
 
@@ -632,7 +653,7 @@ function setup() {
             }
             if(bump.hit(playerOne,vehicles[i],true, true)){
                 crash.play();
-                if(Date.now()> lastCollision + 150) {
+                if(Date.now()> lastCollision + 150 && !isExploding) {
                     hp -= 4;
                     vehicles[i].hp -= 50;
                     hpgui.text = 'hp: ' + hp;
