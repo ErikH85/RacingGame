@@ -10,11 +10,11 @@ var app = new PIXI.Application({
 document.body.appendChild(app.view);
 
 PIXI.Loader.shared
-    .add("Sprites/PlayerCars/Car1/Audi1.png")
-    .add("Sprites/PlayerCars/Car1/Audi2.png")
-    .add("Sprites/PlayerCars/Car1/Audi3.png")
-    .add("Sprites/PlayerCars/Car1/Audi4.png")
-    .add("Sprites/PlayerCars/Car1/Audi5.png")
+    .add("Sprites/PlayerCars/Car1/Car_1_01.png")
+    .add("Sprites/PlayerCars/Car1/Car_1_02.png")
+    .add("Sprites/PlayerCars/Car1/Car_1_03.png")
+    .add("Sprites/PlayerCars/Car1/Car_1_04.png")
+    .add("Sprites/PlayerCars/Car1/Car_1_05.png")
     .add("Sprites/PlayerCars/Car2/Car_2_01.png")
     .add("Sprites/PlayerCars/Car2/Car_2_02.png")
     .add("Sprites/PlayerCars/Car2/Car_2_03.png")
@@ -501,7 +501,7 @@ function setup() {
         if (player1 == 1) {
             playerOne.texture = PIXI.Texture.from("Sprites/PlayerCars/Muscle/muscle.png");
         } else if (player1 == 2) {
-            playerOne.texture = PIXI.Texture.from(`Sprites/Audi${carState.sprite}.png`);
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car1/Car_1_0${carState.sprite}.png`);
         } else if (player1 == 3) {
             playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car3/Car_3_0${carState.sprite}.png`);
         } else if (player1 == 4) {
