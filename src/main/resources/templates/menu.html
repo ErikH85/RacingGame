@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="form">
+
+    <ul class="tab-group">
+        <li class="tab active"><a href="#singleplayer">Single Player</a></li>
+        <li class="tab"><a href="#multiplayer">Multiplayer</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="singleplayer">
+            <h1>1 Player</h1>
+
+            <form action="/menu" method="post">
+
+                <div class="carselect field-wrap">
+                    <select name="player1" class="car-select">
+                        <option value="none">Select car:</option>
+                        <option value="1">Muscle car</option>
+                        <option value="2">Viper</option>
+                        <option value="3">Sports car</option>
+                        <option value="4">Regular car</option>
+                        <option value="5">Green truck</option>
+                        <option value="6">Yellow truck</option>
+                    </select>
+                    <img class="carImg"/>
+                </div>
+
+                <button type="submit" class="button button-block"/>Start Game</button>
+            </form>
+        </div>
+
+        <div id="multiplayer">
+            <h1>2 Players</h1>
+
+            <form action="/menu" method="post">
+
+                <div class="carselect field-wrap">
+                    <h3 style="color: white">Player one</h3>
+                    <select name="player1" class="car-select">
+                        <option value="none">Select car:</option>
+                        <option value="1">Muscle Car</option>
+                        <option value="2">Viper</option>
+                        <option value="3">Sports Car</option>
+                        <option value="4">Regular Car</option>
+                        <option value="5">Green Truck</option>
+                        <option value="6">Yellow Truck</option>
+                    </select>
+                    <img class="carImg"/>
+                </div>
+                <div class="carselect field-wrap">
+                    <h3 style="color: white">Player two</h3>
+                    <select name="player2" class="car-select playerTwoSelect">
+                        <option value="none">Select car:</option>
+                        <option value="7">Classic Cop</option>
+                        <option value="8">Modern Cop</option>
+                        <option value="9">S.W.A.T Car</option>
+                        <option value="10">Military Police Car</option>
+                    </select>
+                    <img class="carImg"/>
+                </div>
+                <button class="button button-block"/>Start Game</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src="login.js"></script>
+<script>
+    $('.carselect').on('change', '.car-select', function (e) {
+        var car;
+
+        var imageContainer = $(this).parent().find('.carImg');
+
+        if (parseInt(this.value) === 1) {
+            imageContainer.attr('src', 'Sprites/muscle.png');
+            car = new Audio('Audio/musclecar.mp3');
+            car.play();
+        } else if (parseInt(this.value) === 2) {
+            imageContainer.attr('src', 'Sprites/RacingCar/Car1/Audi1.png');
+            car = new Audio('Audio/viper.mp3');
+            car.play();
+        } else if (parseInt(this.value) === 3) {
+            imageContainer.attr('src', 'Sprites/RacingCar/Car3/Car_3_01.png');
+            car = new Audio('Audio/sportscar.mp3');
+            car.play();
+        } else if (parseInt(this.value) === 4) {
+            imageContainer.attr('src', 'Sprites/RacingCar/Car2/Car_2_01.png');
+            car = new Audio('Audio/regular.mp3');
+            car.play();
+        } else if (parseInt(this.value) === 5) {
+            imageContainer.attr('src', 'Sprites/RacingCar/Car5/Car_5_01.png');
+            car = new Audio('Audio/greenTruck.mp3');
+            car.play();
+        } else if (parseInt(this.value) === 6) {
+            imageContainer.attr('src', 'Sprites/RacingCar/Car4/Car_4_01.png');
+            car = new Audio('Audio/yellowTruck.mp3');
+            car.play();
+        } else if (parseInt(this.value) === 7) {
+            imageContainer.attr('src', 'Sprites/PoliceCar/Car1/Car_1_01.png');
+            car = new Audio('Audio/classic.mp3');
+            car.play();
+        } else if (parseInt(this.value) === 8) {
+            imageContainer.attr('src', 'Sprites/PoliceCar/Car3/Car_3_01.png');
+            car = new Audio('Audio/modern.mp3');
+            car.play();
+        } else if (parseInt(this.value) === 9) {
+            imageContainer.attr('src', 'Sprites/PoliceCar/Car2/Car_2_01.png');
+            car = new Audio('Audio/swat.mp3');
+            car.play();
+        } else if (parseInt(this.value) === 10) {
+            imageContainer.attr('src', 'Sprites/PoliceCar/Car6/Car_6_01.png');
+            car = new Audio('Audio/mp.mp3');
+            car.play();
+        }
+    });
+</script>
+</body>
+</html>
