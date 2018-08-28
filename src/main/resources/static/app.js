@@ -533,7 +533,6 @@ function setup() {
     var lastItem = Date.now();
     var isGameOver = false;
     var getDone = false;
-    var pushDone = false;
     var result = [];
 
     app.ticker.add(function () {
