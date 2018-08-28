@@ -145,6 +145,9 @@ var accelerate;
 var hpgui;
 var lifegui;
 var scoregui;
+var boostGui;
+var boostQuantityGui;
+var boost;
 var crash;
 var brake;
 var music;
@@ -197,6 +200,16 @@ function setup() {
     scoregui = new PIXI.Text('score ' + '\n' + score, style);
     scoregui.x = 2350;
     scoregui.y = 10;
+
+    boostGui = new PIXI.Text('NOS', style);
+    boostGui.x = 30;
+    boostGui.y = 1090;
+
+    var nos = ["I","I","I","I","I","I","I","I","I","I","I","I","I","I","I"];
+
+    boostQuantityGui = new PIXI.Text(nos.join(""), style)
+    boostQuantityGui.x = 30;
+    boostQuantityGui.y = 1150;
 
     music = new Audio('Audio/music.mp3');
     music.volume = 0.3;
@@ -290,6 +303,20 @@ function setup() {
     }
     explosion = new PIXI.AnimatedSprite(explosionAnimation);
     //End explosion
+
+    //Start boost
+    var boostAnimation = [];
+
+    for (var i = 1; i <= maxFrames; i++) {
+
+        var boostAnimationFrames = {
+            texture: PIXI.Texture.from("Sprites/CarEffects/nos" + i + ".png"),
+            time: 75
+        };
+        boostAnimation.push(boostAnimationFrames);
+    }
+    boost = new PIXI.AnimatedSprite(boostAnimation);
+    //End boost
     //END ANIMATIONS
 
     road = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/road.png"].texture);
@@ -329,6 +356,8 @@ function setup() {
     app.stage.addChild(hpgui);
     app.stage.addChild(lifegui);
     app.stage.addChild(scoregui);
+    app.stage.addChild(boostGui);
+    app.stage.addChild(boostQuantityGui);
     //app.stage.addChild(topBoundary);
     //app.stage.addChild(bottomBoundary);
 
@@ -338,9 +367,21 @@ function setup() {
         right = keyboard(39),
         down = keyboard(40),
         ctrl = keyboard(17),
+        shift = keyboard(16),
         space = keyboard(32);
 
     //definerar vad som skall hända vid dessa events
+
+    shift.press = () => {
+        boost.play();
+        app.stage.addChild(boost);
+        nos.splice(-1, 1);
+        boostQuantityGui.text = nos.join("");
+    };
+
+    shift.release = () => {
+        app.stage.removeChild(boost);
+    }
 
     space.press = () => {
         gun = new Audio('Audio/gun.mp3');
@@ -977,6 +1018,9 @@ function setup() {
     }
 
     function play(delta) {
+
+        boost.x = playerOne.x - 277;
+        boost.y = playerOne.y + 7;
 
         playerOne.x += playerOne.vx;
         playerOne.y += playerOne.vy;
