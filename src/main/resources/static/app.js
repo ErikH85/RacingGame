@@ -147,6 +147,7 @@ var lifegui;
 var scoregui;
 var boostGui;
 var boostQuantityGui;
+var wantedGui;
 var boost;
 var crash;
 var brake;
@@ -159,6 +160,7 @@ var honk;
 var money;
 var repair;
 var spikes;
+var wantedLevel = 0;
 var backgroundTrafficRightLane = 1010;
 var backgroundTrafficLeftLane = 1130;
 var oncomingLeftLane = 300;
@@ -201,15 +203,19 @@ function setup() {
     scoregui.x = 2350;
     scoregui.y = 10;
 
-    boostGui = new PIXI.Text('NOS', style);
+    boostGui = new PIXI.Text('\u26A0' + ' NOS', style);
     boostGui.x = 30;
     boostGui.y = 1090;
 
-    var nos = ["I","I","I","I","I","I","I","I","I","I","I","I","I","I","I"];
+    var nos = ["I","I","I","I","I","I","I","I","I","I","I","I","I","I","I","I","I","I","I","I"];
 
     boostQuantityGui = new PIXI.Text(nos.join(""), style)
     boostQuantityGui.x = 30;
     boostQuantityGui.y = 1150;
+
+    wantedGui = new PIXI.Text('\u2606 \u2606 \u2606 \u2606 \u2606', style);
+    wantedGui.x = 1100;
+    wantedGui.y = 10;
 
     music = new Audio('Audio/music.mp3');
     music.volume = 0.3;
@@ -358,6 +364,7 @@ function setup() {
     app.stage.addChild(scoregui);
     app.stage.addChild(boostGui);
     app.stage.addChild(boostQuantityGui);
+    app.stage.addChild(wantedGui);
     //app.stage.addChild(topBoundary);
     //app.stage.addChild(bottomBoundary);
 
@@ -373,12 +380,17 @@ function setup() {
     //definerar vad som skall hända vid dessa events
 
     shift.hold = () => {
-        console.log("holding shift");
+        if (nos.length > 0) {
         boost.play();
         app.stage.addChild(boost);
         nos.splice(-1, 1);
         boostQuantityGui.text = nos.join("");
-        playerOne.vx += 1;
+        if (nos.length < 5) {
+            playerOne.vx += 4;
+        } else {
+        playerOne.vx += 1.5;
+        }
+        }
     };
 
     shift.release = () => {
@@ -527,6 +539,7 @@ function setup() {
     var backgroundVehicles = [];
     var policeVehicles = [];
     var items = [];
+    var boostRefill = Date.now();
     var lastSpawnedItem = Date.now();
     var lastSpawnedOncomingVehicle = Date.now();
     var lastSpawnedVehicle = Date.now();
@@ -539,6 +552,39 @@ function setup() {
     var result = [];
 
     app.ticker.add(function () {
+        //Start Boost
+        if (Date.now() > boostRefill + 1000 && nos.length < 20) {
+            boostRefill = Date.now();
+            nos.push("I");
+            boostQuantityGui.text = nos.join("");
+        }
+
+        if (nos.length === 0) {
+            app.stage.removeChild(boost);
+            if (playerOne.vx > 0) {
+                playerOne.vx -= 0.5;
+            }
+        }
+        //End Boost
+
+        //Start Wanted Level
+        if (score === 500) {
+            wantedLevel = 1;
+            wantedGui.text = '\u2605 \u2606 \u2606 \u2606 \u2606';
+        } else if (score === 2000) {
+            wantedLevel = 2;
+            wantedGui.text = '\u2605 \u2605 \u2606 \u2606 \u2606';
+        } else if (score === 4000) {
+            wantedLevel = 3;
+            wantedGui.text = '\u2605 \u2605 \u2605 \u2606 \u2606';
+        } else if (score === 6000) {
+            wantedLevel = 4;
+            wantedGui.text = '\u2605 \u2605 \u2605 \u2605 \u2606';
+        } else if (score === 8000) {
+            wantedLevel = 5;
+            wantedGui.text = '\u2605 \u2605 \u2605 \u2605 \u2605';
+        }
+        //End Wanted Level
         count += 1;
         tilingRoad.tilePosition.x -= 15;
         score += 1;
@@ -982,11 +1028,24 @@ function setup() {
         var policeXPos;
         var policeYPos;
         var policeVelocity;
+        var typeOfPoliceVehicle;
 
         if (Date.now() > lastSpawnedPoliceVehicle + 7000) {
             lastSpawnedPoliceVehicle = Date.now();
-            var typeOfPoliceVehicle = Math.floor(Math.random() * (4 - 1) + 1);
 
+            if (wantedLevel === 1) {
+                typeOfPoliceVehicle = 1;
+            } else if (wantedLevel === 2) {
+                typeOfPoliceVehicle = 2;
+            } else if (wantedLevel === 3) {
+                typeOfPoliceVehicle = 3;
+            } else if (wantedLevel === 4) {
+                typeOfPoliceVehicle = 4;
+            } else if (wantedLevel === 5) {
+                typeOfPoliceVehicle = 5;
+            } else {
+                typeOfPoliceVehicle = 1;
+            }
 
             switch (typeOfPoliceVehicle) {
                 case 1:
