@@ -372,15 +372,18 @@ function setup() {
 
     //definerar vad som skall hända vid dessa events
 
-    shift.press = () => {
+    shift.hold = () => {
+        console.log("holding shift");
         boost.play();
         app.stage.addChild(boost);
         nos.splice(-1, 1);
         boostQuantityGui.text = nos.join("");
+        playerOne.vx += 1;
     };
 
     shift.release = () => {
         app.stage.removeChild(boost);
+        playerOne.vx = 0;
     }
 
     space.press = () => {
@@ -1110,16 +1113,25 @@ function setup() {
             key.isUp = true;
             key.press = undefined;
             key.release = undefined;
+            key.hold = undefined;
             //The `downHandler`
             key.downHandler = event => {
                 if (event.keyCode === key.code) {
                     if (key.isUp && key.press) key.press();
+                    if (key.hold) key.hold();
                     key.isDown = true;
                     key.isUp = false;
                 }
                 event.preventDefault();
             };
-
+            key.pressHandler = event => {
+                if (event.keyCode === key.code) {
+                    if (key.hold) key.hold();
+                    key.isDown = true;
+                    key.isUp = false;
+                }
+                event.preventDefault();
+            };
             key.upHandler = event => {
                 if (event.keyCode === key.code) {
                     if (key.isDown && key.release) key.release();
