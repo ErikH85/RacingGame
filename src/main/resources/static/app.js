@@ -148,6 +148,7 @@ var crash;
 var brake;
 var music;
 var gun;
+var explosion;
 var engine;
 var siren;
 var honk;
@@ -274,6 +275,20 @@ function setup() {
         swatAnimation.push(swatAnimationFrames);
     }
     //End SWAT
+
+    //Start explosion
+    var explosionAnimation = [];
+
+    for (var i = 1; i <= 9; i++) {
+
+        var explosionAnimationFrames = {
+            texture: PIXI.Texture.from("Sprites/Explosions/e" + i + ".png"),
+            time: 125
+        };
+        explosionAnimation.push(explosionAnimationFrames);
+    }
+    explosion = new PIXI.AnimatedSprite(explosionAnimation);
+    //End explosion
     //END ANIMATIONS
 
     road = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/road.png"].texture);
@@ -583,6 +598,7 @@ function setup() {
                 //var vehState = whichState(vehicles[i].hp);
                 var vehState = whichState(5);
                 vehicles[i].texture = PIXI.Texture.from(`${vehicles[i].spriteName}${vehState.sprite}.png`);
+
             }
             if(bump.hit(playerOne,vehicles[i],true, true)){
                 crash.play();
@@ -1068,7 +1084,8 @@ function whichState(carHP){
         TWO: {sprite: 2, name: "Two"},
         THREE: {sprite: 3, name: "Three"},
         FOUR: {sprite: 4, name: "Four"},
-        FIVE: {sprite: 5, name: "Five"}
+        FIVE: {sprite: 5, name: "Five"},
+        SIX: {name: "Six"}
     };
 
     var currentState = STATE.ONE;
@@ -1081,8 +1098,10 @@ function whichState(carHP){
         currentState = STATE.THREE;
     } else if (carHP >= 30) {
         currentState = STATE.FOUR;
-    } else {
+    } else if (carHp >= 10) {
         currentState = STATE.FIVE;
+    } else {
+        currentState = STATE.SIX;
     }
 
     /*switch (carHP) {
