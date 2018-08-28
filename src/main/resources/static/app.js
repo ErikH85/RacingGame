@@ -302,6 +302,8 @@ function setup() {
         explosionAnimation.push(explosionAnimationFrames);
     }
     explosion = new PIXI.AnimatedSprite(explosionAnimation);
+    explosion.visible = false;
+
     //End explosion
 
     //Start boost
@@ -356,6 +358,7 @@ function setup() {
     app.stage.addChild(hpgui);
     app.stage.addChild(lifegui);
     app.stage.addChild(scoregui);
+    app.stage.addChild(explosion);
     app.stage.addChild(boostGui);
     app.stage.addChild(boostQuantityGui);
     //app.stage.addChild(topBoundary);
@@ -538,6 +541,27 @@ function setup() {
     var getDone = false;
     var result = [];
 
+
+    var isExploding = false;
+    explosion.loop = false;
+    explosion.onComplete = function() {
+        isExploding = false;
+        explosion.visible = false;
+        explosion.stop();
+        console.log("exploded.");
+        life -= 1;
+        lifegui.text = 'life x ' + life;
+        hp = 100;
+        hpgui.text = 'hp: ' + hp;
+        app.stage.removeChild(playerOne);
+        app.stage.addChild(playerOne);
+        playerOne.x = 500;
+        playerOne.y = rightLane;
+        playerOne.vx = 0;
+        playerOne.vy = 0;
+        playerOne.visible = true;
+    };
+
     app.ticker.add(function () {
         count += 1;
         tilingRoad.tilePosition.x -= 15;
@@ -571,18 +595,16 @@ function setup() {
             playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car6/Car_6_0${carState.sprite}.png`);
         }
 
-        if(hp <= 1){
-            life -= 1;
-            lifegui.text = 'life x ' + life;
-            hp = 100;
-            hpgui.text = 'hp: ' + hp;
-            app.stage.removeChild(playerOne);
-            app.stage.addChild(playerOne);
-            playerOne.x = 500;
-            playerOne.y = rightLane;
-            playerOne.vx = 0;
-            playerOne.vy = 0;
+        if(hp <= 1 && !isExploding){
+            isExploding = true;
+            playerOne.visible = false;
+            explosion.visible = true;
+            explosion.gotoAndPlay(0);
+            explosion.x = playerOne.x;
+            explosion.y = playerOne.y;
+
         }
+
 
         if (life < 0){
             var gameOver = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/black.png"].texture);
@@ -646,9 +668,9 @@ function setup() {
                     getDone = true;
                     console.log("ajaxDone");
                     //app.ticker.stop();
-
                 });
             }
+          
             console.log(result);
             if(getDone) {
                 console.log(result[0]);
@@ -672,7 +694,9 @@ function setup() {
                 score3.y = 700;
                 music.pause();
                 engine.pause();
+                if(siren) {
                 siren.pause();
+                }
                 app.stage.addChild(gameOver);
                 app.stage.addChild(gameOvermsg);
                 app.stage.addChild(pScore);
@@ -711,21 +735,23 @@ function setup() {
         }
 
         for (var i = 0; i < vehicles.length; i++) {
-            if(vehicles[i].hasState == true) {
-                //var vehState = whichState(vehicles[i].hp);
-                var vehState = whichState(5);
-                vehicles[i].texture = PIXI.Texture.from(`${vehicles[i].spriteName}${vehState.sprite}.png`);
 
+            if(vehicles[i].hasState == true) {
+                //vehicles[i].hp = 5;
+                var vehState = whichState(vehicles[i].hp);
+                vehicles[i].texture = PIXI.Texture.from(`${vehicles[i].spriteName}${vehState.sprite}.png`);
             }
+
             if(bump.hit(playerOne,vehicles[i],true, true)){
                 crash.play();
-                if(Date.now()> lastCollision + 150) {
+                if(Date.now()> lastCollision + 150 && !isExploding) {
                     hp -= 4;
-                    vehicles[i].hp -= 4;
+                    vehicles[i].hp -= 10;
                     hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
             }
+
             if(bump.hit(vehicles[i], playerTwo, true)){
                 playerTwo.hp -= 4;
                 crash.play();
@@ -1060,15 +1086,6 @@ function setup() {
     });
 
 
-    /*
-    function boxesIntersect(a, bump)
-    {
-        var ab = a.getBounds();
-        var bb = bump.getBounds();
-        return ab.x + ab.width > bb.x && ab.x < bb.x + bb.width && ab.y + ab.height > bb.y && ab.y < bb.y + bb.height;
-    }
-    */
-
     function gameLoop(delta) {
 
         state(delta);
@@ -1214,7 +1231,7 @@ function whichState(carHP){
         THREE: {sprite: 3, name: "Three"},
         FOUR: {sprite: 4, name: "Four"},
         FIVE: {sprite: 5, name: "Five"},
-        SIX: {name: "Six"}
+        SIX: {sprite: 6, name: "Six"}
     };
 
     var currentState = STATE.ONE;
@@ -1227,30 +1244,10 @@ function whichState(carHP){
         currentState = STATE.THREE;
     } else if (carHP >= 30) {
         currentState = STATE.FOUR;
-    } else if (carHP >= 10) {
-        currentState = STATE.FIVE;
     } else {
-        currentState = STATE.SIX;
+        currentState = STATE.FIVE;
     }
 
-    /*switch (carHP) {
-        case 90:
-            currentState = STATE.ONE;
-            break;
-        case 70:
-            currentState = STATE.TWO;
-            break;
-        case 50:
-            currentState = STATE.THREE;
-            break;
-        case 30:
-            currentState = STATE.FOUR;
-            break;
-        case 10:
-            currentState = STATE.FIVE;
-            break;
-    }*/
-
-    return currentState;   // return Sprite 1, 2, 3, 4, eller 5....
+    return currentState;
 
 }
