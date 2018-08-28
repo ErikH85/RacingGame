@@ -19,6 +19,36 @@ PIXI.Loader.shared
     .add("Sprites/van.png")
     .add("Sprites/muscle.png")
     .add("Sprites/viper.png")
+    .add("Sprites/PlayerCars/Car_1_01.png")
+    .add("Sprites/PlayerCars/Car_1_02.png")
+    .add("Sprites/PlayerCars/Car_1_03.png")
+    .add("Sprites/PlayerCars/Car_1_04.png")
+    .add("Sprites/PlayerCars/Car_1_05.png")
+    .add("Sprites/PlayerCars/Car_2_01.png")
+    .add("Sprites/PlayerCars/Car_2_02.png")
+    .add("Sprites/PlayerCars/Car_2_03.png")
+    .add("Sprites/PlayerCars/Car_2_04.png")
+    .add("Sprites/PlayerCars/Car_2_05.png")
+    .add("Sprites/PlayerCars/Car_3_01.png")
+    .add("Sprites/PlayerCars/Car_3_02.png")
+    .add("Sprites/PlayerCars/Car_3_03.png")
+    .add("Sprites/PlayerCars/Car_3_04.png")
+    .add("Sprites/PlayerCars/Car_3_05.png")
+    .add("Sprites/PlayerCars/Car_4_01.png")
+    .add("Sprites/PlayerCars/Car_4_02.png")
+    .add("Sprites/PlayerCars/Car_4_03.png")
+    .add("Sprites/PlayerCars/Car_4_04.png")
+    .add("Sprites/PlayerCars/Car_4_05.png")
+    .add("Sprites/PlayerCars/Car_5_01.png")
+    .add("Sprites/PlayerCars/Car_5_02.png")
+    .add("Sprites/PlayerCars/Car_5_03.png")
+    .add("Sprites/PlayerCars/Car_5_04.png")
+    .add("Sprites/PlayerCars/Car_5_05.png")
+    .add("Sprites/PlayerCars/Car_6_01.png")
+    .add("Sprites/PlayerCars/Car_6_02.png")
+    .add("Sprites/PlayerCars/Car_6_03.png")
+    .add("Sprites/PlayerCars/Car_6_04.png")
+    .add("Sprites/PlayerCars/Car_6_05.png")
     .add("Sprites/Player2/Car_3_01.png")
     .add("Sprites/Player2/Car_3_02.png")
     .add("Sprites/Player2/Car_3_03.png")
@@ -638,6 +668,11 @@ function setup() {
                 case 11:
                     vehicle = new PIXI.AnimatedSprite(ambulanceAnimation);
                     vehicle.play();
+                    break;
+                case 12:
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites"].texture);
+                    vehicle.hasState = true;
+                    vehicle.spriteName = "Sprites/PoliceCar/Car4/Car_4_0";
                     break;
             }
 
