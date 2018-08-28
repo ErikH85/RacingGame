@@ -43,12 +43,11 @@ public class LoginController {
                             @RequestParam String password,
                             HttpServletRequest request,
                             Model model) {
-
         boolean status = loginRepository.getUser(username, password);
-
         if (status) {
+            int id = loginRepository.getID(username);
             HttpSession session = request.getSession(true);
-            session.setAttribute("User", username);
+            session.setAttribute("UserID", id);
             model.addAttribute("welcome", "Welcome " + username);
             return "redirect:menu";
         }
@@ -77,7 +76,7 @@ public class LoginController {
     @PostMapping("/menu")
     public String postMenu(RedirectAttributes redirectAttributes,
                            @RequestParam String player1,
-                            @RequestParam(defaultValue = "none") String player2) {
+                           @RequestParam(defaultValue = "none") String player2) {
         redirectAttributes.addAttribute("player1", player1);
         redirectAttributes.addAttribute("player2", player2);
         System.out.println(player1);
