@@ -364,8 +364,6 @@ function setup() {
     //app.stage.addChild(topBoundary);
     //app.stage.addChild(bottomBoundary);
 
-
-
     //sätter enums för piltangenterna keycodes
     var left = keyboard(37),
         up = keyboard(38),
@@ -589,7 +587,7 @@ function setup() {
             playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car6/Car_6_0${carState.sprite}.png`);
         }
 
-        if(hp <= 80 && !isExploding){
+        if(hp <= 1 && !isExploding){
             isExploding = true;
             playerOne.visible = false;
             explosion.visible = true;
