@@ -630,6 +630,8 @@ function setup() {
     var isGameOver = false;
     var getDone = false;
     var result = [];
+    var postDone = false;
+    var oneTime = false;
 
 
     var isExploding = false;
@@ -788,22 +790,26 @@ function setup() {
                 $.ajax({
                     method: "POST",
                     url: "/addHighscore",
-                    data: { score: score}
+                    data: {score: score}
+                }).done(function( ) {
+                    console.log("HEEJ");
+                    postDone = true;
                 });
+            }
+            if(postDone) {
                 $.ajax({
                     method: "GET",
                     url: "/getHighscore"
                 }).done(function( data ) {
-                    for (var i = 0; i < data.length; i++) {
-                        result.push(data[i]);
+                    if(!oneTime) {
+                        for (var i = 0; i < data.length; i++) {
+                            result.push(data[i]);
+                        }
+                        oneTime=true;
                     }
                     getDone = true;
-                    console.log("ajaxDone");
-                    //app.ticker.stop();
                 });
             }
-          
-            console.log(result);
             if(getDone) {
                 console.log(result[0]);
                 var gameOvermsg = new PIXI.Text("GAME OVER", style2);
