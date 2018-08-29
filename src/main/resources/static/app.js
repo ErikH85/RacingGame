@@ -15,40 +15,44 @@ PIXI.Loader.shared
     .add("Sprites/PlayerCars/Car1/Car_1_03.png")
     .add("Sprites/PlayerCars/Car1/Car_1_04.png")
     .add("Sprites/PlayerCars/Car1/Car_1_05.png")
+    .add("Sprites/PlayerCars/Car1/Car_1_lights_on.png")
     .add("Sprites/PlayerCars/Car2/Car_2_01.png")
     .add("Sprites/PlayerCars/Car2/Car_2_02.png")
     .add("Sprites/PlayerCars/Car2/Car_2_03.png")
     .add("Sprites/PlayerCars/Car2/Car_2_04.png")
     .add("Sprites/PlayerCars/Car2/Car_2_05.png")
+    .add("Sprites/PlayerCars/Car2/Car_2_lights_on.png")
     .add("Sprites/PlayerCars/Car3/Car_3_01.png")
     .add("Sprites/PlayerCars/Car3/Car_3_02.png")
     .add("Sprites/PlayerCars/Car3/Car_3_03.png")
     .add("Sprites/PlayerCars/Car3/Car_3_04.png")
     .add("Sprites/PlayerCars/Car3/Car_3_05.png")
+    .add("Sprites/PlayerCars/Car3/Car_3_lights_on.png")
     .add("Sprites/PlayerCars/Car4/Car_4_01.png")
     .add("Sprites/PlayerCars/Car4/Car_4_02.png")
     .add("Sprites/PlayerCars/Car4/Car_4_03.png")
     .add("Sprites/PlayerCars/Car4/Car_4_04.png")
     .add("Sprites/PlayerCars/Car4/Car_4_05.png")
+    .add("Sprites/PlayerCars/Car4/Car_4_lights_on.png")
     .add("Sprites/PlayerCars/Car5/Car_5_01.png")
     .add("Sprites/PlayerCars/Car5/Car_5_02.png")
     .add("Sprites/PlayerCars/Car5/Car_5_03.png")
     .add("Sprites/PlayerCars/Car5/Car_5_04.png")
     .add("Sprites/PlayerCars/Car5/Car_5_05.png")
+    .add("Sprites/PlayerCars/Car5/Car_5_lights_on.png")
     .add("Sprites/PlayerCars/Car6/Car_6_01.png")
     .add("Sprites/PlayerCars/Car6/Car_6_02.png")
     .add("Sprites/PlayerCars/Car6/Car_6_03.png")
     .add("Sprites/PlayerCars/Car6/Car_6_04.png")
     .add("Sprites/PlayerCars/Car6/Car_6_05.png")
     .add("Sprites/PlayerCars/Muscle/muscle.png")
+    .add("Sprites/PlayerCars/Muscle/muscle_lights_on.png")
 
     .add("Sprites/Player2/Car_3_01.png")
     .add("Sprites/Player2/Car_3_02.png")
     .add("Sprites/Player2/Car_3_03.png")
     .add("Sprites/Player2/Car_3_04.png")
     .add("Sprites/Player2/Car_3_05.png")
-
-
 
     .add("Sprites/Traffic/Car1/Car_1_01.png")
     .add("Sprites/Traffic/Car1/Car_1_02.png")
@@ -110,8 +114,6 @@ PIXI.Loader.shared
     .add("Sprites/Traffic/Police/Car6/Car_6_03.png")
     .add("Sprites/Traffic/Police/Car6/Car_6_04.png")
     .add("Sprites/Traffic/Police/Car6/Car_6_05.png")
-
-
 
     .add("Sprites/Background/road.png")
     .add("Sprites/Background/nightroad.png")
@@ -181,6 +183,7 @@ var boostGui;
 var boostQuantityGui;
 var wantedGui;
 var boost;
+var lights;
 var crash;
 var brake;
 var music;
@@ -192,6 +195,7 @@ var honk;
 var money;
 var repair;
 var spikes;
+var lightsOn = false;
 var wantedLevel = 0;
 var backgroundTrafficRightLane = 1010;
 var backgroundTrafficLeftLane = 1130;
@@ -280,7 +284,7 @@ function setup() {
 
     playerTwo = new PIXI.AnimatedSprite(sheriffAnimation);
     playerTwo.play();
-    */
+    */http://localhost:8080/game?player1=2&player2=none&map=night
     playerTwo = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Player2/Car_3_01.png"].texture);
     playerTwo.x = 700;
     playerTwo.y = rightLane;
@@ -359,6 +363,22 @@ function setup() {
     //End boost
     //END ANIMATIONS
 
+    //Start light selection
+    if (player1 == 1) {
+        lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Muscle/muscle_lights_on.png"].texture);
+    } else if (player1 == 2) {
+        lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car1/Car_1_lights_on.png"].texture);
+    } else if (player1 == 3) {
+        lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car3/Car_3_lights_on.png"].texture);
+    } else if (player1 == 4) {
+        lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car2/Car_2_lights_on.png"].texture);
+    } else if (player1 == 5) {
+        lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car5/Car_5_lights_on.png"].texture);
+    } else if (player1 == 6) {
+        lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car4/Car_4_lights_on.png"].texture);
+    }
+    //End light selection
+
     //Start map selection
     if (map == "day") {
         road = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Background/road.png"].texture);
@@ -422,9 +442,22 @@ function setup() {
         down = keyboard(40),
         ctrl = keyboard(17),
         shift = keyboard(16),
+        t = keyboard(84),
         space = keyboard(32);
 
     //definerar vad som skall hända vid dessa events
+
+    t.press = () => {
+        if (lightsOn === false) {
+            if (hp >= 50) {
+                app.stage.addChild(lights);
+                lightsOn = true;
+            }
+        } else if (lightsOn === true) {
+            app.stage.removeChild(lights);
+            lightsOn = false;
+        }
+    };
 
     shift.hold = () => {
         if (nos.length > 0) {
@@ -622,6 +655,13 @@ function setup() {
     };
 
     app.ticker.add(function () {
+        //Start lights
+        if (hp < 50) {
+            app.stage.removeChild(lights);
+            lightsOn = false;
+        }
+        //End lights
+
         //Start Boost
         if (Date.now() > boostRefill + 1000 && nos.length < 20) {
             boostRefill = Date.now();
@@ -1252,6 +1292,9 @@ function setup() {
     }
 
     function play(delta) {
+
+        lights.x = playerOne.x;
+        lights.y = playerOne.y;
 
         boost.x = playerOne.x - 277;
         boost.y = playerOne.y + 7;
