@@ -175,7 +175,9 @@ var texture;
 var tires;
 var accelerate;
 var hpgui;
+var hpguiP2;
 var lifegui;
+var lifeguiP2;
 var scoregui;
 var boostGui;
 var boostQuantityGui;
@@ -201,7 +203,9 @@ var leftLane = 430;
 var rightLane = 560;
 var bump = new Bump(PIXI);
 var hp = 100;
+var hpP2 = 100;
 var life = 3;
+var lifeP2 = 3;
 var score = 0;
 var topBoundary;
 var bottomBoundary;
@@ -231,9 +235,9 @@ function setup() {
     lifegui.x = 30;
     lifegui.y = 70;
 
-    scoregui = new PIXI.Text('score ' + '\n' + score, style);
-    scoregui.x = 2350;
-    scoregui.y = 10;
+    scoregui = new PIXI.Text('score: ' + score, style);
+    scoregui.x = 1100;
+    scoregui.y = 70;
 
     boostGui = new PIXI.Text('\u26A0' + ' NOS', style);
     boostGui.x = 30;
@@ -244,6 +248,14 @@ function setup() {
     boostQuantityGui = new PIXI.Text(nos.join(""), style)
     boostQuantityGui.x = 30;
     boostQuantityGui.y = 1150;
+
+    hpguiP2 = new PIXI.Text('hp: ' + hpP2, style);
+    hpguiP2.x = 2200;
+    hpguiP2.y = 10;
+
+    lifeguiP2 = new PIXI.Text('life x ' + lifeP2, style);
+    lifeguiP2.x = 2200;
+    lifeguiP2.y = 70;
 
     wantedGui = new PIXI.Text('\u2606 \u2606 \u2606 \u2606 \u2606', style);
     wantedGui.x = 1100;
@@ -413,6 +425,8 @@ function setup() {
 
     if(player2 !== "none"){
         app.stage.addChild(playerTwo);
+        app.stage.addChild(hpguiP2);
+        app.stage.addChild(lifeguiP2);
     }
 
     //sätter enums för piltangenterna keycodes
@@ -607,7 +621,6 @@ function setup() {
         isExploding = false;
         explosion.visible = false;
         explosion.stop();
-        console.log("exploded.");
         life -= 1;
         lifegui.text = 'life x ' + life;
         hp = 100;
@@ -660,7 +673,7 @@ function setup() {
         count += 1;
         tilingRoad.tilePosition.x -= 15;
         score += 1;
-        scoregui.text = 'score' + '\n' + score;
+        scoregui.text = 'score: ' + score;
 
         var playerOneState = whichState(hp);
         var playerTwoState = whichState(playerTwo.hp);
@@ -752,7 +765,6 @@ function setup() {
                     url: "/addHighscore",
                     data: {score: score}
                 }).done(function( ) {
-                    console.log("HEEJ");
                     postDone = true;
                 });
             }
@@ -771,7 +783,6 @@ function setup() {
                 });
             }
             if(getDone) {
-                console.log(result[0]);
                 var gameOvermsg = new PIXI.Text("GAME OVER", style2);
                 gameOvermsg.x = 850;
                 gameOvermsg.y = 100;
