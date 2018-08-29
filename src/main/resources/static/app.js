@@ -622,9 +622,8 @@ function setup() {
         explosion.visible = false;
         explosion.stop();
         life -= 1;
-        lifegui.text = 'life x ' + life;
         hp = 100;
-        hpgui.text = 'hp: ' + hp;
+        //hpgui.text = 'hp: ' + hp;
         app.stage.addChild(hpgui);
         app.stage.removeChild(playerOne);
         app.stage.addChild(playerOne);
@@ -639,7 +638,10 @@ function setup() {
     app.ticker.add(function () {
 
         hpgui.text = 'hp: ' + hp;
-        hpguiP2.text = 'hp: ' + hp;
+        lifegui.text = 'life x ' + life;
+
+        hpguiP2.text = 'hp: ' + playerTwo.hp;
+        lifeguiP2.text = 'life x' + lifeP2;
 
         //Start Boost
         if (Date.now() > boostRefill + 1000 && nos.length < 20) {
@@ -829,12 +831,12 @@ function setup() {
                 if(Date.now()> lastCollision + 150) {
                     if(hp<4){
                         hp= 0 ;
-                        hpgui.text = 'hp: ' + hp;
+                        //hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                     else {
                         hp -= 4;
-                        hpgui.text = 'hp: ' + hp;
+                        //hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                 }
@@ -846,12 +848,12 @@ function setup() {
             if(Date.now()> lastCollision + 150) {
                 if(hp<4){
                     hp= 0 ;
-                    hpgui.text = 'hp: ' + hp;
+                    //hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
                 else {
                     hp -= 4;
-                    hpgui.text = 'hp: ' + hp;
+                    //hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
             }
@@ -861,12 +863,12 @@ function setup() {
             if(Date.now()> lastCollision + 150) {
                 if(hp<4){
                     hp= 0 ;
-                    hpgui.text = 'hp: ' + hp;
+                    //hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
                 else {
                     hp -= 4;
-                    hpgui.text = 'hp: ' + hp;
+                    //hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
             }
@@ -899,14 +901,14 @@ function setup() {
 
                     if(hp<4){
                         hp=0;
-                        hpgui.text = 'hp: ' + hp;
+                        //hpgui.text = 'hp: ' + hp;
                         vehicles[i].hp -= 20;
                         lastCollision = Date.now()
                     }
                     else {
                         hp -= 4;
                         vehicles[i].hp -= 20;
-                        hpgui.text = 'hp: ' + hp;
+                        //hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                 }
@@ -931,12 +933,12 @@ function setup() {
                 if(Date.now()> lastCollision + 150) {
                     if(hp<4){
                         hp= 0 ;
-                        hpgui.text = 'hp: ' + hp;
+                        //hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                     else {
                         hp -= 4;
-                        hpgui.text = 'hp: ' + hp;
+                        //hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                 }
@@ -1327,7 +1329,7 @@ function setup() {
                             hpgui.text = 'hp: ' + hp;
                             if (hp> 100){
                                 hp=100;
-                                hpgui.text = 'hp: ' + hp;
+                                //hpgui.text = 'hp: ' + hp;
                             }
                             app.stage.removeChild(items[i]);
                             repair = new Audio('Audio/repair.mp3');
@@ -1338,7 +1340,7 @@ function setup() {
                     if(item.itemID == 3) {
                         if (Date.now()> lastItem +1000) {
                             hp-=10;
-                            hpgui.text = 'hp: ' + hp;
+                            //hpgui.text = 'hp: ' + hp;
                             app.stage.removeChild(items[i]);
                             spikes = new Audio('Audio/spike.mp3');
                             spikes.play();
