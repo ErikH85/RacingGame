@@ -553,8 +553,10 @@ function setup() {
         lifegui.text = 'life x ' + life;
         hp = 100;
         hpgui.text = 'hp: ' + hp;
+        app.stage.addChild(hpgui);
         app.stage.removeChild(playerOne);
         app.stage.addChild(playerOne);
+        lastCollision = Date.now();
         playerOne.x = 500;
         playerOne.y = rightLane;
         playerOne.vx = 0;
@@ -713,9 +715,16 @@ function setup() {
         if(bump.hit(playerOne, playerTwo, true, true)){
             crash.play();
             if(Date.now()> lastCollision + 150) {
-                hp -= 4;
-                hpgui.text = 'hp: ' + hp;
-                lastCollision = Date.now()
+                if(hp<4){
+                    hp= 0 ;
+                    hpgui.text = 'hp: ' + hp;
+                    lastCollision = Date.now()
+                }
+                else {
+                    hp -= 4;
+                    hpgui.text = 'hp: ' + hp;
+                    lastCollision = Date.now()
+                }
             }
         }
         if(bump.hit(playerOne, topBoundary, true, true)){
@@ -745,14 +754,24 @@ function setup() {
             if(bump.hit(playerOne,vehicles[i],true, true)){
                 crash.play();
                 if(Date.now()> lastCollision + 150 && !isExploding) {
-                    hp -= 4;
-                    vehicles[i].hp -= 10;
-                    hpgui.text = 'hp: ' + hp;
-                    lastCollision = Date.now()
+
+                    if(hp<4){
+                        hp=0;
+                        hpgui.text = 'hp: ' + hp;
+                        vehicles[i].hp -= 20;
+                        lastCollision = Date.now()
+                    }
+                    else {
+                        hp -= 4;
+                        vehicles[i].hp -= 20;
+                        hpgui.text = 'hp: ' + hp;
+                        lastCollision = Date.now()
+                    }
                 }
             }
 
             if(bump.hit(vehicles[i], playerTwo, true)){
+                vehicles[i].hp -= 20;
                 playerTwo.hp -= 4;
                 crash.play();
             }
@@ -763,9 +782,16 @@ function setup() {
             if(bump.hit(playerOne, policeVehicles[i], true, true)){
                 crash.play();
                 if(Date.now()> lastCollision + 150) {
-                    hp -= 4;
-                    hpgui.text = 'hp: ' + hp;
-                    lastCollision = Date.now()
+                    if(hp<4){
+                        hp= 0 ;
+                        hpgui.text = 'hp: ' + hp;
+                        lastCollision = Date.now()
+                    }
+                    else {
+                        hp -= 4;
+                        hpgui.text = 'hp: ' + hp;
+                        lastCollision = Date.now()
+                    }
                 }
             }
             bump.hit(policeVehicles[i], topBoundary, true, true);
