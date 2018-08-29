@@ -18,9 +18,9 @@ public class LoginRepository {
 
 
     public boolean addUser(String email, String username, String password) {
-
+        Connection conn = null;
         try {
-            Connection conn = dataSource.getConnection();
+            conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO users VALUES(?,?,?)", new String[] {"id"});
             ps.setString(1,email);
             ps.setString(2,username);
@@ -39,14 +39,23 @@ public class LoginRepository {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return status;
     }
 
     public int getID(String username){
+
+        Connection conn=null;
         int id= 0;
+
         try {
-            Connection conn = dataSource.getConnection();
+            conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT userID FROM users WHERE username = ?");
             ps.setString(1, username);
             ResultSet resultSet = ps.executeQuery();
@@ -58,6 +67,12 @@ public class LoginRepository {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return id;
     }
@@ -65,8 +80,10 @@ public class LoginRepository {
 
     public boolean getUser(String username, String password) {
 
+        Connection conn=null;
+
         try {
-            Connection conn = dataSource.getConnection();
+            conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT username, password FROM users WHERE username = ? AND password = ?");
             ps.setString(1, username);
             ps.setString(2, password);
@@ -80,6 +97,12 @@ public class LoginRepository {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return status;
     }

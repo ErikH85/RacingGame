@@ -18,9 +18,9 @@ public class ScoreRepository {
     public DataSource dataSource;
 
     public void addHighscore(int id,int score) {
-
+        Connection conn = null;
         try {
-            Connection conn = dataSource.getConnection();
+            conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO [statistics] VALUES(?,?, ?)");
             ps.setInt(1,id);
             ps.setInt(2,score);
@@ -29,14 +29,20 @@ public class ScoreRepository {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-
     }
     public List <String> getHighscores(){
 
         List <String> scores = new ArrayList<>();
+        Connection conn = null;
         try {
-            Connection conn = dataSource.getConnection();
+            conn = dataSource.getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT TOP (3) dbo.users.username, dbo.[statistics].highscore FROM dbo.[statistics] INNER JOIN dbo.users ON dbo.[statistics].userID = dbo.users.userID ORDER BY dbo.[statistics].highscore DESC");
 
             ResultSet resultSet = ps.executeQuery();
@@ -48,6 +54,12 @@ public class ScoreRepository {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         return scores;
