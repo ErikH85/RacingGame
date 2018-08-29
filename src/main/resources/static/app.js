@@ -81,6 +81,36 @@ PIXI.Loader.shared
     .add("Sprites/Traffic/Car6/Car_6_04.png")
     .add("Sprites/Traffic/Car6/Car_6_05.png")
 
+    .add("Sprites/Traffic/Police/Car1/Car_1_01.png")
+    .add("Sprites/Traffic/Police/Car1/Car_1_02.png")
+    .add("Sprites/Traffic/Police/Car1/Car_1_03.png")
+    .add("Sprites/Traffic/Police/Car1/Car_1_04.png")
+    .add("Sprites/Traffic/Police/Car1/Car_1_05.png")
+
+    .add("Sprites/Traffic/Police/Car3/Car_3_01.png")
+    .add("Sprites/Traffic/Police/Car3/Car_3_02.png")
+    .add("Sprites/Traffic/Police/Car3/Car_3_03.png")
+    .add("Sprites/Traffic/Police/Car3/Car_3_04.png")
+    .add("Sprites/Traffic/Police/Car3/Car_3_05.png")
+
+    .add("Sprites/Traffic/Police/Car4/Car_4_01.png")
+    .add("Sprites/Traffic/Police/Car4/Car_4_02.png")
+    .add("Sprites/Traffic/Police/Car4/Car_4_03.png")
+    .add("Sprites/Traffic/Police/Car4/Car_4_04.png")
+    .add("Sprites/Traffic/Police/Car4/Car_4_05.png")
+
+    .add("Sprites/Traffic/Police/Car5/Car_5_01.png")
+    .add("Sprites/Traffic/Police/Car5/Car_5_02.png")
+    .add("Sprites/Traffic/Police/Car5/Car_5_03.png")
+    .add("Sprites/Traffic/Police/Car5/Car_5_04.png")
+    .add("Sprites/Traffic/Police/Car5/Car_5_05.png")
+
+    .add("Sprites/Traffic/Police/Car6/Car_6_01.png")
+    .add("Sprites/Traffic/Police/Car6/Car_6_02.png")
+    .add("Sprites/Traffic/Police/Car6/Car_6_03.png")
+    .add("Sprites/Traffic/Police/Car6/Car_6_04.png")
+    .add("Sprites/Traffic/Police/Car6/Car_6_05.png")
+
 
 
     .add("Sprites/road.png")
@@ -886,7 +916,7 @@ function setup() {
 
         if (Date.now() > lastSpawnedOncomingVehicle + 1500) {
             lastSpawnedOncomingVehicle = Date.now();
-            var typeOfVehicle = Math.floor(Math.random() * (19 - 1) + 1);
+            var typeOfVehicle = Math.floor(Math.random() * (18 - 1) + 1);
             var vehicleSpeed = Math.floor(Math.random() * (3 - 1) + 1);
 
             switch (typeOfVehicle) {
@@ -915,60 +945,55 @@ function setup() {
                     vehicle.hasState = false;
                     break;
                 case 7:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car3/Car_3_01.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car3/Car_3_01.png"].texture);
                     vehicle.hasState = true;
-                    vehicle.spriteName = "Sprites/PoliceCar/Car3/Car_3_0";
+                    vehicle.spriteName = "Sprites/Traffic/Police/Car3/Car_3_0";
                     break;
                 case 8:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car1/Car_1_01.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car1/Car_1_01.png"].texture);
                     vehicle.hasState = true;
-                    vehicle.spriteName = "Sprites/PoliceCar/Car1/Car_1_0";
+                    vehicle.spriteName = "Sprites/Traffic/Police/Car1/Car_1_0";
                     break;
                 case 9:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car5/Car_5_01.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car5/Car_5_01.png"].texture);
                     vehicle.hasState = true;
-                    vehicle.spriteName = "Sprites/PoliceCar/Car5/Car_5_0";
+                    vehicle.spriteName = "Sprites/Traffic/Police/Car5/Car_5_0";
                     break;
                 case 10:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car4/Car_4_01.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car4/Car_4_01.png"].texture);
                     vehicle.hasState = true;
-                    vehicle.spriteName = "Sprites/PoliceCar/Car4/Car_4_0";
+                    vehicle.spriteName = "Sprites/Traffic/Police/Car4/Car_4_0";
                     break;
                 case 11:
                     vehicle = new PIXI.AnimatedSprite(ambulanceAnimation);
                     vehicle.play();
                     break;
                 case 12:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car4/Car_4_01.png"].texture);
-                    vehicle.hasState = true;
-                    vehicle.spriteName = "Sprites/PoliceCar/Car4/Car_4_0";
-                    break;
-                case 13:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car1/Car_1_01.png"].texture);
                     vehicle.hasState = true;
                     vehicle.spriteName = "Sprites/Traffic/Car1/Car_1_0";
                     break;
-                case 14:
+                case 13:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car2/Car_2_01.png"].texture);
                     vehicle.hasState = true;
                     vehicle.spriteName = "Sprites/Traffic/Car2/Car_2_0";
                     break;
-                case 15:
+                case 14:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car3/Car_3_01.png"].texture);
                     vehicle.hasState = true;
                     vehicle.spriteName = "Sprites/Traffic/Car3/Car_3_0";
                     break;
-                case 16:
+                case 15:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car4/Car_4_01.png"].texture);
                     vehicle.hasState = true;
                     vehicle.spriteName = "Sprites/Traffic/Car4/Car_4_0";
                     break;
-                case 17:
+                case 16:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car5/Car_5_01.png"].texture);
                     vehicle.hasState = true;
                     vehicle.spriteName = "Sprites/Traffic/Car5/Car_5_0";
                     break;
-                case 18:
+                case 17:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car6/Car_6_01.png"].texture);
                     vehicle.hasState = true;
                     vehicle.spriteName = "Sprites/Traffic/Car6/Car_6_0";
@@ -1039,16 +1064,16 @@ function setup() {
                     bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/viper.png"].texture);
                     break;
                 case 7:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car3/Car_3_01.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car3/Car_3_01.png"].texture);
                     break;
                 case 8:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car1/Car_1_01.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car1/Car_1_01.png"].texture);
                     break;
                 case 9:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car5/Car_5_01.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car5/Car_5_01.png"].texture);
                     break;
                 case 10:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car4/Car_4_01.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car4/Car_4_01.png"].texture);
                     break;
                 case 11:
                     bVehicle = new PIXI.AnimatedSprite(ambulanceAnimation);
