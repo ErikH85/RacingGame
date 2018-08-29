@@ -16,30 +16,35 @@ PIXI.Loader.shared
     .add("Sprites/PlayerCars/Car1/Car_1_04.png")
     .add("Sprites/PlayerCars/Car1/Car_1_05.png")
     .add("Sprites/PlayerCars/Car1/Car_1_lights_on.png")
+    .add("Sprites/PlayerCars/Car1/Car_1_brake_light.png")
     .add("Sprites/PlayerCars/Car2/Car_2_01.png")
     .add("Sprites/PlayerCars/Car2/Car_2_02.png")
     .add("Sprites/PlayerCars/Car2/Car_2_03.png")
     .add("Sprites/PlayerCars/Car2/Car_2_04.png")
     .add("Sprites/PlayerCars/Car2/Car_2_05.png")
     .add("Sprites/PlayerCars/Car2/Car_2_lights_on.png")
+    .add("Sprites/PlayerCars/Car2/Car_2_brake_light.png")
     .add("Sprites/PlayerCars/Car3/Car_3_01.png")
     .add("Sprites/PlayerCars/Car3/Car_3_02.png")
     .add("Sprites/PlayerCars/Car3/Car_3_03.png")
     .add("Sprites/PlayerCars/Car3/Car_3_04.png")
     .add("Sprites/PlayerCars/Car3/Car_3_05.png")
     .add("Sprites/PlayerCars/Car3/Car_3_lights_on.png")
+    .add("Sprites/PlayerCars/Car3/Car_3_brake_light.png")
     .add("Sprites/PlayerCars/Car4/Car_4_01.png")
     .add("Sprites/PlayerCars/Car4/Car_4_02.png")
     .add("Sprites/PlayerCars/Car4/Car_4_03.png")
     .add("Sprites/PlayerCars/Car4/Car_4_04.png")
     .add("Sprites/PlayerCars/Car4/Car_4_05.png")
     .add("Sprites/PlayerCars/Car4/Car_4_lights_on.png")
+    .add("Sprites/PlayerCars/Car4/Car_4_brake_light.png")
     .add("Sprites/PlayerCars/Car5/Car_5_01.png")
     .add("Sprites/PlayerCars/Car5/Car_5_02.png")
     .add("Sprites/PlayerCars/Car5/Car_5_03.png")
     .add("Sprites/PlayerCars/Car5/Car_5_04.png")
     .add("Sprites/PlayerCars/Car5/Car_5_05.png")
     .add("Sprites/PlayerCars/Car5/Car_5_lights_on.png")
+    .add("Sprites/PlayerCars/Car5/Car_5_brake_light.png")
     .add("Sprites/PlayerCars/Car6/Car_6_01.png")
     .add("Sprites/PlayerCars/Car6/Car_6_02.png")
     .add("Sprites/PlayerCars/Car6/Car_6_03.png")
@@ -47,6 +52,7 @@ PIXI.Loader.shared
     .add("Sprites/PlayerCars/Car6/Car_6_05.png")
     .add("Sprites/PlayerCars/Muscle/muscle.png")
     .add("Sprites/PlayerCars/Muscle/muscle_lights_on.png")
+    .add("Sprites/PlayerCars/Muscle/muscle_brake_light.png")
 
     .add("Sprites/Player2/Car_3_01.png")
     .add("Sprites/Player2/Car_3_02.png")
@@ -183,6 +189,7 @@ var boostGui;
 var boostQuantityGui;
 var wantedGui;
 var boost;
+var brakelights;
 var lights;
 var crash;
 var brake;
@@ -366,16 +373,22 @@ function setup() {
     //Start light selection
     if (player1 == 1) {
         lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Muscle/muscle_lights_on.png"].texture);
+        brakelights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Muscle/muscle_brake_light.png"].texture);
     } else if (player1 == 2) {
         lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car1/Car_1_lights_on.png"].texture);
+        brakelights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car1/Car_1_brake_light.png"].texture);
     } else if (player1 == 3) {
         lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car3/Car_3_lights_on.png"].texture);
+        brakelights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car3/Car_3_brake_light.png"].texture);
     } else if (player1 == 4) {
         lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car2/Car_2_lights_on.png"].texture);
+        brakelights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car2/Car_2_brake_light.png"].texture);
     } else if (player1 == 5) {
         lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car5/Car_5_lights_on.png"].texture);
+        brakelights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car5/Car_5_brake_light.png"].texture);
     } else if (player1 == 6) {
         lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car4/Car_4_lights_on.png"].texture);
+        brakelights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car4/Car_4_brake_light.png"].texture);
     }
     //End light selection
 
@@ -501,12 +514,16 @@ function setup() {
         playerOne.vy = 0;
         brake = new Audio('Audio/brake.mp3');
         brake.play();
+        if (hp >= 50) {
+            app.stage.addChild(brakelights);
+        }
     };
 
     left.release = () => {
         if (!right.isDown && playerOne.vy === 0) {
             playerOne.vx = 0;
             brake.pause();
+            app.stage.removeChild(brakelights);
         }
     };
 
@@ -660,6 +677,7 @@ function setup() {
         //Start lights
         if (hp < 50) {
             app.stage.removeChild(lights);
+            app.stage.removeChild(brakelights)
             lightsOn = false;
         }
         //End lights
@@ -1298,6 +1316,9 @@ function setup() {
     }
 
     function play(delta) {
+
+        brakelights.x = playerOne.x - 10;
+        brakelights.y = playerOne.y;
 
         lights.x = playerOne.x;
         lights.y = playerOne.y;
