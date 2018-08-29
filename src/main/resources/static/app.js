@@ -390,7 +390,7 @@ function setup() {
     //lägger till ("stage'ar") den repeterande bakgrunden och spelar-bilen
     app.stage.addChild(tilingRoad);
     app.stage.addChild(playerOne);
-    app.stage.addChild(playerTwo);
+    //app.stage.addChild(playerTwo);
     app.stage.addChild(hpgui);
     app.stage.addChild(lifegui);
     app.stage.addChild(scoregui);
@@ -400,6 +400,10 @@ function setup() {
     app.stage.addChild(wantedGui);
     //app.stage.addChild(topBoundary);
     //app.stage.addChild(bottomBoundary);
+
+    if(player2 !== "none"){
+        app.stage.addChild(playerTwo);
+    }
 
     //sätter enums för piltangenterna keycodes
     var left = keyboard(37),
@@ -646,31 +650,31 @@ function setup() {
         score += 1;
         scoregui.text = 'score' + '\n' + score;
 
-        var carState = whichState(hp);
-        var sheriffState = whichState(playerTwo.hp);
+        var playerOneState = whichState(hp);
+        var playerTwoState = whichState(playerTwo.hp);
 
         if (player1 == 1) {
             playerOne.texture = PIXI.Texture.from("Sprites/PlayerCars/Muscle/muscle.png");
         } else if (player1 == 2) {
-            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car1/Car_1_0${carState.sprite}.png`);
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car1/Car_1_0${playerOneState.sprite}.png`);
         } else if (player1 == 3) {
-            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car3/Car_3_0${carState.sprite}.png`);
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car3/Car_3_0${playerOneState.sprite}.png`);
         } else if (player1 == 4) {
-            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car2/Car_2_0${carState.sprite}.png`);
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car2/Car_2_0${playerOneState.sprite}.png`);
         } else if (player1 == 5) {
-            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car5/Car_5_0${carState.sprite}.png`);
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car5/Car_5_0${playerOneState.sprite}.png`);
         } else if (player1 == 6) {
-            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car4/Car_4_0${carState.sprite}.png`);
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car4/Car_4_0${playerOneState.sprite}.png`);
         }
 
         if (player2 == 7) {
-            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car1/Car_1_0${carState.sprite}.png`);
+            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car1/Car_1_0${playerTwoState.sprite}.png`);
         } else if (player2 == 8) {
-            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car3/Car_3_0${carState.sprite}.png`);
+            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car3/Car_3_0${playerTwoState.sprite}.png`);
         } else if (player2 == 9) {
-            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car2/Car_2_0${carState.sprite}.png`);
+            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car2/Car_2_0${playerTwoState.sprite}.png`);
         } else if (player2 == 10) {
-            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car6/Car_6_0${carState.sprite}.png`);
+            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car6/Car_6_0${playerTwoState.sprite}.png`);
         }
 
         if(hp <= 1 && !isExploding){
@@ -788,21 +792,24 @@ function setup() {
         }
 
         //Collision
-        if(bump.hit(playerOne, playerTwo, true, true)){
+        if(player2 !== "none"){
+            if(bump.hit(playerOne, playerTwo, true, true)){
             crash.play();
-            if(Date.now()> lastCollision + 150) {
-                if(hp<4){
-                    hp= 0 ;
-                    hpgui.text = 'hp: ' + hp;
-                    lastCollision = Date.now()
-                }
-                else {
-                    hp -= 4;
-                    hpgui.text = 'hp: ' + hp;
-                    lastCollision = Date.now()
+                if(Date.now()> lastCollision + 150) {
+                    if(hp<4){
+                        hp= 0 ;
+                        hpgui.text = 'hp: ' + hp;
+                        lastCollision = Date.now()
+                    }
+                    else {
+                        hp -= 4;
+                        hpgui.text = 'hp: ' + hp;
+                        lastCollision = Date.now()
+                    }
                 }
             }
         }
+
         if(bump.hit(playerOne, topBoundary, true, true)){
             crash.play();
         }
@@ -810,14 +817,18 @@ function setup() {
             crash.play();
         }
 
-        if(bump.hit(playerTwo, topBoundary, true, true)){
-            playerTwo.hp -= 4;
-            crash.play();
+        if(player2 !== "none"){
+            if(bump.hit(playerTwo, topBoundary, true, true)){
+                playerTwo.hp -= 4;
+                crash.play();
+            }
+            if(bump.hit(playerTwo, bottomBoundary, true, true)){
+                playerTwo.hp -= 4;
+                crash.play();
+            }
         }
-        if(bump.hit(playerTwo, bottomBoundary, true, true)){
-            playerTwo.hp -= 4;
-            crash.play();
-        }
+
+
 
         for (var i = 0; i < vehicles.length; i++) {
 
@@ -846,13 +857,18 @@ function setup() {
                 }
             }
 
-            if(bump.hit(vehicles[i], playerTwo, true)){
-                vehicles[i].hp -= 20;
-                playerTwo.hp -= 4;
-                crash.play();
+            if(player2 !== "none"){
+                if(bump.hit(vehicles[i], playerTwo, true)){
+                    vehicles[i].hp -= 20;
+                    playerTwo.hp -= 4;
+                    crash.play();
+                }
             }
+
+
             bump.hit(vehicles[i], topBoundary, true, true);
             bump.hit(vehicles[i], bottomBoundary, true, true);
+
         }
         for (var i = 0; i < policeVehicles.length; i++) {
             if(bump.hit(playerOne, policeVehicles[i], true, true)){
