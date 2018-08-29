@@ -812,9 +812,33 @@ function setup() {
 
         if(bump.hit(playerOne, topBoundary, true, true)){
             crash.play();
+            if(Date.now()> lastCollision + 150) {
+                if(hp<4){
+                    hp= 0 ;
+                    hpgui.text = 'hp: ' + hp;
+                    lastCollision = Date.now()
+                }
+                else {
+                    hp -= 4;
+                    hpgui.text = 'hp: ' + hp;
+                    lastCollision = Date.now()
+                }
+            }
         }
         if(bump.hit(playerOne, bottomBoundary, true, true)){
             crash.play();
+            if(Date.now()> lastCollision + 150) {
+                if(hp<4){
+                    hp= 0 ;
+                    hpgui.text = 'hp: ' + hp;
+                    lastCollision = Date.now()
+                }
+                else {
+                    hp -= 4;
+                    hpgui.text = 'hp: ' + hp;
+                    lastCollision = Date.now()
+                }
+            }
         }
 
         if(player2 !== "none"){
