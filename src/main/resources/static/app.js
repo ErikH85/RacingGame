@@ -81,9 +81,40 @@ PIXI.Loader.shared
     .add("Sprites/Traffic/Car6/Car_6_04.png")
     .add("Sprites/Traffic/Car6/Car_6_05.png")
 
+    .add("Sprites/Traffic/Police/Car1/Car_1_01.png")
+    .add("Sprites/Traffic/Police/Car1/Car_1_02.png")
+    .add("Sprites/Traffic/Police/Car1/Car_1_03.png")
+    .add("Sprites/Traffic/Police/Car1/Car_1_04.png")
+    .add("Sprites/Traffic/Police/Car1/Car_1_05.png")
+
+    .add("Sprites/Traffic/Police/Car3/Car_3_01.png")
+    .add("Sprites/Traffic/Police/Car3/Car_3_02.png")
+    .add("Sprites/Traffic/Police/Car3/Car_3_03.png")
+    .add("Sprites/Traffic/Police/Car3/Car_3_04.png")
+    .add("Sprites/Traffic/Police/Car3/Car_3_05.png")
+
+    .add("Sprites/Traffic/Police/Car4/Car_4_01.png")
+    .add("Sprites/Traffic/Police/Car4/Car_4_02.png")
+    .add("Sprites/Traffic/Police/Car4/Car_4_03.png")
+    .add("Sprites/Traffic/Police/Car4/Car_4_04.png")
+    .add("Sprites/Traffic/Police/Car4/Car_4_05.png")
+
+    .add("Sprites/Traffic/Police/Car5/Car_5_01.png")
+    .add("Sprites/Traffic/Police/Car5/Car_5_02.png")
+    .add("Sprites/Traffic/Police/Car5/Car_5_03.png")
+    .add("Sprites/Traffic/Police/Car5/Car_5_04.png")
+    .add("Sprites/Traffic/Police/Car5/Car_5_05.png")
+
+    .add("Sprites/Traffic/Police/Car6/Car_6_01.png")
+    .add("Sprites/Traffic/Police/Car6/Car_6_02.png")
+    .add("Sprites/Traffic/Police/Car6/Car_6_03.png")
+    .add("Sprites/Traffic/Police/Car6/Car_6_04.png")
+    .add("Sprites/Traffic/Police/Car6/Car_6_05.png")
 
 
-    .add("Sprites/road.png")
+
+    .add("Sprites/Background/road.png")
+    .add("Sprites/Background/nightroad.png")
     .add("Sprites/audi.png")
     .add("Sprites/oldaudi.png")
     .add("Sprites/taxi.png")
@@ -140,6 +171,7 @@ var vehicle;
 var state;
 var item;
 var road;
+var texture;
 var tires;
 var accelerate;
 var hpgui;
@@ -327,7 +359,18 @@ function setup() {
     //End boost
     //END ANIMATIONS
 
-    road = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/road.png"].texture);
+    //Start map selection
+    if (map == "day") {
+        road = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Background/road.png"].texture);
+        texture = PIXI.Texture.from('Sprites/Background/road.png');
+    } else if (map == "night") {
+        road = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Background/nightroad.png"].texture);
+        texture = PIXI.Texture.from('Sprites/Background/nightroad.png');
+    } else {
+        road = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Background/road.png"].texture);
+        texture = PIXI.Texture.from('Sprites/Background/road.png');
+    }
+    //End map selection
 
     topBoundary = new PIXI.Graphics();
     //topBoundary.beginFill(0xFF0000);
@@ -339,9 +382,6 @@ function setup() {
     //bottomBoundary.beginFill(0xFF0000);
     bottomBoundary.drawRect(-100, 0, 3000, 150);
     bottomBoundary.y = 715;
-
-    //väljer en bakgrundsbild för att användas som texture till TilingSprite
-    var texture = PIXI.Texture.from('Sprites/road.png');
 
     //sätter bilens utgångsposition samt ursprungshastighet
     playerOne = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Muscle/muscle.png"].texture);
@@ -360,7 +400,7 @@ function setup() {
     //lägger till ("stage'ar") den repeterande bakgrunden och spelar-bilen
     app.stage.addChild(tilingRoad);
     app.stage.addChild(playerOne);
-    app.stage.addChild(playerTwo);
+    //app.stage.addChild(playerTwo);
     app.stage.addChild(hpgui);
     app.stage.addChild(lifegui);
     app.stage.addChild(scoregui);
@@ -370,6 +410,10 @@ function setup() {
     app.stage.addChild(wantedGui);
     //app.stage.addChild(topBoundary);
     //app.stage.addChild(bottomBoundary);
+
+    if(player2 !== "none"){
+        app.stage.addChild(playerTwo);
+    }
 
     //sätter enums för piltangenterna keycodes
     var left = keyboard(37),
@@ -618,31 +662,31 @@ function setup() {
         score += 1;
         scoregui.text = 'score' + '\n' + score;
 
-        var carState = whichState(hp);
-        var sheriffState = whichState(playerTwo.hp);
+        var playerOneState = whichState(hp);
+        var playerTwoState = whichState(playerTwo.hp);
 
         if (player1 == 1) {
             playerOne.texture = PIXI.Texture.from("Sprites/PlayerCars/Muscle/muscle.png");
         } else if (player1 == 2) {
-            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car1/Car_1_0${carState.sprite}.png`);
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car1/Car_1_0${playerOneState.sprite}.png`);
         } else if (player1 == 3) {
-            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car3/Car_3_0${carState.sprite}.png`);
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car3/Car_3_0${playerOneState.sprite}.png`);
         } else if (player1 == 4) {
-            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car2/Car_2_0${carState.sprite}.png`);
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car2/Car_2_0${playerOneState.sprite}.png`);
         } else if (player1 == 5) {
-            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car5/Car_5_0${carState.sprite}.png`);
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car5/Car_5_0${playerOneState.sprite}.png`);
         } else if (player1 == 6) {
-            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car4/Car_4_0${carState.sprite}.png`);
+            playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car4/Car_4_0${playerOneState.sprite}.png`);
         }
 
         if (player2 == 7) {
-            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car1/Car_1_0${carState.sprite}.png`);
+            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car1/Car_1_0${playerTwoState.sprite}.png`);
         } else if (player2 == 8) {
-            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car3/Car_3_0${carState.sprite}.png`);
+            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car3/Car_3_0${playerTwoState.sprite}.png`);
         } else if (player2 == 9) {
-            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car2/Car_2_0${carState.sprite}.png`);
+            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car2/Car_2_0${playerTwoState.sprite}.png`);
         } else if (player2 == 10) {
-            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car6/Car_6_0${carState.sprite}.png`);
+            playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car6/Car_6_0${playerTwoState.sprite}.png`);
         }
 
         if(hp <= 1 && !isExploding){
@@ -764,7 +808,25 @@ function setup() {
         }
 
         //Collision
-        if(bump.hit(playerOne, playerTwo, true, true)){
+        if(player2 !== "none"){
+            if(bump.hit(playerOne, playerTwo, true, true)){
+            crash.play();
+                if(Date.now()> lastCollision + 150) {
+                    if(hp<4){
+                        hp= 0 ;
+                        hpgui.text = 'hp: ' + hp;
+                        lastCollision = Date.now()
+                    }
+                    else {
+                        hp -= 4;
+                        hpgui.text = 'hp: ' + hp;
+                        lastCollision = Date.now()
+                    }
+                }
+            }
+        }
+
+        if(bump.hit(playerOne, topBoundary, true, true)){
             crash.play();
             if(Date.now()> lastCollision + 150) {
                 if(hp<4){
@@ -779,21 +841,34 @@ function setup() {
                 }
             }
         }
-        if(bump.hit(playerOne, topBoundary, true, true)){
-            crash.play();
-        }
         if(bump.hit(playerOne, bottomBoundary, true, true)){
             crash.play();
+            if(Date.now()> lastCollision + 150) {
+                if(hp<4){
+                    hp= 0 ;
+                    hpgui.text = 'hp: ' + hp;
+                    lastCollision = Date.now()
+                }
+                else {
+                    hp -= 4;
+                    hpgui.text = 'hp: ' + hp;
+                    lastCollision = Date.now()
+                }
+            }
         }
 
-        if(bump.hit(playerTwo, topBoundary, true, true)){
-            playerTwo.hp -= 4;
-            crash.play();
+        if(player2 !== "none"){
+            if(bump.hit(playerTwo, topBoundary, true, true)){
+                playerTwo.hp -= 4;
+                crash.play();
+            }
+            if(bump.hit(playerTwo, bottomBoundary, true, true)){
+                playerTwo.hp -= 4;
+                crash.play();
+            }
         }
-        if(bump.hit(playerTwo, bottomBoundary, true, true)){
-            playerTwo.hp -= 4;
-            crash.play();
-        }
+
+
 
         for (var i = 0; i < vehicles.length; i++) {
 
@@ -822,13 +897,18 @@ function setup() {
                 }
             }
 
-            if(bump.hit(vehicles[i], playerTwo, true)){
-                vehicles[i].hp -= 20;
-                playerTwo.hp -= 4;
-                crash.play();
+            if(player2 !== "none"){
+                if(bump.hit(vehicles[i], playerTwo, true)){
+                    vehicles[i].hp -= 20;
+                    playerTwo.hp -= 4;
+                    crash.play();
+                }
             }
+
+
             bump.hit(vehicles[i], topBoundary, true, true);
             bump.hit(vehicles[i], bottomBoundary, true, true);
+
         }
         for (var i = 0; i < policeVehicles.length; i++) {
             if(bump.hit(playerOne, policeVehicles[i], true, true)){
@@ -892,7 +972,7 @@ function setup() {
 
         if (Date.now() > lastSpawnedOncomingVehicle + 1500) {
             lastSpawnedOncomingVehicle = Date.now();
-            var typeOfVehicle = Math.floor(Math.random() * (19 - 1) + 1);
+            var typeOfVehicle = Math.floor(Math.random() * (18 - 1) + 1);
             var vehicleSpeed = Math.floor(Math.random() * (3 - 1) + 1);
 
             switch (typeOfVehicle) {
@@ -921,60 +1001,55 @@ function setup() {
                     vehicle.hasState = false;
                     break;
                 case 7:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car3/Car_3_01.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car3/Car_3_01.png"].texture);
                     vehicle.hasState = true;
-                    vehicle.spriteName = "Sprites/PoliceCar/Car3/Car_3_0";
+                    vehicle.spriteName = "Sprites/Traffic/Police/Car3/Car_3_0";
                     break;
                 case 8:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car1/Car_1_01.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car1/Car_1_01.png"].texture);
                     vehicle.hasState = true;
-                    vehicle.spriteName = "Sprites/PoliceCar/Car1/Car_1_0";
+                    vehicle.spriteName = "Sprites/Traffic/Police/Car1/Car_1_0";
                     break;
                 case 9:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car5/Car_5_01.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car5/Car_5_01.png"].texture);
                     vehicle.hasState = true;
-                    vehicle.spriteName = "Sprites/PoliceCar/Car5/Car_5_0";
+                    vehicle.spriteName = "Sprites/Traffic/Police/Car5/Car_5_0";
                     break;
                 case 10:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car4/Car_4_01.png"].texture);
+                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car4/Car_4_01.png"].texture);
                     vehicle.hasState = true;
-                    vehicle.spriteName = "Sprites/PoliceCar/Car4/Car_4_0";
+                    vehicle.spriteName = "Sprites/Traffic/Police/Car4/Car_4_0";
                     break;
                 case 11:
                     vehicle = new PIXI.AnimatedSprite(ambulanceAnimation);
                     vehicle.play();
                     break;
                 case 12:
-                    vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car4/Car_4_01.png"].texture);
-                    vehicle.hasState = true;
-                    vehicle.spriteName = "Sprites/PoliceCar/Car4/Car_4_0";
-                    break;
-                case 13:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car1/Car_1_01.png"].texture);
                     vehicle.hasState = true;
                     vehicle.spriteName = "Sprites/Traffic/Car1/Car_1_0";
                     break;
-                case 14:
+                case 13:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car2/Car_2_01.png"].texture);
                     vehicle.hasState = true;
                     vehicle.spriteName = "Sprites/Traffic/Car2/Car_2_0";
                     break;
-                case 15:
+                case 14:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car3/Car_3_01.png"].texture);
                     vehicle.hasState = true;
                     vehicle.spriteName = "Sprites/Traffic/Car3/Car_3_0";
                     break;
-                case 16:
+                case 15:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car4/Car_4_01.png"].texture);
                     vehicle.hasState = true;
                     vehicle.spriteName = "Sprites/Traffic/Car4/Car_4_0";
                     break;
-                case 17:
+                case 16:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car5/Car_5_01.png"].texture);
                     vehicle.hasState = true;
                     vehicle.spriteName = "Sprites/Traffic/Car5/Car_5_0";
                     break;
-                case 18:
+                case 17:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car6/Car_6_01.png"].texture);
                     vehicle.hasState = true;
                     vehicle.spriteName = "Sprites/Traffic/Car6/Car_6_0";
@@ -1045,16 +1120,16 @@ function setup() {
                     bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/viper.png"].texture);
                     break;
                 case 7:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car3/Car_3_01.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car3/Car_3_01.png"].texture);
                     break;
                 case 8:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car1/Car_1_01.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car1/Car_1_01.png"].texture);
                     break;
                 case 9:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car5/Car_5_01.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car5/Car_5_01.png"].texture);
                     break;
                 case 10:
-                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car4/Car_4_01.png"].texture);
+                    bVehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car4/Car_4_01.png"].texture);
                     break;
                 case 11:
                     bVehicle = new PIXI.AnimatedSprite(ambulanceAnimation);
