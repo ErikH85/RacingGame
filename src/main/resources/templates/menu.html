@@ -15,11 +15,12 @@
 
     <div class="tab-content">
         <div id="singleplayer">
-            <h1>1 Player</h1>
+            <h1>One Player</h1>
 
             <form action="/menu" method="post">
 
                 <div class="carselect field-wrap">
+                    <h3 style="color: white">Player 1</h3>
                     <select name="player1" class="car-select">
                         <option value="none">Select car:</option>
                         <option value="1">Muscle car</option>
@@ -31,18 +32,26 @@
                     </select>
                     <img class="carImg"/>
                 </div>
-
+                <div class="carselect field-wrap">
+                    <h3 style="color: white">Map</h3>
+                    <select name="map" class="car-select playerTwoSelect">
+                        <option value="none">Select map:</option>
+                        <option value="day">Day</option>
+                        <option value="night">Night</option>
+                    </select>
+                    <img class="carImg"/>
+                </div>
                 <button type="submit" class="button button-block"/>Start Game</button>
             </form>
         </div>
 
         <div id="multiplayer">
-            <h1>2 Players</h1>
+            <h1>Two Players</h1>
 
             <form action="/menu" method="post">
 
                 <div class="carselect field-wrap">
-                    <h3 style="color: white">Player one</h3>
+                    <h3 style="color: white">Player 1</h3>
                     <select name="player1" class="car-select">
                         <option value="none">Select car:</option>
                         <option value="1">Muscle Car</option>
@@ -55,13 +64,22 @@
                     <img class="carImg"/>
                 </div>
                 <div class="carselect field-wrap">
-                    <h3 style="color: white">Player two</h3>
+                    <h3 style="color: white">Player 2</h3>
                     <select name="player2" class="car-select playerTwoSelect">
                         <option value="none">Select car:</option>
                         <option value="7">Classic Cop</option>
                         <option value="8">Modern Cop</option>
                         <option value="9">S.W.A.T Car</option>
                         <option value="10">Military Police Car</option>
+                    </select>
+                    <img class="carImg"/>
+                </div>
+                <div class="carselect field-wrap">
+                    <h3 style="color: white">Map</h3>
+                    <select name="map" class="car-select playerTwoSelect">
+                        <option value="none">Select map:</option>
+                        <option value="day">Day</option>
+                        <option value="night">Night</option>
                     </select>
                     <img class="carImg"/>
                 </div>

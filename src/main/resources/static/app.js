@@ -83,7 +83,8 @@ PIXI.Loader.shared
 
 
 
-    .add("Sprites/road.png")
+    .add("Sprites/Background/road.png")
+    .add("Sprites/Background/nightroad.png")
     .add("Sprites/audi.png")
     .add("Sprites/oldaudi.png")
     .add("Sprites/taxi.png")
@@ -140,6 +141,7 @@ var vehicle;
 var state;
 var item;
 var road;
+var texture;
 var tires;
 var accelerate;
 var hpgui;
@@ -327,7 +329,18 @@ function setup() {
     //End boost
     //END ANIMATIONS
 
-    road = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/road.png"].texture);
+    //Start map selection
+    if (map == "day") {
+        road = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Background/road.png"].texture);
+        texture = PIXI.Texture.from('Sprites/Background/road.png');
+    } else if (map == "night") {
+        road = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Background/nightroad.png"].texture);
+        texture = PIXI.Texture.from('Sprites/Background/nightroad.png');
+    } else {
+        road = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Background/road.png"].texture);
+        texture = PIXI.Texture.from('Sprites/Background/road.png');
+    }
+    //End map selection
 
     topBoundary = new PIXI.Graphics();
     //topBoundary.beginFill(0xFF0000);
@@ -339,9 +352,6 @@ function setup() {
     //bottomBoundary.beginFill(0xFF0000);
     bottomBoundary.drawRect(-100, 0, 3000, 150);
     bottomBoundary.y = 715;
-
-    //väljer en bakgrundsbild för att användas som texture till TilingSprite
-    var texture = PIXI.Texture.from('Sprites/road.png');
 
     //sätter bilens utgångsposition samt ursprungshastighet
     playerOne = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Muscle/muscle.png"].texture);

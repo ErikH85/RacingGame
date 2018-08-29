@@ -68,19 +68,24 @@ public class LoginController {
     }
 
     @GetMapping("/game")
-    public String getGame(Model model, @RequestParam String player1, @RequestParam String player2) {
+    public String getGame(Model model,
+                          @RequestParam String player1,
+                          @RequestParam String player2,
+                          @RequestParam String map) {
         model.addAttribute("player1", player1);
         model.addAttribute("player2", player2);
+        model.addAttribute("map", map);
         return "game";
     }
 
     @PostMapping("/menu")
     public String postMenu(RedirectAttributes redirectAttributes,
                            @RequestParam String player1,
-                            @RequestParam(defaultValue = "none") String player2) {
+                           @RequestParam (defaultValue = "none") String player2,
+                           @RequestParam String map) {
         redirectAttributes.addAttribute("player1", player1);
         redirectAttributes.addAttribute("player2", player2);
-        System.out.println(player1);
+        redirectAttributes.addAttribute("map", map);
         return "redirect:game";
     }
 
