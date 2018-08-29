@@ -637,6 +637,10 @@ function setup() {
     };
 
     app.ticker.add(function () {
+
+        hpgui.text = 'hp: ' + hp;
+        hpguiP2.text = 'hp: ' + hp;
+
         //Start Boost
         if (Date.now() > boostRefill + 1000 && nos.length < 20) {
             boostRefill = Date.now();
