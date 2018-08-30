@@ -615,10 +615,10 @@ function setup() {
     var oneTime = false;
 
 
-    var isExploding = false;
+    var playerOneIsExploding = false;
     explosion.loop = false;
     explosion.onComplete = function() {
-        isExploding = false;
+        playerOneIsExploding = false;
         explosion.visible = false;
         explosion.stop();
         life -= 1;
@@ -633,6 +633,26 @@ function setup() {
         playerOne.vx = 0;
         playerOne.vy = 0;
         playerOne.visible = true;
+    };
+
+    var playerTwoIsExploding = false;
+    explosion.loop = false;
+    explosion.onComplete = function() {
+        playerTwoIsExploding = false;
+        explosion.visible = false;
+        explosion.stop();
+        lifeP2 -= 1;
+        playerTwo.hp = 100;
+        //hpgui.text = 'hp: ' + hp;
+        app.stage.addChild(hpguiP2);
+        app.stage.removeChild(playerTwo);
+        app.stage.addChild(playerTwo);
+        lastCollision = Date.now();
+        playerTwo.x = 700;
+        playerTwo.y = rightLane;
+        playerTwo.vx = 0;
+        playerTwo.vy = 0;
+        playerTwo.visible = true;
     };
 
     app.ticker.add(function () {
@@ -708,14 +728,22 @@ function setup() {
             playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car6/Car_6_0${playerTwoState.sprite}.png`);
         }
 
-        if(hp <= 1 && !isExploding){
-            isExploding = true;
+        if(hp <= 1 && !playerOneIsExploding){
+            playerOneIsExploding = true;
             playerOne.visible = false;
             explosion.visible = true;
             explosion.gotoAndPlay(0);
             explosion.x = playerOne.x;
             explosion.y = playerOne.y;
+        }
 
+        if(playerTwo.hp <= 1 && !playerTwoIsExploding){
+            playerTwoIsExploding = true;
+            playerTwo.visible = false;
+            explosion.visible = true;
+            explosion.gotoAndPlay(0);
+            explosion.x = playerTwo.x;
+            explosion.y = playerTwo.y;
         }
 
 
@@ -897,7 +925,7 @@ function setup() {
 
             if(bump.hit(playerOne,vehicles[i],true, true)){
                 crash.play();
-                if(Date.now()> lastCollision + 150 && !isExploding) {
+                if(Date.now()> lastCollision + 150 && !playerOneIsExploding) {
 
                     if(hp<4){
                         hp=0;
