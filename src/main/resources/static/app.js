@@ -354,14 +354,7 @@ function setup() {
     explosion = new PIXI.AnimatedSprite(explosionAnimation);
     explosion.visible = false;
 
-    /*
-    space.press = () => {
-        gun = new Audio('Audio/gun.mp3');
-        gun.play();
-    };
-     */
 
-    //End explosion
 
     //Start boost
     var boostAnimation = [];
@@ -670,6 +663,14 @@ function setup() {
         playerTwo.vx = 0;
         playerTwo.vy = 0;
         playerTwo.visible = true;
+
+        if(lifeP2 < 1){
+            playerTwo.hp = 0;
+            lifeP2 = 0;
+            playerTwoIsExploding = true;
+            app.stage.removeChild(playerTwo);
+        }
+
     };
     //END EXPLOSIONS
 
