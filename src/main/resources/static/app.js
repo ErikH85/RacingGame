@@ -1699,7 +1699,6 @@ function setup() {
     }
 }
 
-
 function whichState(carHP){
 
     var STATE = {
@@ -1726,5 +1725,4 @@ function whichState(carHP){
     }
 
     return currentState;
-
 }
