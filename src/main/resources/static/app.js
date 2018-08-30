@@ -369,7 +369,7 @@ function setup() {
 
         var classicCopAnimationFrames = {
             texture: PIXI.Texture.from("Sprites/PoliceCar/Car1/" + i + ".png"),
-            time: 100
+            time: 150
         };
         classicCopAnimation.push(classicCopAnimationFrames);
     }
@@ -383,7 +383,7 @@ function setup() {
 
         var swatAnimationFrames = {
             texture: PIXI.Texture.from("Sprites/PoliceCar/Car2/" + i + ".png"),
-            time: 100
+            time: 150
         };
         swatAnimation.push(swatAnimationFrames);
     }
@@ -397,7 +397,7 @@ function setup() {
 
         var modernCopAnimationFrames = {
             texture: PIXI.Texture.from("Sprites/PoliceCar/Car3/" + i + ".png"),
-            time: 100
+            time: 150
         };
         modernCopAnimation.push(modernCopAnimationFrames);
     }
@@ -411,7 +411,7 @@ function setup() {
 
         var mpAnimationFrames = {
             texture: PIXI.Texture.from("Sprites/PoliceCar/Car6/" + i + ".png"),
-            time: 100
+            time: 175
         };
         mpAnimation.push(mpAnimationFrames);
     }
