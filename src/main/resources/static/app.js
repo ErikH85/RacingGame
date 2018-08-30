@@ -15,40 +15,50 @@ PIXI.Loader.shared
     .add("Sprites/PlayerCars/Car1/Car_1_03.png")
     .add("Sprites/PlayerCars/Car1/Car_1_04.png")
     .add("Sprites/PlayerCars/Car1/Car_1_05.png")
+    .add("Sprites/PlayerCars/Car1/Car_1_lights_on.png")
+    .add("Sprites/PlayerCars/Car1/Car_1_brake_light.png")
     .add("Sprites/PlayerCars/Car2/Car_2_01.png")
     .add("Sprites/PlayerCars/Car2/Car_2_02.png")
     .add("Sprites/PlayerCars/Car2/Car_2_03.png")
     .add("Sprites/PlayerCars/Car2/Car_2_04.png")
     .add("Sprites/PlayerCars/Car2/Car_2_05.png")
+    .add("Sprites/PlayerCars/Car2/Car_2_lights_on.png")
+    .add("Sprites/PlayerCars/Car2/Car_2_brake_light.png")
     .add("Sprites/PlayerCars/Car3/Car_3_01.png")
     .add("Sprites/PlayerCars/Car3/Car_3_02.png")
     .add("Sprites/PlayerCars/Car3/Car_3_03.png")
     .add("Sprites/PlayerCars/Car3/Car_3_04.png")
     .add("Sprites/PlayerCars/Car3/Car_3_05.png")
+    .add("Sprites/PlayerCars/Car3/Car_3_lights_on.png")
+    .add("Sprites/PlayerCars/Car3/Car_3_brake_light.png")
     .add("Sprites/PlayerCars/Car4/Car_4_01.png")
     .add("Sprites/PlayerCars/Car4/Car_4_02.png")
     .add("Sprites/PlayerCars/Car4/Car_4_03.png")
     .add("Sprites/PlayerCars/Car4/Car_4_04.png")
     .add("Sprites/PlayerCars/Car4/Car_4_05.png")
+    .add("Sprites/PlayerCars/Car4/Car_4_lights_on.png")
+    .add("Sprites/PlayerCars/Car4/Car_4_brake_light.png")
     .add("Sprites/PlayerCars/Car5/Car_5_01.png")
     .add("Sprites/PlayerCars/Car5/Car_5_02.png")
     .add("Sprites/PlayerCars/Car5/Car_5_03.png")
     .add("Sprites/PlayerCars/Car5/Car_5_04.png")
     .add("Sprites/PlayerCars/Car5/Car_5_05.png")
+    .add("Sprites/PlayerCars/Car5/Car_5_lights_on.png")
+    .add("Sprites/PlayerCars/Car5/Car_5_brake_light.png")
     .add("Sprites/PlayerCars/Car6/Car_6_01.png")
     .add("Sprites/PlayerCars/Car6/Car_6_02.png")
     .add("Sprites/PlayerCars/Car6/Car_6_03.png")
     .add("Sprites/PlayerCars/Car6/Car_6_04.png")
     .add("Sprites/PlayerCars/Car6/Car_6_05.png")
     .add("Sprites/PlayerCars/Muscle/muscle.png")
+    .add("Sprites/PlayerCars/Muscle/muscle_lights_on.png")
+    .add("Sprites/PlayerCars/Muscle/muscle_brake_light.png")
 
     .add("Sprites/Player2/Car_3_01.png")
     .add("Sprites/Player2/Car_3_02.png")
     .add("Sprites/Player2/Car_3_03.png")
     .add("Sprites/Player2/Car_3_04.png")
     .add("Sprites/Player2/Car_3_05.png")
-
-
 
     .add("Sprites/Traffic/Car1/Car_1_01.png")
     .add("Sprites/Traffic/Car1/Car_1_02.png")
@@ -110,8 +120,6 @@ PIXI.Loader.shared
     .add("Sprites/Traffic/Police/Car6/Car_6_03.png")
     .add("Sprites/Traffic/Police/Car6/Car_6_04.png")
     .add("Sprites/Traffic/Police/Car6/Car_6_05.png")
-
-
 
     .add("Sprites/Background/road.png")
     .add("Sprites/Background/nightroad.png")
@@ -181,6 +189,8 @@ var boostGui;
 var boostQuantityGui;
 var wantedGui;
 var boost;
+var brakelights;
+var lights;
 var crash;
 var brake;
 var music;
@@ -193,6 +203,7 @@ var money;
 var repair;
 var spikes;
 var explosions;
+var lightsOn = false;
 var wantedLevel = 0;
 var backgroundTrafficRightLane = 1010;
 var backgroundTrafficLeftLane = 1130;
@@ -207,6 +218,9 @@ var sound;
 var score = 0;
 var topBoundary;
 var bottomBoundary;
+var leftShotsFired = false;
+var rightShotsFired = false;
+var lastShot = Date.now();
 
 function setup() {
 
@@ -282,8 +296,8 @@ function setup() {
 
     playerTwo = new PIXI.AnimatedSprite(sheriffAnimation);
     playerTwo.play();
-    */
-    playerTwo = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Player2/Car_3_01.png"].texture);
+    */http://localhost:8080/game?player1=2&player2=none&map=night
+        playerTwo = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Player2/Car_3_01.png"].texture);
     playerTwo.x = 700;
     playerTwo.y = rightLane;
     playerTwo.vx = 0;
@@ -361,6 +375,28 @@ function setup() {
     //End boost
     //END ANIMATIONS
 
+    //Start light selection
+    if (player1 == 1) {
+        lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Muscle/muscle_lights_on.png"].texture);
+        brakelights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Muscle/muscle_brake_light.png"].texture);
+    } else if (player1 == 2) {
+        lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car1/Car_1_lights_on.png"].texture);
+        brakelights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car1/Car_1_brake_light.png"].texture);
+    } else if (player1 == 3) {
+        lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car3/Car_3_lights_on.png"].texture);
+        brakelights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car3/Car_3_brake_light.png"].texture);
+    } else if (player1 == 4) {
+        lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car2/Car_2_lights_on.png"].texture);
+        brakelights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car2/Car_2_brake_light.png"].texture);
+    } else if (player1 == 5) {
+        lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car5/Car_5_lights_on.png"].texture);
+        brakelights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car5/Car_5_brake_light.png"].texture);
+    } else if (player1 == 6) {
+        lights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car4/Car_4_lights_on.png"].texture);
+        brakelights = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PlayerCars/Car4/Car_4_brake_light.png"].texture);
+    }
+    //End light selection
+
     //Start map selection
     if (map == "day") {
         road = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Background/road.png"].texture);
@@ -420,27 +456,41 @@ function setup() {
     }
 
     //sätter enums för piltangenterna keycodes
-    var left = keyboard(37),
-        up = keyboard(38),
-        right = keyboard(39),
-        down = keyboard(40),
+    var left = keyboard(65),
+        up = keyboard(87),
+        right = keyboard(68),
+        down = keyboard(83),
         ctrl = keyboard(17),
         shift = keyboard(16),
-        space = keyboard(32);
+        t = keyboard(84),
+        q = keyboard(81),
+        e = keyboard(69);
 
     //definerar vad som skall hända vid dessa events
 
+    t.press = () => {
+        if (lightsOn === false) {
+            if (hp >= 50) {
+                app.stage.addChild(lights);
+                lightsOn = true;
+            }
+        } else if (lightsOn === true) {
+            app.stage.removeChild(lights);
+            lightsOn = false;
+        }
+    };
+
     shift.hold = () => {
         if (nos.length > 0) {
-        boost.play();
-        app.stage.addChild(boost);
-        nos.splice(-1, 1);
-        boostQuantityGui.text = nos.join("");
-        if (nos.length < 5) {
-            playerOne.vx += 4;
-        } else {
-        playerOne.vx += 1.5;
-        }
+            boost.play();
+            app.stage.addChild(boost);
+            nos.splice(-1, 1);
+            boostQuantityGui.text = nos.join("");
+            if (nos.length < 5) {
+                playerOne.vx += 4;
+            } else {
+                playerOne.vx += 1.5;
+            }
         }
     };
 
@@ -449,9 +499,24 @@ function setup() {
         playerOne.vx = 0;
     }
 
-    space.press = () => {
+    q.press = () => {
         gun = new Audio('Audio/gun.mp3');
         gun.play();
+        leftShotsFired = true;
+    };
+
+    q.release = () => {
+        leftShotsFired = false;
+    };
+
+    e.press = () => {
+        gun = new Audio('Audio/gun.mp3');
+        gun.play();
+        rightShotsFired = true;
+    };
+
+    e.release = () => {
+        rightShotsFired = false;
     };
 
     ctrl.press = () => {
@@ -470,12 +535,16 @@ function setup() {
         playerOne.vy = 0;
         brake = new Audio('Audio/brake.mp3');
         brake.play();
+        if (hp >= 50) {
+            app.stage.addChild(brakelights);
+        }
     };
 
     left.release = () => {
         if (!right.isDown && playerOne.vy === 0) {
             playerOne.vx = 0;
             brake.pause();
+            app.stage.removeChild(brakelights);
         }
     };
 
@@ -522,23 +591,21 @@ function setup() {
         }
     };
 
-    var p2left = keyboard(65),
-        p2up = keyboard(87),
-        p2right = keyboard(68),
-        p2down = keyboard(83);
+    var p2left = keyboard(37),
+        p2up = keyboard(38),
+        p2right = keyboard(39),
+        p2down = keyboard(40);
 
     //Left arrow key `press` method
     p2left.press = () => {
-        //Change the cat's velocity when the key is pressed
+
         playerTwo.vx = -5;
         playerTwo.vy = 0;
     };
 
     //Left arrow key `release` method
     p2left.release = () => {
-        //If the left arrow has been released, and the right arrow isn't down,
-        //and the cat isn't moving vertically:
-        //Stop the cat
+
         if (!p2right.isDown && playerTwo.vy === 0) {
             playerTwo.vx = 0;
         }
@@ -627,6 +694,14 @@ function setup() {
     };
 
     app.ticker.add(function () {
+        //Start lights
+        if (hp < 50) {
+            app.stage.removeChild(lights);
+            app.stage.removeChild(brakelights)
+            lightsOn = false;
+        }
+        //End lights
+
         //Start Boost
         if (Date.now() > boostRefill + 1000 && nos.length < 20) {
             boostRefill = Date.now();
@@ -808,7 +883,7 @@ function setup() {
                 music.pause();
                 engine.pause();
                 if(siren) {
-                siren.pause();
+                    siren.pause();
                 }
                 app.stage.addChild(gameOver);
                 app.stage.addChild(gameOvermsg);
@@ -825,7 +900,7 @@ function setup() {
         //Collision
         if(player2 !== "none"){
             if(bump.hit(playerOne, playerTwo, true, true)){
-            crash.play();
+                crash.play();
                 if(Date.now()> lastCollision + 150) {
                     if(hp<4){
                         hp= 0 ;
@@ -887,6 +962,19 @@ function setup() {
 
         for (var i = 0; i < vehicles.length; i++) {
 
+            if(rightShotsFired && ( vehicles[i].x < playerOne.x +50 && vehicles[i].x > playerOne.x -50) && vehicles[i].y > playerOne.y){
+                if(Date.now()> lastShot + 500) {
+                    playerTwo.hp -= 20;
+                    lastShot= Date.now();
+                }
+            }
+            if(leftShotsFired && ( vehicles[i].x < playerOne.x +50 && vehicles[i].x > playerOne.x -50) && vehicles[i].y < playerOne.y){
+                if(Date.now()> lastShot + 500) {
+                    playerTwo.hp -= 20;
+                    lastShot= Date.now();
+                }
+            }
+
             if(vehicles[i].hasState == true) {
                 //vehicles[i].hp = 5;
                 var vehState = whichState(vehicles[i].hp);
@@ -926,6 +1014,19 @@ function setup() {
 
         }
         for (var i = 0; i < policeVehicles.length; i++) {
+
+            if(rightShotsFired && ( policeVehicles[i].x < playerOne.x +50 && policeVehicles[i].x > playerOne.x -50) && policeVehicles[i].y > playerOne.y){
+                if(Date.now()> lastShot + 500) {
+                    playerTwo.hp -= 20;
+                    lastShot= Date.now();
+                }
+            }
+            if(leftShotsFired && ( policeVehicles[i].x < playerOne.x +50 && policeVehicles[i].x > playerOne.x -50) && policeVehicles[i].y < playerOne.y){
+                if(Date.now()> lastShot + 500) {
+                    playerTwo.hp -= 20;
+                    lastShot= Date.now();
+                }
+            }
             if(bump.hit(playerOne, policeVehicles[i], true, true)){
                 crash.play();
                 if(Date.now()> lastCollision + 150) {
@@ -1152,13 +1253,13 @@ function setup() {
                     break;
             }
 
-                if (backgroundTrafficRandomLane === 1) {
-                    bVehicleYPos = backgroundTrafficRightLane;
-                    bVehicleVelocity = -20;
-                } else if (backgroundTrafficRandomLane === 2) {
-                    bVehicleYPos = backgroundTrafficLeftLane;
-                    bVehicleVelocity = -25;
-                }
+            if (backgroundTrafficRandomLane === 1) {
+                bVehicleYPos = backgroundTrafficRightLane;
+                bVehicleVelocity = -20;
+            } else if (backgroundTrafficRandomLane === 2) {
+                bVehicleYPos = backgroundTrafficLeftLane;
+                bVehicleVelocity = -25;
+            }
 
             bVehicleXPos = 2700;
 
@@ -1264,6 +1365,18 @@ function setup() {
 
             app.stage.addChild(item);
         }
+        if(rightShotsFired && ( playerTwo.x < playerOne.x +50 && playerTwo.x > playerOne.x -50) && playerTwo.y > playerOne.y){
+            if(Date.now()> lastShot + 500) {
+                playerTwo.hp -= 20;
+                lastShot= Date.now();
+            }
+        }
+        if(leftShotsFired && ( playerTwo.x < playerOne.x +50 && playerTwo.x > playerOne.x -50) && playerTwo.y < playerOne.y){
+            if(Date.now()> lastShot + 500) {
+                playerTwo.hp -= 20;
+                lastShot= Date.now();
+            }
+        }
     });
 
 
@@ -1273,6 +1386,12 @@ function setup() {
     }
 
     function play(delta) {
+
+        brakelights.x = playerOne.x - 10;
+        brakelights.y = playerOne.y;
+
+        lights.x = playerOne.x;
+        lights.y = playerOne.y;
 
         boost.x = playerOne.x - 277;
         boost.y = playerOne.y + 7;
@@ -1310,97 +1429,97 @@ function setup() {
         }
         //Items move left and are then removed
         for (var i = items.length - 1; i >= 0; i--) {
-                items[i].x += items[i].vx;
-                if(bump.hit(playerOne, item)){
-                    if(item.itemID == 1) {
-                        if (Date.now()> lastItem +1000) {
-                            score += 1000;
-                            app.stage.removeChild(items[i]);
-                            money = new Audio('Audio/money.mp3');
-                            money.play();
-                            lastItem= Date.now();
-                        }
-                    }
-                    if(item.itemID == 2) {
-                        if (Date.now()> lastItem +1000) {
-                            hp += 25;
-                            hpgui.text = 'hp: ' + hp;
-                            if (hp> 100){
-                                hp=100;
-                                hpgui.text = 'hp: ' + hp;
-                            }
-                            app.stage.removeChild(items[i]);
-                            repair = new Audio('Audio/repair.mp3');
-                            repair.play();
-                            lastItem= Date.now();
-                        }
-                    }
-                    if(item.itemID == 3) {
-                        if (Date.now()> lastItem +1000) {
-                            hp-=10;
-                            hpgui.text = 'hp: ' + hp;
-                            app.stage.removeChild(items[i]);
-                            spikes = new Audio('Audio/spike.mp3');
-                            spikes.play();
-                            lastItem= Date.now();
-                        }
+            items[i].x += items[i].vx;
+            if(bump.hit(playerOne, item)){
+                if(item.itemID == 1) {
+                    if (Date.now()> lastItem +1000) {
+                        score += 1000;
+                        app.stage.removeChild(items[i]);
+                        money = new Audio('Audio/money.mp3');
+                        money.play();
+                        lastItem= Date.now();
                     }
                 }
-                if (items[i].x < -300) {
-                    app.stage.removeChild(items[i]);
-                    items.splice(i, 1);
+                if(item.itemID == 2) {
+                    if (Date.now()> lastItem +1000) {
+                        hp += 25;
+                        hpgui.text = 'hp: ' + hp;
+                        if (hp> 100){
+                            hp=100;
+                            hpgui.text = 'hp: ' + hp;
+                        }
+                        app.stage.removeChild(items[i]);
+                        repair = new Audio('Audio/repair.mp3');
+                        repair.play();
+                        lastItem= Date.now();
+                    }
+                }
+                if(item.itemID == 3) {
+                    if (Date.now()> lastItem +1000) {
+                        hp-=10;
+                        hpgui.text = 'hp: ' + hp;
+                        app.stage.removeChild(items[i]);
+                        spikes = new Audio('Audio/spike.mp3');
+                        spikes.play();
+                        lastItem= Date.now();
+                    }
                 }
             }
+            if (items[i].x < -300) {
+                app.stage.removeChild(items[i]);
+                items.splice(i, 1);
+            }
         }
+    }
 
-        function update() {
+    function update() {
 
-        }
+    }
 
 //sätter eventhandlers för olika keyCodes
-        function keyboard(keyCode) {
-            var key = {};
-            key.code = keyCode;
-            key.isDown = false;
-            key.isUp = true;
-            key.press = undefined;
-            key.release = undefined;
-            key.hold = undefined;
-            //The `downHandler`
-            key.downHandler = event => {
-                if (event.keyCode === key.code) {
-                    if (key.isUp && key.press) key.press();
-                    if (key.hold) key.hold();
-                    key.isDown = true;
-                    key.isUp = false;
-                }
-                event.preventDefault();
-            };
-            key.pressHandler = event => {
-                if (event.keyCode === key.code) {
-                    if (key.hold) key.hold();
-                    key.isDown = true;
-                    key.isUp = false;
-                }
-                event.preventDefault();
-            };
-            key.upHandler = event => {
-                if (event.keyCode === key.code) {
-                    if (key.isDown && key.release) key.release();
-                    key.isDown = false;
-                    key.isUp = true;
-                }
-                event.preventDefault();
-            };
+    function keyboard(keyCode) {
+        var key = {};
+        key.code = keyCode;
+        key.isDown = false;
+        key.isUp = true;
+        key.press = undefined;
+        key.release = undefined;
+        key.hold = undefined;
+        //The `downHandler`
+        key.downHandler = event => {
+            if (event.keyCode === key.code) {
+                if (key.isUp && key.press) key.press();
+                if (key.hold) key.hold();
+                key.isDown = true;
+                key.isUp = false;
+            }
+            event.preventDefault();
+        };
+        key.pressHandler = event => {
+            if (event.keyCode === key.code) {
+                if (key.hold) key.hold();
+                key.isDown = true;
+                key.isUp = false;
+            }
+            event.preventDefault();
+        };
+        key.upHandler = event => {
+            if (event.keyCode === key.code) {
+                if (key.isDown && key.release) key.release();
+                key.isDown = false;
+                key.isUp = true;
+            }
+            event.preventDefault();
+        };
 
-            window.addEventListener(
-                "keydown", key.downHandler.bind(key), false
-            );
-            window.addEventListener(
-                "keyup", key.upHandler.bind(key), false
-            );
-            return key;
-        }
+        window.addEventListener(
+            "keydown", key.downHandler.bind(key), false
+        );
+        window.addEventListener(
+            "keyup", key.upHandler.bind(key), false
+        );
+        return key;
+    }
 }
 
 
