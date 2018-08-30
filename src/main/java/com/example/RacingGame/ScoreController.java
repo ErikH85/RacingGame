@@ -23,6 +23,7 @@ public class ScoreController {
     @ResponseBody
     public String addHighscore(@RequestParam int score, HttpServletRequest request){
 
+
         HttpSession session = request.getSession(true);
         int id = (Integer) session.getAttribute("UserID");
         scoreRepository.addHighscore(id, score);

@@ -363,7 +363,6 @@ function setup() {
         };
         classicCopAnimation.push(classicCopAnimationFrames);
     }
-    policeAnimationType = new PIXI.AnimatedSprite(classicCopAnimation);
     //End Classic Cop
 
     //Start SWAT
@@ -377,7 +376,6 @@ function setup() {
         };
         swatAnimation.push(swatAnimationFrames);
     }
-    policeAnimationType = new PIXI.AnimatedSprite(swatAnimation);
     //End SWAT
 
     //Start Modern Cop
@@ -391,7 +389,6 @@ function setup() {
         };
         modernCopAnimation.push(modernCopAnimationFrames);
     }
-    policeAnimationType = new PIXI.AnimatedSprite(modernCopAnimation);
     //End Modern Cop
 
     //Start Military Police
@@ -405,7 +402,6 @@ function setup() {
         };
         mpAnimation.push(mpAnimationFrames);
     }
-    policeAnimationType = new PIXI.AnimatedSprite(mpAnimation);
     //End Military Police
 
     //Start explosion
@@ -421,6 +417,8 @@ function setup() {
     }
     explosion = new PIXI.AnimatedSprite(explosionAnimation);
     explosion.visible = false;
+
+
 
     //Start boost
     var boostAnimation = [];
@@ -764,6 +762,14 @@ function setup() {
         playerOneIsExploding = false;
         explosionP1.visible = false;
         explosionP1.stop();
+
+    var isExploding = false;
+    explosion.loop = false;
+
+    explosion.onComplete = function() {
+        isExploding = false;
+        explosion.visible = false;
+        explosion.stop();
         life -= 1;
         hp = 100;
         //hpgui.text = 'hp: ' + hp;
@@ -1555,7 +1561,6 @@ function setup() {
 
             app.stage.addChild(item);
         }
-
         if(rightShotsFired && ( playerTwo.x < playerOne.x +50 && playerTwo.x > playerOne.x -50) && playerTwo.y > playerOne.y){
             if(Date.now()> lastShot + 500) {
                 playerTwo.hp -= 20;
@@ -1570,15 +1575,13 @@ function setup() {
         }
     });
 
+
     function gameLoop(delta) {
 
         state(delta);
     }
 
     function play(delta) {
-
-        policeAnimationType.x = police.x;
-        policeAnimationType.y = police.y;
 
         brakelights.x = playerOne.x - 10;
         brakelights.y = playerOne.y;
@@ -1744,4 +1747,5 @@ function whichState(carHP){
     }
 
     return currentState;
+
 }
