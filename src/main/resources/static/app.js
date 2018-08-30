@@ -621,12 +621,10 @@ function setup() {
     var postDone = false;
     var oneTime = false;
 
-    /*
-    explosion = new PIXI.AnimatedSprite(explosionAnimation);
-    explosion.visible = false;
-     */
 
 
+    //EXPLOSIONS
+    //Explosions PlayerOne
     var playerOneIsExploding = false;
     var explosionP1 = new PIXI.AnimatedSprite(explosionAnimation);
     app.stage.addChild(explosionP1);
@@ -643,13 +641,14 @@ function setup() {
         app.stage.removeChild(playerOne);
         app.stage.addChild(playerOne);
         lastCollision = Date.now();
-        playerOne.x = 500;
+        playerOne.x = 600;
         playerOne.y = rightLane;
         playerOne.vx = 0;
         playerOne.vy = 0;
         playerOne.visible = true;
     };
 
+    //Explosions PlayerTwo
     var playerTwoIsExploding = false;
     var explosionP2 = new PIXI.AnimatedSprite(explosionAnimation);
     app.stage.addChild(explosionP2);
@@ -666,12 +665,13 @@ function setup() {
         app.stage.removeChild(playerTwo);
         app.stage.addChild(playerTwo);
         lastCollision = Date.now();
-        playerTwo.x = 700;
+        playerTwo.x = 300;
         playerTwo.y = rightLane;
         playerTwo.vx = 0;
         playerTwo.vy = 0;
         playerTwo.visible = true;
     };
+    //END EXPLOSIONS
 
     app.ticker.add(function () {
 
@@ -746,6 +746,7 @@ function setup() {
             playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car6/Car_6_0${playerTwoState.sprite}.png`);
         }
 
+        //Explosions PlayerOne
         if(hp <= 1 && !playerOneIsExploding){
             playerOneIsExploding = true;
             playerOne.visible = false;
@@ -755,6 +756,7 @@ function setup() {
             explosionP1.y = playerOne.y;
         }
 
+        //Explosions PlayerTwo
         if(playerTwo.hp <= 1 && !playerTwoIsExploding){
             playerTwoIsExploding = true;
             playerTwo.visible = false;
