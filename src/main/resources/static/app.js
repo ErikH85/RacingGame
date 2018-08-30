@@ -247,6 +247,10 @@ function setup() {
     hpgui.x = 30;
     hpgui.y = 10;
 
+    ammogui = new PIXI.Text('Ammo: '+ammo,style);
+    ammogui.x = 2250;
+    ammogui.y = 1150;
+
     lifegui = new PIXI.Text('life x ' + life, style);
     lifegui.x = 30;
     lifegui.y = 70;
@@ -495,6 +499,7 @@ function setup() {
     app.stage.addChild(boostGui);
     app.stage.addChild(boostQuantityGui);
     app.stage.addChild(wantedGui);
+    app.stage.addChild(ammogui);
     //app.stage.addChild(topBoundary);
     //app.stage.addChild(bottomBoundary);
 
@@ -1495,13 +1500,8 @@ function setup() {
                 lastShot= Date.now();
             }
         }
-        ammogui = new PIXI.Text('Ammo: '+ammo,style);
-        ammogui.x = 2250;
-        ammogui.y = 1150;
-        app.stage.addChild(ammogui);
     });
-
-
+    
     function gameLoop(delta) {
 
         state(delta);
