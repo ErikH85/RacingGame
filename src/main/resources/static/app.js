@@ -174,6 +174,8 @@ PIXI.Loader.shared
 
 var playerOne;
 var police;
+var policeAnimationType;
+var typeOfPoliceVehicle;
 var playerTwo;
 var vehicle;
 var state;
@@ -1353,7 +1355,6 @@ function setup() {
         var policeXPos;
         var policeYPos;
         var policeVelocity;
-        var typeOfPoliceVehicle;
 
         if (Date.now() > lastSpawnedPoliceVehicle + 7000) {
             lastSpawnedPoliceVehicle = Date.now();
@@ -1372,7 +1373,6 @@ function setup() {
                 typeOfPoliceVehicle = 1;
             }
 
-
             switch (typeOfPoliceVehicle) {
                 case 1:
                     policeVelocity = 4;
@@ -1384,30 +1384,38 @@ function setup() {
                 case 2:
                     policeVelocity = 7;
 
-                    police = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car1/Car_1_01.png"].texture);
-                    police.spriteName = "Sprites/Traffic/Police/Car1/Car_1_0";
+                    police = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car1/Car_1_01.png"].texture);
+                    police.spriteName = "Sprites/PoliceCar/Car1/Car_1_0";
                     police.hasState = true;
+                    policeAnimationType = new PIXI.AnimatedSprite(classicCopAnimation);
+                    policeAnimationType.play();
                     break;
                 case 3:
                     policeVelocity = 7;
 
-                    police = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car2/Car_2_01.png"].texture);
-                    police.spriteName = "Sprites/Traffic/Police/Car2/Car_2_0";
+                    police = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car3/Car_3_01.png"].texture);
+                    police.spriteName = "Sprites/PoliceCar/Car3/Car_3_0";
                     police.hasState = true;
+                    policeAnimationType = new PIXI.AnimatedSprite(modernCopAnimation);
+                    policeAnimationType.play();
                     break;
                 case 4:
                     policeVelocity = 7;
 
-                    police = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car3/Car_3_01.png"].texture);
-                    police.spriteName = "Sprites/Traffic/Police/Car3/Car_3_0";
+                    police = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car2/Car_2_01.png"].texture);
+                    police.spriteName = "Sprites/PoliceCar/Car2/Car_2_0";
                     police.hasState = true;
+                    policeAnimationType = new PIXI.AnimatedSprite(swatAnimation);
+                    policeAnimationType.play();
                     break;
                 case 5:
                     policeVelocity = 2;
 
-                    police = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Police/Car6/Car_6_01.png"].texture);
-                    police.spriteName = "Sprites/Traffic/Police/Car6/Car_6_0";
+                    police = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/PoliceCar/Car6/Car_6_01.png"].texture);
+                    police.spriteName = "Sprites/PoliceCar/Car6/Car_6_0";
                     police.hasState = true;
+                    policeAnimationType = new PIXI.AnimatedSprite(mpAnimation);
+                    policeAnimationType.play();
                     break;
             }
 
@@ -1416,6 +1424,7 @@ function setup() {
 
             police.x = policeXPos;
             police.y = policeYPos;
+
             police.hp = 100;
 
             police.vx = policeVelocity;
@@ -1426,6 +1435,12 @@ function setup() {
             siren.play();
 
             app.stage.addChild(police);
+
+            if (typeOfPoliceVehicle != 1) {
+                policeAnimationType.x = police.x;
+                policeAnimationType.y = police.y;
+                app.stage.addChild(policeAnimationType);
+            }
         }
         //END TRAFFIC
 
