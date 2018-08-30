@@ -879,19 +879,19 @@ function setup() {
         //End Boost
 
         //Start Wanted Level
-        if (score <= 500) {
+        if (score === 400) {
             wantedLevel = 1;
             wantedGui.text = '\u2605 \u2606 \u2606 \u2606 \u2606';
-        } else if (score <= 2000) {
+        } else if (score === 2000) {
             wantedLevel = 2;
             wantedGui.text = '\u2605 \u2605 \u2606 \u2606 \u2606';
-        } else if (score <= 4000) {
+        } else if (score === 4000) {
             wantedLevel = 3;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2606 \u2606';
-        } else if (score <= 6000) {
+        } else if (score === 6000) {
             wantedLevel = 4;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2605 \u2606';
-        } else if (score <= 8000) {
+        } else if (score === 8000) {
             wantedLevel = 5;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2605 \u2605';
         }
