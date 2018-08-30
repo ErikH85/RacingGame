@@ -348,6 +348,7 @@ function setup() {
         };
         classicCopAnimation.push(classicCopAnimationFrames);
     }
+    policeAnimationType = new PIXI.AnimatedSprite(classicCopAnimation);
     //End Classic Cop
 
     //Start SWAT
@@ -361,6 +362,7 @@ function setup() {
         };
         swatAnimation.push(swatAnimationFrames);
     }
+    policeAnimationType = new PIXI.AnimatedSprite(swatAnimation);
     //End SWAT
 
     //Start Modern Cop
@@ -374,6 +376,7 @@ function setup() {
         };
         modernCopAnimation.push(modernCopAnimationFrames);
     }
+    policeAnimationType = new PIXI.AnimatedSprite(modernCopAnimation);
     //End Modern Cop
 
     //Start Military Police
@@ -387,6 +390,7 @@ function setup() {
         };
         mpAnimation.push(mpAnimationFrames);
     }
+    policeAnimationType = new PIXI.AnimatedSprite(mpAnimation);
     //End Military Police
 
     //Start explosion
@@ -1504,6 +1508,9 @@ function setup() {
     }
 
     function play(delta) {
+
+        //policeAnimationType.x = police.x;
+        //policeAnimationType.y = police.y;
 
         brakelights.x = playerOne.x - 10;
         brakelights.y = playerOne.y;
