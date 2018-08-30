@@ -222,7 +222,7 @@ var bottomBoundary;
 var leftShotsFired = false;
 var rightShotsFired = false;
 var lastShot = Date.now();
-var ammo = 3;
+var ammo = 10;
 var ammogui;
 function setup() {
 
