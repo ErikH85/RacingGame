@@ -828,6 +828,21 @@ function setup() {
         }
 
     };
+
+    //Explosions Vehicles
+    var vehicleIsExploding = false;
+    var explosionVehicle = new PIXI.AnimatedSprite(explosionAnimation);
+    app.stage.addChild(explosionVehicle);
+    explosionVehicle.visible = false;
+    explosionVehicle.loop = false;
+    explosionVehicle.onComplete = function() {
+        vehicleIsExploding = false;
+        explosionVehicle.visible = false;
+        explosionVehicle.stop();
+        lastCollision = Date.now();
+        //EV lägga till vehicle[i] till ta-bort-listan
+    };
+
     //END EXPLOSIONS
 
     app.ticker.add(function () {
@@ -942,6 +957,21 @@ function setup() {
             explosionP2.y = playerTwo.y;
         }
 
+
+        //Explosions Vehicles
+        for (var i = vehicles.length -1; i >= 0; i--) {
+            if (vehicles[i].hp < 1 && !vehicleIsExploding) {
+                vehicleIsExploding = true;
+                vehicles[i].visible = false;
+                explosionVehicle.visible = true;
+                explosionVehicle.gotoAndPlay(0);
+                explosionVehicle.x = vehicles[i].x;
+                explosionVehicle.y = vehicles[i].y;
+                app.stage.removeChild(vehicle[i]);
+                vehicles.splice(i, 1);
+            }
+        }
+
         for (var i = 0; i < vehicles.length; i++) {
 
             if (vehicles[i].hasState == true) {
@@ -956,6 +986,7 @@ function setup() {
             if(policeVehicles[i].hasState == true){
                 var vehState = whichState(policeVehicles[i].hp);
                 policeVehicles[i].texture = PIXI.Texture.from(`${policeVehicles[i].spriteName}${vehState.sprite}.png`);
+
             }
         }
 
@@ -1109,6 +1140,7 @@ function setup() {
             }
         }
 
+        //
         if(player2 !== "none"){
             if(bump.hit(playerTwo, topBoundary, true, true)){
                 if(Date.now()> lastCollisionp2 + 150) {
