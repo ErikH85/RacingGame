@@ -1023,13 +1023,13 @@ function setup() {
 
             if(rightShotsFired && ( vehicles[i].x < playerOne.x +50 && vehicles[i].x > playerOne.x -50) && vehicles[i].y > playerOne.y){
                 if(Date.now()> lastShot + 500) {
-                    playerTwo.hp -= 20;
+                    vehicles[i].hp -= 20;
                     lastShot= Date.now();
                 }
             }
             if(leftShotsFired && ( vehicles[i].x < playerOne.x +50 && vehicles[i].x > playerOne.x -50) && vehicles[i].y < playerOne.y){
                 if(Date.now()> lastShot + 500) {
-                    playerTwo.hp -= 20;
+                    vehicles[i].hp -= 20;
                     lastShot= Date.now();
                 }
             }
@@ -1076,13 +1076,13 @@ function setup() {
 
             if(rightShotsFired && ( policeVehicles[i].x < playerOne.x +50 && policeVehicles[i].x > playerOne.x -50) && policeVehicles[i].y > playerOne.y){
                 if(Date.now()> lastShot + 500) {
-                    playerTwo.hp -= 20;
+                    policeVehicles[i].hp -= 20;
                     lastShot= Date.now();
                 }
             }
             if(leftShotsFired && ( policeVehicles[i].x < playerOne.x +50 && policeVehicles[i].x > playerOne.x -50) && policeVehicles[i].y < playerOne.y){
                 if(Date.now()> lastShot + 500) {
-                    playerTwo.hp -= 20;
+                    policeVehicles[i].hp -= 20;
                     lastShot= Date.now();
                 }
             }
