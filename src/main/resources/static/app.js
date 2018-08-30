@@ -240,7 +240,7 @@ var bottomBoundary;
 var leftShotsFired = false;
 var rightShotsFired = false;
 var lastShot = Date.now();
-var ammo = 3;
+var ammo = 10;
 var ammogui;
 function setup() {
 
@@ -529,8 +529,8 @@ function setup() {
         app.stage.addChild(hpguiP2);
         app.stage.addChild(lifeguiP2);
 
-        scoregui.x =10;
-        scoregui.y =100;
+        scoregui.x = 1100;
+        scoregui.y = 70;
     }
 
     //sätter enums för piltangenterna keycodes
@@ -756,6 +756,7 @@ function setup() {
     var lastSpawnedTraffic = Date.now();
     var lastSpawnedPoliceVehicle = Date.now();
     var lastCollision = Date.now();
+    var lastCollisionp2 = Date.now();
     var lastItem = Date.now();
     var isGameOver = false;
     var getDone = false;
@@ -811,16 +812,37 @@ function setup() {
         playerTwo.vy = 0;
         playerTwo.visible = true;
 
-        if(lifeP2 == 0){
+        if(lifeP2 < 0){
             playerTwo.hp = 0;
             //lifeP2 = 0;
             playerTwoIsExploding = true;
             app.stage.removeChild(playerTwo);
+            app.stage.removeChild(lifeguiP2);
             //lifeguiP2.visible = false;
             hpguiP2.text = 'Player 2 Game Over';
+            hpguiP2.x = 1900;
+            hpguiP2.y = 10;
+        }
+        if(playerTwo.hp <0){
+            playerTwo.hp = 0;
         }
 
     };
+
+    //Explosions Vehicles
+    var vehicleIsExploding = false;
+    var explosionVehicle = new PIXI.AnimatedSprite(explosionAnimation);
+    app.stage.addChild(explosionVehicle);
+    explosionVehicle.visible = false;
+    explosionVehicle.loop = false;
+    explosionVehicle.onComplete = function() {
+        vehicleIsExploding = false;
+        explosionVehicle.visible = false;
+        explosionVehicle.stop();
+        lastCollision = Date.now();
+        //EV lägga till vehicle[i] till ta-bort-listan
+    };
+
     //END EXPLOSIONS
 
     app.ticker.add(function () {
@@ -828,7 +850,7 @@ function setup() {
         hpgui.text = 'hp: ' + hp;
         lifegui.text = 'life x ' + life;
 
-        if(lifeP2 >= 1){
+        if(lifeP2 >= 0){
             hpguiP2.text = 'hp: ' + playerTwo.hp;
             lifeguiP2.text = 'life x' + lifeP2;
         }
@@ -935,6 +957,21 @@ function setup() {
             explosionP2.y = playerTwo.y;
         }
 
+
+        //Explosions Vehicles
+        for (var i = vehicles.length -1; i >= 0; i--) {
+            if (vehicles[i].hp < 1 && !vehicleIsExploding) {
+                vehicleIsExploding = true;
+                vehicles[i].visible = false;
+                explosionVehicle.visible = true;
+                explosionVehicle.gotoAndPlay(0);
+                explosionVehicle.x = vehicles[i].x;
+                explosionVehicle.y = vehicles[i].y;
+                app.stage.removeChild(vehicle[i]);
+                vehicles.splice(i, 1);
+            }
+        }
+
         for (var i = 0; i < vehicles.length; i++) {
 
             if (vehicles[i].hasState == true) {
@@ -949,6 +986,7 @@ function setup() {
             if(policeVehicles[i].hasState == true){
                 var vehState = whichState(policeVehicles[i].hp);
                 policeVehicles[i].texture = PIXI.Texture.from(`${policeVehicles[i].spriteName}${vehState.sprite}.png`);
+
             }
         }
 
@@ -1102,14 +1140,33 @@ function setup() {
             }
         }
 
+        //
         if(player2 !== "none"){
             if(bump.hit(playerTwo, topBoundary, true, true)){
-                playerTwo.hp -= 4;
-                crash.play();
+                if(Date.now()> lastCollisionp2 + 150) {
+                    crash.play();
+                    if(playerTwo.hp<4){
+                        playerTwo.hp=0;
+                        lastCollisionp2 = Date.now()
+                    }
+                    else {
+                        playerTwo.hp -= 4;
+                        lastCollisionp2 = Date.now()
+                    }
+                }
             }
             if(bump.hit(playerTwo, bottomBoundary, true, true)){
-                playerTwo.hp -= 4;
-                crash.play();
+                if(Date.now()> lastCollisionp2 + 150) {
+                    crash.play();
+                    if(playerTwo.hp<4){
+                        playerTwo.hp=0;
+                        lastCollisionp2 = Date.now()
+                    }
+                    else {
+                        playerTwo.hp -= 4;
+                        lastCollisionp2 = Date.now()
+                    }
+                }
             }
         }
 
@@ -1136,7 +1193,6 @@ function setup() {
             if(bump.hit(playerOne,vehicles[i],true, true)){
                 crash.play();
                 if(Date.now()> lastCollision + 150 && !playerOneIsExploding) {
-
                     if(hp<4){
                         hp=0;
                         vehicles[i].hp -= 20;
@@ -1152,9 +1208,19 @@ function setup() {
 
             if(player2 !== "none"){
                 if(bump.hit(vehicles[i], playerTwo, true)){
-                    vehicles[i].hp -= 20;
-                    playerTwo.hp -= 4;
-                    crash.play();
+                    if(Date.now()> lastCollisionp2 + 150) {
+                        crash.play();
+                        if (playerTwo.hp < 4) {
+                            playerTwo.hp = 0;
+                            vehicles[i].hp -= 20;
+                            lastCollisionp2 = Date.now()
+                        }
+                        else {
+                            playerTwo.hp -= 4;
+                            vehicles[i].hp -= 20;
+                            lastCollisionp2 = Date.now()
+                        }
+                    }
                 }
             }
 
@@ -1202,9 +1268,19 @@ function setup() {
         }
         for (var i = 0; i < policeVehicles.length; i++) {
             if(bump.hit(playerTwo,policeVehicles[i], true)){
-                playerTwo.hp -= 4;
-                policeVehicles[i].hp -= 10;
-                crash.play();
+                if(Date.now()> lastCollisionp2 + 150) {
+                    crash.play();
+                    if (playerTwo.hp < 4) {
+                        playerTwo.hp = 0;
+                        policeVehicles[i].hp -= 20;
+                        lastCollisionp2 = Date.now()
+                    }
+                    else {
+                        playerTwo.hp -= 4;
+                        policeVehicles[i].hp -= 20;
+                        lastCollisionp2 = Date.now()
+                    }
+                }
             }
         }
         for (var i = 0; i < vehicles.length; i++) {
