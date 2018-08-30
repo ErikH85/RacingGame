@@ -142,11 +142,17 @@ PIXI.Loader.shared
     .add("Sprites/RacingCar/Car6/Car_6_03.png")
     .add("Sprites/RacingCar/Car6/Car_6_04.png")
     .add("Sprites/RacingCar/Car6/Car_6_05.png")
+
     .add("Sprites/PoliceCar/Car1/Car_1_01.png")
     .add("Sprites/PoliceCar/Car1/Car_1_02.png")
     .add("Sprites/PoliceCar/Car1/Car_1_03.png")
     .add("Sprites/PoliceCar/Car1/Car_1_04.png")
     .add("Sprites/PoliceCar/Car1/Car_1_05.png")
+    .add("Sprites/PoliceCar/Car2/Car_2_01.png")
+    .add("Sprites/PoliceCar/Car2/Car_2_02.png")
+    .add("Sprites/PoliceCar/Car2/Car_2_03.png")
+    .add("Sprites/PoliceCar/Car2/Car_2_04.png")
+    .add("Sprites/PoliceCar/Car2/Car_2_05.png")
     .add("Sprites/PoliceCar/Car3/Car_3_01.png")
     .add("Sprites/PoliceCar/Car3/Car_3_02.png")
     .add("Sprites/PoliceCar/Car3/Car_3_03.png")
@@ -162,6 +168,12 @@ PIXI.Loader.shared
     .add("Sprites/PoliceCar/Car5/Car_5_03.png")
     .add("Sprites/PoliceCar/Car5/Car_5_04.png")
     .add("Sprites/PoliceCar/Car5/Car_5_05.png")
+    .add("Sprites/PoliceCar/Car6/Car_6_01.png")
+    .add("Sprites/PoliceCar/Car6/Car_6_02.png")
+    .add("Sprites/PoliceCar/Car6/Car_6_03.png")
+    .add("Sprites/PoliceCar/Car6/Car_6_04.png")
+    .add("Sprites/PoliceCar/Car6/Car_6_05.png")
+
     .add("Sprites/classiccop.png")
     .add("Sprites/jeep.png")
     .add("Sprites/army.png")
@@ -1743,7 +1755,6 @@ function setup() {
     }
 }
 
-
 function whichState(carHP){
 
     var STATE = {
@@ -1770,5 +1781,4 @@ function whichState(carHP){
     }
 
     return currentState;
-
 }
