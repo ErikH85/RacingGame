@@ -192,6 +192,7 @@ var honk;
 var money;
 var repair;
 var spikes;
+var explosions;
 var wantedLevel = 0;
 var backgroundTrafficRightLane = 1010;
 var backgroundTrafficLeftLane = 1130;
@@ -202,6 +203,7 @@ var rightLane = 560;
 var bump = new Bump(PIXI);
 var hp = 100;
 var life = 3;
+var sound;
 var score = 0;
 var topBoundary;
 var bottomBoundary;
@@ -413,6 +415,8 @@ function setup() {
 
     if(player2 !== "none"){
         app.stage.addChild(playerTwo);
+        scoregui.x =10;
+        scoregui.y =100;
     }
 
     //sätter enums för piltangenterna keycodes
@@ -451,10 +455,8 @@ function setup() {
     };
 
     ctrl.press = () => {
-        honk = new Audio('Audio/honk.mp3')
+        honk = new Audio(sound);
         honk.play();
-        life = 0;
-        lifegui.text = 'lifex '+ life;
     };
 
     ctrl.release = () => {
@@ -603,6 +605,7 @@ function setup() {
 
     var isExploding = false;
     explosion.loop = false;
+
     explosion.onComplete = function() {
         isExploding = false;
         explosion.visible = false;
@@ -667,16 +670,25 @@ function setup() {
 
         if (player1 == 1) {
             playerOne.texture = PIXI.Texture.from("Sprites/PlayerCars/Muscle/muscle.png");
+            sound = 'Audio/dixie.mp3';
         } else if (player1 == 2) {
             playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car1/Car_1_0${playerOneState.sprite}.png`);
+            sound ='Audio/honk.mp3';
         } else if (player1 == 3) {
             playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car3/Car_3_0${playerOneState.sprite}.png`);
+            sound = 'Audio/honk.mp3';
         } else if (player1 == 4) {
             playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car2/Car_2_0${playerOneState.sprite}.png`);
+            sound ='Audio/honk.mp3';
         } else if (player1 == 5) {
             playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car5/Car_5_0${playerOneState.sprite}.png`);
+            sound ='Audio/honk.mp3';
         } else if (player1 == 6) {
             playerOne.texture = PIXI.Texture.from(`Sprites/PlayerCars/Car4/Car_4_0${playerOneState.sprite}.png`);
+            sound ='Audio/honk.mp3';
+        } else if (player1 == "none") {
+            playerOne.texture = PIXI.Texture.from("Sprites/PlayerCars/Muscle/muscle.png");
+            sound = 'Audio/dixie.mp3';
         }
 
         if (player2 == 7) {
@@ -694,6 +706,9 @@ function setup() {
             playerOne.visible = false;
             explosion.visible = true;
             explosion.gotoAndPlay(0);
+            explosions = new Audio('Audio/explosion.mp3');
+            explosions.volume = 0.3;
+            explosions.play();
             explosion.x = playerOne.x;
             explosion.y = playerOne.y;
 
