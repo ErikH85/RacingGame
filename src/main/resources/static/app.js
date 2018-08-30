@@ -296,8 +296,10 @@ function setup() {
 
     playerTwo = new PIXI.AnimatedSprite(sheriffAnimation);
     playerTwo.play();
-    */http://localhost:8080/game?player1=2&player2=none&map=night
-        playerTwo = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Player2/Car_3_01.png"].texture);
+    */
+  
+    playerTwo = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Player2/Car_3_01.png"].texture);
+
     playerTwo.x = 700;
     playerTwo.y = rightLane;
     playerTwo.vx = 0;
@@ -669,7 +671,6 @@ function setup() {
     var postDone = false;
     var oneTime = false;
 
-
     var isExploding = false;
     explosion.loop = false;
 
@@ -788,7 +789,6 @@ function setup() {
             explosion.y = playerOne.y;
 
         }
-
 
         if (life < 0){
             var gameOver = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/black.png"].texture);
