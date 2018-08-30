@@ -501,7 +501,7 @@ function setup() {
         up = keyboard(87),
         right = keyboard(68),
         down = keyboard(83),
-        ctrl = keyboard(17),
+        space = keyboard(32),
         shift = keyboard(16),
         t = keyboard(84),
         q = keyboard(81),
@@ -560,12 +560,12 @@ function setup() {
         rightShotsFired = false;
     };
 
-    ctrl.press = () => {
+    space.press = () => {
         honk = new Audio(sound);
         honk.play();
     };
 
-    ctrl.release = () => {
+    space.release = () => {
         honk.pause();
     };
 
