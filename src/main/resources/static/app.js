@@ -354,6 +354,13 @@ function setup() {
     explosion = new PIXI.AnimatedSprite(explosionAnimation);
     explosion.visible = false;
 
+    /*
+    space.press = () => {
+        gun = new Audio('Audio/gun.mp3');
+        gun.play();
+    };
+     */
+
     //End explosion
 
     //Start boost
@@ -614,13 +621,21 @@ function setup() {
     var postDone = false;
     var oneTime = false;
 
+    /*
+    explosion = new PIXI.AnimatedSprite(explosionAnimation);
+    explosion.visible = false;
+     */
+
 
     var playerOneIsExploding = false;
-    explosion.loop = false;
-    explosion.onComplete = function() {
+    var explosionP1 = new PIXI.AnimatedSprite(explosionAnimation);
+    app.stage.addChild(explosionP1);
+    explosionP1.visible = false;
+    explosionP1.loop = false;
+    explosionP1.onComplete = function() {
         playerOneIsExploding = false;
-        explosion.visible = false;
-        explosion.stop();
+        explosionP1.visible = false;
+        explosionP1.stop();
         life -= 1;
         hp = 100;
         //hpgui.text = 'hp: ' + hp;
@@ -636,11 +651,14 @@ function setup() {
     };
 
     var playerTwoIsExploding = false;
-    explosion.loop = false;
-    explosion.onComplete = function() {
+    var explosionP2 = new PIXI.AnimatedSprite(explosionAnimation);
+    app.stage.addChild(explosionP2);
+    explosionP2.visible = false;
+    explosionP2.loop = false;
+    explosionP2.onComplete = function() {
         playerTwoIsExploding = false;
-        explosion.visible = false;
-        explosion.stop();
+        explosionP2.visible = false;
+        explosionP2.stop();
         lifeP2 -= 1;
         playerTwo.hp = 100;
         //hpgui.text = 'hp: ' + hp;
@@ -731,19 +749,19 @@ function setup() {
         if(hp <= 1 && !playerOneIsExploding){
             playerOneIsExploding = true;
             playerOne.visible = false;
-            explosion.visible = true;
-            explosion.gotoAndPlay(0);
-            explosion.x = playerOne.x;
-            explosion.y = playerOne.y;
+            explosionP1.visible = true;
+            explosionP1.gotoAndPlay(0);
+            explosionP1.x = playerOne.x;
+            explosionP1.y = playerOne.y;
         }
 
         if(playerTwo.hp <= 1 && !playerTwoIsExploding){
             playerTwoIsExploding = true;
             playerTwo.visible = false;
-            explosion.visible = true;
-            explosion.gotoAndPlay(0);
-            explosion.x = playerTwo.x;
-            explosion.y = playerTwo.y;
+            explosionP2.visible = true;
+            explosionP2.gotoAndPlay(0);
+            explosionP2.x = playerTwo.x;
+            explosionP2.y = playerTwo.y;
         }
 
 
