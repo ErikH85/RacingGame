@@ -664,11 +664,13 @@ function setup() {
         playerTwo.vy = 0;
         playerTwo.visible = true;
 
-        if(lifeP2 < 1){
+        if(lifeP2 == 0){
             playerTwo.hp = 0;
-            lifeP2 = 0;
+            //lifeP2 = 0;
             playerTwoIsExploding = true;
             app.stage.removeChild(playerTwo);
+            //lifeguiP2.visible = false;
+            hpguiP2.text = 'Player 2 Game Over';
         }
 
     };
@@ -679,8 +681,10 @@ function setup() {
         hpgui.text = 'hp: ' + hp;
         lifegui.text = 'life x ' + life;
 
+        if(lifeP2 >= 1){
         hpguiP2.text = 'hp: ' + playerTwo.hp;
         lifeguiP2.text = 'life x' + lifeP2;
+        }
 
         //Start Boost
         if (Date.now() > boostRefill + 1000 && nos.length < 20) {
@@ -880,12 +884,10 @@ function setup() {
                 if(Date.now()> lastCollision + 150) {
                     if(hp<4){
                         hp= 0 ;
-                        //hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                     else {
                         hp -= 4;
-                        //hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                 }
@@ -897,12 +899,10 @@ function setup() {
             if(Date.now()> lastCollision + 150) {
                 if(hp<4){
                     hp= 0 ;
-                    //hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
                 else {
                     hp -= 4;
-                    //hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
             }
@@ -912,12 +912,10 @@ function setup() {
             if(Date.now()> lastCollision + 150) {
                 if(hp<4){
                     hp= 0 ;
-                    //hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
                 else {
                     hp -= 4;
-                    //hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
             }
@@ -939,7 +937,6 @@ function setup() {
         for (var i = 0; i < vehicles.length; i++) {
 
             if(vehicles[i].hasState == true) {
-                //vehicles[i].hp = 5;
                 var vehState = whichState(vehicles[i].hp);
                 vehicles[i].texture = PIXI.Texture.from(`${vehicles[i].spriteName}${vehState.sprite}.png`);
             }
@@ -950,14 +947,12 @@ function setup() {
 
                     if(hp<4){
                         hp=0;
-                        //hpgui.text = 'hp: ' + hp;
                         vehicles[i].hp -= 20;
                         lastCollision = Date.now()
                     }
                     else {
                         hp -= 4;
                         vehicles[i].hp -= 20;
-                        //hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                 }
@@ -982,12 +977,10 @@ function setup() {
                 if(Date.now()> lastCollision + 150) {
                     if(hp<4){
                         hp= 0 ;
-                        //hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                     else {
                         hp -= 4;
-                        //hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                 }
@@ -1378,7 +1371,6 @@ function setup() {
                             hpgui.text = 'hp: ' + hp;
                             if (hp> 100){
                                 hp=100;
-                                //hpgui.text = 'hp: ' + hp;
                             }
                             app.stage.removeChild(items[i]);
                             repair = new Audio('Audio/repair.mp3');
@@ -1389,7 +1381,6 @@ function setup() {
                     if(item.itemID == 3) {
                         if (Date.now()> lastItem +1000) {
                             hp-=10;
-                            //hpgui.text = 'hp: ' + hp;
                             app.stage.removeChild(items[i]);
                             spikes = new Audio('Audio/spike.mp3');
                             spikes.play();
