@@ -185,7 +185,9 @@ var texture;
 var tires;
 var accelerate;
 var hpgui;
+var hpguiP2;
 var lifegui;
+var lifeguiP2;
 var scoregui;
 var boostGui;
 var boostQuantityGui;
@@ -216,7 +218,9 @@ var leftLane = 430;
 var rightLane = 560;
 var bump = new Bump(PIXI);
 var hp = 100;
+var hpP2 = 100;
 var life = 3;
+var lifeP2 = 3;
 var sound;
 var score = 0;
 var topBoundary;
@@ -224,7 +228,7 @@ var bottomBoundary;
 var leftShotsFired = false;
 var rightShotsFired = false;
 var lastShot = Date.now();
-var ammo = 0;
+var ammo = 3;
 var ammogui;
 function setup() {
 
@@ -246,14 +250,17 @@ function setup() {
     hpgui = new PIXI.Text('hp: ' + hp, style);
     hpgui.x = 30;
     hpgui.y = 10;
+    ammogui = new PIXI.Text('Ammo: '+ammo,style);
+    ammogui.x = 2250;
+    ammogui.y = 1150;
 
     lifegui = new PIXI.Text('life x ' + life, style);
     lifegui.x = 30;
     lifegui.y = 70;
 
-    scoregui = new PIXI.Text('score ' + '\n' + score, style);
-    scoregui.x = 2350;
-    scoregui.y = 10;
+    scoregui = new PIXI.Text('score: ' + score, style);
+    scoregui.x = 1100;
+    scoregui.y = 70;
 
     boostGui = new PIXI.Text('\u26A0' + ' NOS', style);
     boostGui.x = 30;
@@ -264,6 +271,14 @@ function setup() {
     boostQuantityGui = new PIXI.Text(nos.join(""), style)
     boostQuantityGui.x = 30;
     boostQuantityGui.y = 1150;
+
+    hpguiP2 = new PIXI.Text('hp: ' + hpP2, style);
+    hpguiP2.x = 2200;
+    hpguiP2.y = 10;
+
+    lifeguiP2 = new PIXI.Text('life x ' + lifeP2, style);
+    lifeguiP2.x = 2200;
+    lifeguiP2.y = 70;
 
     wantedGui = new PIXI.Text('\u2606 \u2606 \u2606 \u2606 \u2606', style);
     wantedGui.x = 1100;
@@ -278,8 +293,6 @@ function setup() {
     engine.play();
     engine.addEventListener("ended", engine.play);
     crash = new Audio('Audio/crash.mp3');
-
-
 
     //ANIMATIONS
     //Start playerTwo
@@ -406,7 +419,6 @@ function setup() {
     }
     explosion = new PIXI.AnimatedSprite(explosionAnimation);
     explosion.visible = false;
-
     //End explosion
 
     //Start boost
@@ -490,6 +502,7 @@ function setup() {
     //app.stage.addChild(playerTwo);
     app.stage.addChild(hpgui);
     app.stage.addChild(lifegui);
+    app.stage.addChild(ammogui);
     app.stage.addChild(scoregui);
     app.stage.addChild(explosion);
     app.stage.addChild(boostGui);
@@ -501,6 +514,9 @@ function setup() {
 
     if(player2 !== "none"){
         app.stage.addChild(playerTwo);
+        app.stage.addChild(hpguiP2);
+        app.stage.addChild(lifeguiP2);
+
         scoregui.x =10;
         scoregui.y =100;
     }
@@ -588,8 +604,6 @@ function setup() {
     space.press = () => {
         honk = new Audio(sound);
         honk.play();
-        life = 0;
-        lifegui.text = 'life x '+life;
     };
 
     space.release = () => {
@@ -737,30 +751,76 @@ function setup() {
     var postDone = false;
     var oneTime = false;
 
-    var isExploding = false;
-    explosion.loop = false;
-
-    explosion.onComplete = function() {
-        isExploding = false;
-        explosion.visible = false;
-        explosion.stop();
-        console.log("exploded.");
+    //EXPLOSIONS
+    //Explosions PlayerOne
+    var playerOneIsExploding = false;
+    var explosionP1 = new PIXI.AnimatedSprite(explosionAnimation);
+    app.stage.addChild(explosionP1);
+    explosionP1.visible = false;
+    explosionP1.loop = false;
+    explosionP1.onComplete = function() {
+        playerOneIsExploding = false;
+        explosionP1.visible = false;
+        explosionP1.stop();
         life -= 1;
-        lifegui.text = 'life x ' + life;
         hp = 100;
-        hpgui.text = 'hp: ' + hp;
+        //hpgui.text = 'hp: ' + hp;
         app.stage.addChild(hpgui);
         app.stage.removeChild(playerOne);
         app.stage.addChild(playerOne);
         lastCollision = Date.now();
-        playerOne.x = 500;
+        playerOne.x = 600;
         playerOne.y = rightLane;
         playerOne.vx = 0;
         playerOne.vy = 0;
         playerOne.visible = true;
     };
 
+    //Explosions PlayerTwo
+    var playerTwoIsExploding = false;
+    var explosionP2 = new PIXI.AnimatedSprite(explosionAnimation);
+    app.stage.addChild(explosionP2);
+    explosionP2.visible = false;
+    explosionP2.loop = false;
+    explosionP2.onComplete = function() {
+        playerTwoIsExploding = false;
+        explosionP2.visible = false;
+        explosionP2.stop();
+        lifeP2 -= 1;
+        playerTwo.hp = 100;
+        //hpgui.text = 'hp: ' + hp;
+        app.stage.addChild(hpguiP2);
+        app.stage.removeChild(playerTwo);
+        app.stage.addChild(playerTwo);
+        lastCollision = Date.now();
+        playerTwo.x = 300;
+        playerTwo.y = rightLane;
+        playerTwo.vx = 0;
+        playerTwo.vy = 0;
+        playerTwo.visible = true;
+
+        if(lifeP2 == 0){
+            playerTwo.hp = 0;
+            //lifeP2 = 0;
+            playerTwoIsExploding = true;
+            app.stage.removeChild(playerTwo);
+            //lifeguiP2.visible = false;
+            hpguiP2.text = 'Player 2 Game Over';
+        }
+
+    };
+    //END EXPLOSIONS
+
     app.ticker.add(function () {
+
+        hpgui.text = 'hp: ' + hp;
+        lifegui.text = 'life x ' + life;
+
+        if(lifeP2 >= 1){
+            hpguiP2.text = 'hp: ' + playerTwo.hp;
+            lifeguiP2.text = 'life x' + lifeP2;
+        }
+
         //Start lights
         if (hp < 50) {
             app.stage.removeChild(lights);
@@ -805,7 +865,7 @@ function setup() {
         count += 1;
         tilingRoad.tilePosition.x -= 15;
         score += 1;
-        scoregui.text = 'score' + '\n' + score;
+        scoregui.text = 'score: ' + score;
 
         var playerOneState = whichState(hp);
         var playerTwoState = whichState(playerTwo.hp);
@@ -843,6 +903,26 @@ function setup() {
             playerTwo.texture = PIXI.Texture.from(`Sprites/PoliceCar/Car6/Car_6_0${playerTwoState.sprite}.png`);
         }
 
+        //Explosions PlayerOne
+        if(hp <= 1 && !playerOneIsExploding){
+            playerOneIsExploding = true;
+            playerOne.visible = false;
+            explosionP1.visible = true;
+            explosionP1.gotoAndPlay(0);
+            explosionP1.x = playerOne.x;
+            explosionP1.y = playerOne.y;
+        }
+
+        //Explosions PlayerTwo
+        if(playerTwo.hp <= 1 && !playerTwoIsExploding) {
+            playerTwoIsExploding = true;
+            playerTwo.visible = false;
+            explosionP2.visible = true;
+            explosionP2.gotoAndPlay(0);
+            explosionP2.x = playerTwo.x;
+            explosionP2.y = playerTwo.y;
+        }
+
         for (var i = 0; i < vehicles.length; i++) {
 
             if (vehicles[i].hasState == true) {
@@ -852,30 +932,12 @@ function setup() {
             }
         }
 
-
         for (var i = 0; i < policeVehicles.length; i++) {
 
             if(policeVehicles[i].hasState == true){
                 var vehState = whichState(policeVehicles[i].hp);
                 policeVehicles[i].texture = PIXI.Texture.from(`${policeVehicles[i].spriteName}${vehState.sprite}.png`);
             }
-
-        }
-
-
-
-
-
-        if(hp <= 1 && !isExploding){
-            isExploding = true;
-            playerOne.visible = false;
-            explosion.visible = true;
-            explosion.gotoAndPlay(0);
-            explosions = new Audio('Audio/explosion.mp3');
-            explosions.volume = 0.3;
-            explosions.play();
-            explosion.x = playerOne.x;
-            explosion.y = playerOne.y;
         }
 
         if (life < 0){
@@ -930,7 +992,6 @@ function setup() {
                     url: "/addHighscore",
                     data: {score: score}
                 }).done(function( ) {
-                    console.log("HEEJ");
                     postDone = true;
                 });
             }
@@ -949,7 +1010,6 @@ function setup() {
                 });
             }
             if(getDone) {
-                console.log(result[0]);
                 var gameOvermsg = new PIXI.Text("GAME OVER", style2);
                 gameOvermsg.x = 850;
                 gameOvermsg.y = 100;
@@ -993,12 +1053,10 @@ function setup() {
                 if(Date.now()> lastCollision + 150) {
                     if(hp<4){
                         hp= 0 ;
-                        hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                     else {
                         hp -= 4;
-                        hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                 }
@@ -1010,12 +1068,10 @@ function setup() {
             if(Date.now()> lastCollision + 150) {
                 if(hp<4){
                     hp= 0 ;
-                    hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
                 else {
                     hp -= 4;
-                    hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
             }
@@ -1025,12 +1081,10 @@ function setup() {
             if(Date.now()> lastCollision + 150) {
                 if(hp<4){
                     hp= 0 ;
-                    hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
                 else {
                     hp -= 4;
-                    hpgui.text = 'hp: ' + hp;
                     lastCollision = Date.now()
                 }
             }
@@ -1048,33 +1102,37 @@ function setup() {
         }
 
         for (var i = 0; i < vehicles.length; i++) {
+
+            if(vehicles[i].hasState == true) {
+                var vehState = whichState(vehicles[i].hp);
+                vehicles[i].texture = PIXI.Texture.from(`${vehicles[i].spriteName}${vehState.sprite}.png`);
+            }
+
             if(rightShotsFired && ( vehicles[i].x < playerOne.x +50 && vehicles[i].x > playerOne.x -50) && vehicles[i].y > playerOne.y){
                 if(Date.now()> lastShot + 500) {
-                    playerTwo.hp -= 20;
+                    vehicles[i].hp -= 20;
                     lastShot= Date.now();
                 }
             }
             if(leftShotsFired && ( vehicles[i].x < playerOne.x +50 && vehicles[i].x > playerOne.x -50) && vehicles[i].y < playerOne.y){
                 if(Date.now()> lastShot + 500) {
-                    playerTwo.hp -= 20;
+                    vehicles[i].hp -= 20;
                     lastShot= Date.now();
                 }
             }
           
             if(bump.hit(playerOne,vehicles[i],true, true)){
                 crash.play();
-                if(Date.now()> lastCollision + 150 && !isExploding) {
+                if(Date.now()> lastCollision + 150 && !playerOneIsExploding) {
 
                     if(hp<4){
                         hp=0;
-                        hpgui.text = 'hp: ' + hp;
                         vehicles[i].hp -= 20;
                         lastCollision = Date.now()
                     }
                     else {
                         hp -= 4;
                         vehicles[i].hp -= 20;
-                        hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                 }
@@ -1097,13 +1155,13 @@ function setup() {
 
             if(rightShotsFired && ( policeVehicles[i].x < playerOne.x +50 && policeVehicles[i].x > playerOne.x -50) && policeVehicles[i].y > playerOne.y){
                 if(Date.now()> lastShot + 500) {
-                    playerTwo.hp -= 20;
+                    policeVehicles[i].hp -= 20;
                     lastShot= Date.now();
                 }
             }
             if(leftShotsFired && ( policeVehicles[i].x < playerOne.x +50 && policeVehicles[i].x > playerOne.x -50) && policeVehicles[i].y < playerOne.y){
                 if(Date.now()> lastShot + 500) {
-                    playerTwo.hp -= 20;
+                    policeVehicles[i].hp -= 20;
                     lastShot= Date.now();
                 }
             }
@@ -1113,12 +1171,10 @@ function setup() {
                 if(Date.now()> lastCollision + 150) {
                     if(hp<4){
                         hp= 0 ;
-                        hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                     else {
                         hp -= 4;
-                        hpgui.text = 'hp: ' + hp;
                         lastCollision = Date.now()
                     }
                 }
@@ -1495,10 +1551,6 @@ function setup() {
                 lastShot= Date.now();
             }
         }
-        ammogui = new PIXI.Text('Ammo: '+ammo,style);
-        ammogui.x = 2250;
-        ammogui.y = 1150;
-        app.stage.addChild(ammogui);
     });
 
 
