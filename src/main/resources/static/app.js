@@ -674,6 +674,21 @@ function setup() {
         }
 
     };
+
+    //Explosions Vehicles
+    var vehicleIsExploding = false;
+    var explosionVehicle = new PIXI.AnimatedSprite(explosionAnimation);
+    app.stage.addChild(explosionVehicle);
+    explosionVehicle.visible = false;
+    explosionVehicle.loop = false;
+    explosionVehicle.onComplete = function() {
+        vehicleIsExploding = false;
+        explosionVehicle.visible = false;
+        explosionVehicle.stop();
+        lastCollision = Date.now();
+        //EV lägga till vehicle[i] till ta-bort-listan
+    };
+
     //END EXPLOSIONS
 
     app.ticker.add(function () {
@@ -771,6 +786,19 @@ function setup() {
             explosionP2.y = playerTwo.y;
         }
 
+        //Explosions Vehicles
+        for (var i = vehicles.length -1; i >= 0; i--) {
+            if(vehicles[i].hp < 1 && !vehicleIsExploding){
+                vehicleIsExploding = true;
+                vehicles[i].visible = false;
+                explosionVehicle.visible = true;
+                explosionVehicle.gotoAndPlay(0);
+                explosionVehicle.x = vehicles[i].x;
+                explosionVehicle.y = vehicles[i].y;
+                app.stage.removeChild(vehicle[i]);
+                vehicles.splice(i, 1);
+            }
+        }
 
         if (life < 0){
             var gameOver = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/black.png"].texture);
