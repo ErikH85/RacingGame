@@ -203,6 +203,7 @@ var money;
 var repair;
 var spikes;
 var explosions;
+var click;
 var lightsOn = false;
 var wantedLevel = 0;
 var backgroundTrafficRightLane = 1010;
@@ -221,7 +222,8 @@ var bottomBoundary;
 var leftShotsFired = false;
 var rightShotsFired = false;
 var lastShot = Date.now();
-
+var ammo = 0;
+var ammogui;
 function setup() {
 
     var style = new PIXI.TextStyle({
@@ -541,9 +543,17 @@ function setup() {
     }
 
     q.press = () => {
-        gun = new Audio('Audio/gun.mp3');
-        gun.play();
-        leftShotsFired = true;
+        if(ammo > 0) {
+            ammo -= 1;
+            ammogui.text = 'Ammo: ' + ammo;
+            gun = new Audio('Audio/gun.mp3');
+            gun.play();
+            leftShotsFired = true;
+        }
+        else {
+            click = new Audio('Audio/click.mp3');
+            click.play();
+        }
     };
 
     q.release = () => {
@@ -551,9 +561,17 @@ function setup() {
     };
 
     e.press = () => {
-        gun = new Audio('Audio/gun.mp3');
-        gun.play();
-        rightShotsFired = true;
+        if(ammo > 0) {
+            ammo -= 1;
+            ammogui.text = 'Ammo: ' + ammo;
+            gun = new Audio('Audio/gun.mp3');
+            gun.play();
+            rightShotsFired = true;
+        }
+        else {
+            click = new Audio('Audio/click.mp3');
+            click.play();
+        }
     };
 
     e.release = () => {
@@ -563,6 +581,8 @@ function setup() {
     space.press = () => {
         honk = new Audio(sound);
         honk.play();
+        life = 0;
+        lifegui.text = 'life x '+life;
     };
 
     space.release = () => {
@@ -593,7 +613,7 @@ function setup() {
     up.press = () => {
         playerOne.vy = -5;
         playerOne.vx = 0;
-        tires = new Audio('Audio/tires.mp3')
+        tires = new Audio('Audio/tires.mp3');
         tires.play();
     };
     up.release = () => {
@@ -923,6 +943,7 @@ function setup() {
                 if(siren) {
                     siren.pause();
                 }
+                app.stage.removeChild(ammogui);
                 app.stage.addChild(gameOver);
                 app.stage.addChild(gameOvermsg);
                 app.stage.addChild(pScore);
@@ -1415,6 +1436,10 @@ function setup() {
                 lastShot= Date.now();
             }
         }
+        ammogui = new PIXI.Text('Ammo: '+ammo,style);
+        ammogui.x = 2250;
+        ammogui.y = 1150;
+        app.stage.addChild(ammogui);
     });
 
 
