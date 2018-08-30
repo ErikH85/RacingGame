@@ -326,18 +326,57 @@ function setup() {
     }
     //End ambulance
 
+    //Start Classic Cop
+    var classicCopAnimation = [];
+
+    for (var i = 1; i <= maxFrames; i++) {
+
+        var classicCopAnimationFrames = {
+            texture: PIXI.Texture.from("Sprites/PoliceCar/Car1/" + i + ".png"),
+            time: 125
+        };
+        classicCopAnimation.push(classicCopAnimationFrames);
+    }
+    //End Classic Cop
+
     //Start SWAT
     var swatAnimation = [];
 
     for (var i = 1; i <= maxFrames; i++) {
 
         var swatAnimationFrames = {
-            texture: PIXI.Texture.from("Sprites/swat" + i + ".png"),
+            texture: PIXI.Texture.from("Sprites/PoliceCar/Car2/" + i + ".png"),
             time: 125
         };
         swatAnimation.push(swatAnimationFrames);
     }
     //End SWAT
+
+    //Start Modern Cop
+    var modernCopAnimation = [];
+
+    for (var i = 1; i <= maxFrames; i++) {
+
+        var modernCopAnimationFrames = {
+            texture: PIXI.Texture.from("Sprites/PoliceCar/Car3/" + i + ".png"),
+            time: 125
+        };
+        modernCopAnimation.push(modernCopAnimationFrames);
+    }
+    //End Modern Cop
+
+    //Start Military Police
+    var mpAnimation = [];
+
+    for (var i = 1; i <= 6; i++) {
+
+        var mpAnimationFrames = {
+            texture: PIXI.Texture.from("Sprites/PoliceCar/Car6/" + i + ".png"),
+            time: 125
+        };
+        mpAnimation.push(mpAnimationFrames);
+    }
+    //End Military Police
 
     //Start explosion
     var explosionAnimation = [];
@@ -754,7 +793,6 @@ function setup() {
             explosion.gotoAndPlay(0);
             explosion.x = playerOne.x;
             explosion.y = playerOne.y;
-
         }
 
 
