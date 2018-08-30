@@ -369,7 +369,7 @@ function setup() {
 
         var classicCopAnimationFrames = {
             texture: PIXI.Texture.from("Sprites/PoliceCar/Car1/" + i + ".png"),
-            time: 125
+            time: 100
         };
         classicCopAnimation.push(classicCopAnimationFrames);
     }
@@ -383,7 +383,7 @@ function setup() {
 
         var swatAnimationFrames = {
             texture: PIXI.Texture.from("Sprites/PoliceCar/Car2/" + i + ".png"),
-            time: 125
+            time: 100
         };
         swatAnimation.push(swatAnimationFrames);
     }
@@ -397,7 +397,7 @@ function setup() {
 
         var modernCopAnimationFrames = {
             texture: PIXI.Texture.from("Sprites/PoliceCar/Car3/" + i + ".png"),
-            time: 125
+            time: 100
         };
         modernCopAnimation.push(modernCopAnimationFrames);
     }
@@ -411,7 +411,7 @@ function setup() {
 
         var mpAnimationFrames = {
             texture: PIXI.Texture.from("Sprites/PoliceCar/Car6/" + i + ".png"),
-            time: 125
+            time: 100
         };
         mpAnimation.push(mpAnimationFrames);
     }
@@ -857,19 +857,19 @@ function setup() {
         //End Boost
 
         //Start Wanted Level
-        if (score === 500) {
+        if (score >= 500) {
             wantedLevel = 1;
             wantedGui.text = '\u2605 \u2606 \u2606 \u2606 \u2606';
-        } else if (score === 2000) {
+        } else if (score >= 2000) {
             wantedLevel = 2;
             wantedGui.text = '\u2605 \u2605 \u2606 \u2606 \u2606';
-        } else if (score === 4000) {
+        } else if (score >= 4000) {
             wantedLevel = 3;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2606 \u2606';
-        } else if (score === 6000) {
+        } else if (score >= 6000) {
             wantedLevel = 4;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2605 \u2606';
-        } else if (score === 8000) {
+        } else if (score >= 8000) {
             wantedLevel = 5;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2605 \u2605';
         }
@@ -1501,6 +1501,7 @@ function setup() {
 
             police.vx = policeVelocity;
 
+            police.policeAnimationType = policeAnimationType;
             policeVehicles.push(police);
             siren = new Audio('Audio/siren.mp3');
             siren.volume = 0.3;
@@ -1509,8 +1510,6 @@ function setup() {
             app.stage.addChild(police);
 
             if (typeOfPoliceVehicle != 1) {
-                policeAnimationType.x = police.x;
-                policeAnimationType.y = police.y;
                 app.stage.addChild(policeAnimationType);
             }
         }
@@ -1573,9 +1572,6 @@ function setup() {
 
     function play(delta) {
 
-        //policeAnimationType.x = police.x;
-        //policeAnimationType.y = police.y;
-
         brakelights.x = playerOne.x - 10;
         brakelights.y = playerOne.y;
 
@@ -1611,8 +1607,15 @@ function setup() {
         //Police move right and are then removed
         for (var i = policeVehicles.length - 1; i >= 0; i--) {
             policeVehicles[i].x += policeVehicles[i].vx;
+            if(policeVehicles[i].policeAnimationType) {
+                policeVehicles[i].policeAnimationType.x = policeVehicles[i].x;
+                policeVehicles[i].policeAnimationType.y = policeVehicles[i].y;
+            }
             if (policeVehicles[i].x > app.screen.length + 100) {
                 app.stage.removeChild(policeVehicles[i]);
+                if(policeVehicles[i].policeAnimationType) {
+                    app.stage.removeChild(policeVehicles[i].policeAnimationType);
+                }
                 policeVehicles.splice(i, 1);
             }
         }
