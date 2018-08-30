@@ -222,7 +222,7 @@ var bottomBoundary;
 var leftShotsFired = false;
 var rightShotsFired = false;
 var lastShot = Date.now();
-var ammo = 0;
+var ammo = 3;
 var ammogui;
 function setup() {
 
@@ -244,6 +244,9 @@ function setup() {
     hpgui = new PIXI.Text('hp: ' + hp, style);
     hpgui.x = 30;
     hpgui.y = 10;
+    ammogui = new PIXI.Text('Ammo: '+ammo,style);
+    ammogui.x = 2250;
+    ammogui.y = 1150;
 
     lifegui = new PIXI.Text('life x ' + life, style);
     lifegui.x = 30;
@@ -484,6 +487,7 @@ function setup() {
     //app.stage.addChild(playerTwo);
     app.stage.addChild(hpgui);
     app.stage.addChild(lifegui);
+    app.stage.addChild(ammogui);
     app.stage.addChild(scoregui);
     app.stage.addChild(explosion);
     app.stage.addChild(boostGui);
@@ -1476,10 +1480,6 @@ function setup() {
                 lastShot= Date.now();
             }
         }
-        ammogui = new PIXI.Text('Ammo: '+ammo,style);
-        ammogui.x = 2250;
-        ammogui.y = 1150;
-        app.stage.addChild(ammogui);
     });
 
 
