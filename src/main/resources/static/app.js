@@ -1140,6 +1140,7 @@ function setup() {
             }
         }
 
+        //
         if(player2 !== "none"){
             if(bump.hit(playerTwo, topBoundary, true, true)){
                 if(Date.now()> lastCollisionp2 + 150) {
