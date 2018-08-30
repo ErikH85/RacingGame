@@ -586,8 +586,6 @@ function setup() {
     space.press = () => {
         honk = new Audio(sound);
         honk.play();
-        life = 0;
-        lifegui.text = 'life x '+life;
     };
 
     space.release = () => {
