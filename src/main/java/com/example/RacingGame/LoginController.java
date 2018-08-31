@@ -46,7 +46,6 @@ public class LoginController {
         boolean status = loginRepository.getUser(username, password);
         if (status) {
             int id = loginRepository.getID(username);
-            System.out.println(id);
             HttpSession session = request.getSession(true);
             session.setAttribute("UserID", id);
             model.addAttribute("welcome", "Welcome " + username);
