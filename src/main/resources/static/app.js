@@ -218,6 +218,7 @@ var siren;
 var honk;
 var money;
 var repair;
+var reload;
 var spikes;
 var explosions;
 var leftUzi;
@@ -243,7 +244,7 @@ var bottomBoundary;
 var leftShotsFired = false;
 var rightShotsFired = false;
 var lastShot = Date.now();
-var ammo = 100;
+var ammo = 10;
 var ammogui;
 var playerOneOutOfBounds;
 var isOutOfBoundsP1 = false;
@@ -1024,31 +1025,31 @@ function setup() {
         //End Boost
 
         //Start Wanted Level
-        if (score === 400) {
+        if (score >= 400 && score < 2000) {
             wantedLevel = 1;
             wantedGui.text = '\u2605 \u2606 \u2606 \u2606 \u2606';
             policePursuitVehicleGui.x = 3000;
-            policePursuitVehicleGui.text = 'The Cops Are Coming. Watch Out!'
+            policePursuitVehicleGui.text = 'The Cops Are Coming. Watch Out!';
             app.stage.addChild(policePursuitVehicleGui);
-        } else if (score === 2000) {
+        } else if (score >= 2000 && score < 4000) {
             wantedLevel = 2;
             wantedGui.text = '\u2605 \u2605 \u2606 \u2606 \u2606';
             policePursuitVehicleGui.x = 3000;
-            policePursuitVehicleGui.text = 'The Classic Cops Are Coming. Take Them Out!'
+            policePursuitVehicleGui.text = 'The Classic Cops Are Coming. Take Them Out!';
             app.stage.addChild(policePursuitVehicleGui);
-        } else if (score === 4000) {
+        } else if (score >= 4000 && score < 6000) {
             wantedLevel = 3;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2606 \u2606';
             policePursuitVehicleGui.x = 3000;
-            policePursuitVehicleGui.text = 'The Modern Cops Are Coming. Are You Ready?'
+            policePursuitVehicleGui.text = 'The Modern Cops Are Coming. Are You Ready?';
             app.stage.addChild(policePursuitVehicleGui);
-        } else if (score === 6000) {
+        } else if (score >= 6000 && score < 8000) {
             wantedLevel = 4;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2605 \u2606';
             policePursuitVehicleGui.x = 3000;
             policePursuitVehicleGui.text = 'S.W.A.T Is Coming. Don\'nt get Cocky!';
             app.stage.addChild(policePursuitVehicleGui);
-        } else if (score === 8000) {
+        } else if (score >= 8000) {
             wantedLevel = 5;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2605 \u2605';
             policePursuitVehicleGui.x = 3000;
@@ -1056,6 +1057,7 @@ function setup() {
             app.stage.addChild(policePursuitVehicleGui);
         }
         //End Wanted Level
+
         count += 1;
         tilingRoad.tilePosition.x -= 15;
         score += 1;
@@ -1235,13 +1237,13 @@ function setup() {
             if(bump.hit(playerOne, playerTwo, true, true)){
                 crash.play();
                 if(Date.now()> lastCollision + 150) {
-                    if(hp<4){
+                    if(hp<8){
                         hp= 0 ;
                         explosions.play();
                         lastCollision = Date.now()
                     }
                     else {
-                        hp -= 4;
+                        hp -= 8;
                         lastCollision = Date.now()
                     }
                 }
@@ -1251,13 +1253,13 @@ function setup() {
         if(bump.hit(playerOne, topBoundary, true, true)){
             crash.play();
             if(Date.now()> lastCollision + 150) {
-                if(hp<4){
+                if(hp<8){
                     hp= 0 ;
                     explosions.play();
                     lastCollision = Date.now()
                 }
                 else {
-                    hp -= 4;
+                    hp -= 8;
                     lastCollision = Date.now()
                 }
             }
@@ -1265,13 +1267,13 @@ function setup() {
         if(bump.hit(playerOne, bottomBoundary, true, true)){
             crash.play();
             if(Date.now()> lastCollision + 150) {
-                if(hp<4){
+                if(hp<8){
                     hp= 0 ;
                     explosions.play();
                     lastCollision = Date.now()
                 }
                 else {
-                    hp -= 4;
+                    hp -= 8;
                     lastCollision = Date.now()
                 }
             }
@@ -1310,24 +1312,16 @@ function setup() {
         }
 
         for (var i = 0; i < vehicles.length; i++) {
-/*
-<<<<<<< HEAD
-            if(vehicles[i].hasState == true) {
-                var vehState = whichState(vehicles[i].hp);
-                vehicles[i].texture = PIXI.Texture.from(`${vehicles[i].spriteName}${vehState.sprite}.png`);
-            }
-            if(rightShotsFired && ( vehicles[i].x < playerOne.x +50 && vehicles[i].x > playerOne.x -50) && vehicles[i].y > playerOne.y){
-=======*/
-            if(rightShotsFired && ( vehicles[i].x < playerOne.x +150 && vehicles[i].x > playerOne.x -150) && vehicles[i].y > playerOne.y){
 
-                if(Date.now()> lastShot + 500) {
+            if(rightShotsFired && ( vehicles[i].x < playerOne.x +150 && vehicles[i].x > playerOne.x -150) && vehicles[i].y > playerOne.y){
+                if(Date.now()> lastShot + 300) {
                     vehicles[i].hp -= 50;
                     lastShot= Date.now();
                     console.log(vehicles[i].hp);
                 }
             }
             if(leftShotsFired && ( vehicles[i].x < playerOne.x +75 && vehicles[i].x > playerOne.x -75) && vehicles[i].y < playerOne.y){
-                if(Date.now()> lastShot + 500) {
+                if(Date.now()> lastShot + 300) {
                     vehicles[i].hp -= 50;
                     lastShot= Date.now();
                     console.log(vehicles[i].hp);
@@ -1343,14 +1337,14 @@ function setup() {
             if(bump.hit(playerOne,vehicles[i],true, true)){
                 crash.play();
                 if(Date.now()> lastCollision + 150 && !playerOneIsExploding) {
-                    if(hp<4){
+                    if(hp<8){
                         hp=0;
                         explosions.play();
                         vehicles[i].hp -= 20;
                         lastCollision = Date.now()
                     }
                     else {
-                        hp -= 4;
+                        hp -= 8;
                         vehicles[i].hp -= 20;
                         lastCollision = Date.now()
                     }
@@ -1384,28 +1378,28 @@ function setup() {
         for (var i = 0; i < policeVehicles.length; i++) {
 
             if(rightShotsFired && ( policeVehicles[i].x < playerOne.x +50 && policeVehicles[i].x > playerOne.x -50) && policeVehicles[i].y > playerOne.y){
-                if(Date.now()> lastShot + 500) {
+                if(Date.now()> lastShot + 300) {
                     policeVehicles[i].hp -= 20;
                     lastShot= Date.now();
                 }
             }
             if(leftShotsFired && ( policeVehicles[i].x < playerOne.x +50 && policeVehicles[i].x > playerOne.x -50) && policeVehicles[i].y < playerOne.y){
-                if(Date.now()> lastShot + 500) {
+                if(Date.now()> lastShot + 300) {
                     policeVehicles[i].hp -= 20;
                     lastShot= Date.now();
                 }
             }
             if(bump.hit(playerOne, policeVehicles[i], true, true)){
                 crash.play();
-                policeVehicles[i].hp -= 20;
                 if(Date.now()> lastCollision + 150) {
-                    if(hp<4){
+                    policeVehicles[i].hp -= 20;
+                    if(hp<8){
                         hp= 0 ;
                         explosions.play();
                         lastCollision = Date.now()
                     }
                     else {
-                        hp -= 4;
+                        hp -= 8;
                         lastCollision = Date.now()
                     }
                 }
@@ -1786,13 +1780,13 @@ function setup() {
             app.stage.addChild(item);
         }
         if(rightShotsFired && ( playerTwo.x < playerOne.x +50 && playerTwo.x > playerOne.x -50) && playerTwo.y > playerOne.y){
-            if(Date.now()> lastShot + 500) {
+            if(Date.now()> lastShot + 300) {
                 playerTwo.hp -= 20;
                 lastShot= Date.now();
             }
         }
         if(leftShotsFired && ( playerTwo.x < playerOne.x +50 && playerTwo.x > playerOne.x -50) && playerTwo.y < playerOne.y){
-            if(Date.now()> lastShot + 500) {
+            if(Date.now()> lastShot + 300) {
                 playerTwo.hp -= 20;
                 lastShot= Date.now();
             }
@@ -1812,7 +1806,7 @@ function setup() {
             }
 
         }
-        for (let i = 0; i < policeVehicles; i++) {
+        for (let i = 0; i < policeVehicles.length; i++) {
             if(policeVehicles[i].hp<=0){
                 policeVehicles[i].hp = 0;
                 explosions.play();
@@ -1829,27 +1823,27 @@ function setup() {
     function play(delta) {
 
         if (score >= 400 && score < 2000) {
-            policePursuitVehicleGui.x -= 10;
+            policePursuitVehicleGui.x -= 15;
             if (policePursuitVehicleGui.x < -4000) {
             app.stage.removeChild(policePursuitVehicleGui);
             }
         } else if (score >= 2000 && score < 4000) {
-            policePursuitVehicleGui.x -= 10;
+            policePursuitVehicleGui.x -= 15;
             if (policePursuitVehicleGui.x < -4000) {
                 app.stage.removeChild(policePursuitVehicleGui);
             }
         } else if (score >= 4000 && score < 6000) {
-            policePursuitVehicleGui.x -= 10;
+            policePursuitVehicleGui.x -= 15;
             if (policePursuitVehicleGui.x < -4000) {
                 app.stage.removeChild(policePursuitVehicleGui);
             }
         } else if (score >= 6000 && score < 8000) {
-            policePursuitVehicleGui.x -= 10;
+            policePursuitVehicleGui.x -= 15;
             if (policePursuitVehicleGui.x < -4000) {
                 app.stage.removeChild(policePursuitVehicleGui);
             }
         } else if (score >= 8000) {
-            policePursuitVehicleGui.x -= 10;
+            policePursuitVehicleGui.x -= 15;
             if (policePursuitVehicleGui.x < -4000) {
                 app.stage.removeChild(policePursuitVehicleGui);
             }
@@ -1950,8 +1944,8 @@ function setup() {
                         ammo += 10;
                         ammogui.text = 'Ammo: ' + ammo;
                         app.stage.removeChild(items[i]);
-                        ammo = new Audio('Audio/reload.mp3');
-                        ammo.play();
+                        reload = new Audio('Audio/reload.mp3');
+                        reload.play();
                         lastItem= Date.now();
                     }
                 }
