@@ -350,7 +350,7 @@ function setup() {
     lifeguiP2.y = 70;
 
     wantedGui = new PIXI.Text('\u2606 \u2606 \u2606 \u2606 \u2606', style);
-    wantedGui.x = 3000;
+    wantedGui.x = 1100;
     wantedGui.y = 10;
 
     policePursuitVehicleGui = new PIXI.Text('', style2);
@@ -1029,19 +1029,19 @@ function setup() {
             wantedLevel = 1;
             wantedGui.text = '\u2605 \u2606 \u2606 \u2606 \u2606';
             policePursuitVehicleGui.x = 3000;
-            policePursuitVehicleGui.text = 'The Cops Are Coming. Watch Out!'
+            policePursuitVehicleGui.text = 'The Cops Are Coming. Watch Out!';
             app.stage.addChild(policePursuitVehicleGui);
         } else if (score >= 2000 && score < 4000) {
             wantedLevel = 2;
             wantedGui.text = '\u2605 \u2605 \u2606 \u2606 \u2606';
             policePursuitVehicleGui.x = 3000;
-            policePursuitVehicleGui.text = 'The Classic Cops Are Coming. Take Them Out!'
+            policePursuitVehicleGui.text = 'The Classic Cops Are Coming. Take Them Out!';
             app.stage.addChild(policePursuitVehicleGui);
         } else if (score >= 4000 && score < 6000) {
             wantedLevel = 3;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2606 \u2606';
             policePursuitVehicleGui.x = 3000;
-            policePursuitVehicleGui.text = 'The Modern Cops Are Coming. Are You Ready?'
+            policePursuitVehicleGui.text = 'The Modern Cops Are Coming. Are You Ready?';
             app.stage.addChild(policePursuitVehicleGui);
         } else if (score >= 6000 && score < 8000) {
             wantedLevel = 4;
@@ -1824,27 +1824,27 @@ function setup() {
     function play(delta) {
 
         if (score >= 400 && score < 2000) {
-            policePursuitVehicleGui.x -= 10;
+            policePursuitVehicleGui.x -= 15;
             if (policePursuitVehicleGui.x < -4000) {
             app.stage.removeChild(policePursuitVehicleGui);
             }
         } else if (score >= 2000 && score < 4000) {
-            policePursuitVehicleGui.x -= 10;
+            policePursuitVehicleGui.x -= 15;
             if (policePursuitVehicleGui.x < -4000) {
                 app.stage.removeChild(policePursuitVehicleGui);
             }
         } else if (score >= 4000 && score < 6000) {
-            policePursuitVehicleGui.x -= 10;
+            policePursuitVehicleGui.x -= 15;
             if (policePursuitVehicleGui.x < -4000) {
                 app.stage.removeChild(policePursuitVehicleGui);
             }
         } else if (score >= 6000 && score < 8000) {
-            policePursuitVehicleGui.x -= 10;
+            policePursuitVehicleGui.x -= 15;
             if (policePursuitVehicleGui.x < -4000) {
                 app.stage.removeChild(policePursuitVehicleGui);
             }
         } else if (score >= 8000) {
-            policePursuitVehicleGui.x -= 10;
+            policePursuitVehicleGui.x -= 15;
             if (policePursuitVehicleGui.x < -4000) {
                 app.stage.removeChild(policePursuitVehicleGui);
             }
