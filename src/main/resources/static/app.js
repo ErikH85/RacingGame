@@ -182,6 +182,7 @@ PIXI.Loader.shared
     .add("Sprites/wrench.png")
     .add("Sprites/spikestrip.png")
     .add("Sprites/black.png")
+    .add("Sprites/Weapons/ammo.png")
     .load(setup);
 
 var playerOne;
@@ -1598,7 +1599,7 @@ function setup() {
 
         if (Date.now() > lastSpawnedItem + 5000) {
             lastSpawnedItem = Date.now();
-            var typeOfItem = Math.floor(Math.random() * (4 - 1) + 1);
+            var typeOfItem = Math.floor(Math.random() * (5 - 1) + 1);
             itemXPos = 2700;
             itemYPos = Math.floor(Math.random() * (650 - 150) + 150);
 
@@ -1616,6 +1617,10 @@ function setup() {
                     item.itemID = 3;
                     itemXPos = 2700;
                     itemyYPos = playerOne.y;
+                    break;
+                case 4:
+                    item = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Weapons/ammo.png"].texture);
+                    item.itemID = 4;
                     break;
             }
 
@@ -1729,6 +1734,16 @@ function setup() {
                         app.stage.removeChild(items[i]);
                         spikes = new Audio('Audio/spike.mp3');
                         spikes.play();
+                        lastItem= Date.now();
+                    }
+                }
+                if(item.itemID == 4) {
+                    if (Date.now()> lastItem +1000) {
+                        ammo += 10;
+                        ammogui.text = 'Ammo: ' + ammo;
+                        app.stage.removeChild(items[i]);
+                        ammo = new Audio('Audio/reload.mp3');
+                        ammo.play();
                         lastItem= Date.now();
                     }
                 }
