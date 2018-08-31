@@ -345,7 +345,7 @@ function setup() {
     lifeguiP2.y = 70;
 
     wantedGui = new PIXI.Text('\u2606 \u2606 \u2606 \u2606 \u2606', style);
-    wantedGui.x = 1100;
+    wantedGui.x = 3000;
     wantedGui.y = 10;
 
     policePursuitVehicleGui = new PIXI.Text('', style2);
