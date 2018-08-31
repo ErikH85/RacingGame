@@ -244,6 +244,8 @@ var ammo = 10;
 var ammogui;
 var playerOneOutOfBounds;
 var isOutOfBoundsP1 = false;
+var playerTwoOutOfBounds;
+var isOutOfBoundsP2 = false;
 
 function setup() {
 
@@ -890,6 +892,26 @@ function setup() {
             playerOne.vy = 0;
             isOutOfBoundsP1 = false;
         }
+
+
+        //playerTwo Boundary Respawn
+        if((playerTwo.x < 0) && !isOutOfBoundsP2){
+            playerTwoOutOfBounds = Date.now();
+            isOutOfBoundsP2 = true;
+        }
+        if((playerTwo.x > 2550 ) && !isOutOfBoundsP2){
+            playerTwoOutOfBounds = Date.now();
+            isOutOfBoundsP2 = true;
+        }
+
+        if(Date.now() >= playerTwoOutOfBounds + 3000 && isOutOfBoundsP2){
+            playerTwo.x = 300;
+            playerTwo.y = rightLane;
+            playerTwo.vx = 0;
+            playerTwo.vy = 0;
+            isOutOfBoundsP2 = false;
+        }
+         
 
         //Start lights
         if (hp < 50) {
