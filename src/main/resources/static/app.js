@@ -241,7 +241,7 @@ var bottomBoundary;
 var leftShotsFired = false;
 var rightShotsFired = false;
 var lastShot = Date.now();
-var ammo = 10;
+var ammo = 100;
 var ammogui;
 function setup() {
 
@@ -259,7 +259,8 @@ function setup() {
         dropShadowAngle: Math.PI / 6,
         dropShadowDistance: 6,
     });
-
+    explosions = new Audio('Audio/explosion.mp3');
+    explosions.volume = 0.3;
     hpgui = new PIXI.Text('hp: ' + hp, style);
     hpgui.x = 30;
     hpgui.y = 10;
@@ -824,7 +825,7 @@ function setup() {
             hpguiP2.x = 1900;
             hpguiP2.y = 10;
         }
-        if(playerTwo.hp <0){
+        if(playerTwo.hp <=0){
             playerTwo.hp = 0;
         }
 
@@ -1145,6 +1146,7 @@ function setup() {
                 if(Date.now()> lastCollision + 150) {
                     if(hp<4){
                         hp= 0 ;
+                        explosions.play();
                         lastCollision = Date.now()
                     }
                     else {
@@ -1160,6 +1162,7 @@ function setup() {
             if(Date.now()> lastCollision + 150) {
                 if(hp<4){
                     hp= 0 ;
+                    explosions.play();
                     lastCollision = Date.now()
                 }
                 else {
@@ -1173,6 +1176,7 @@ function setup() {
             if(Date.now()> lastCollision + 150) {
                 if(hp<4){
                     hp= 0 ;
+                    explosions.play();
                     lastCollision = Date.now()
                 }
                 else {
@@ -1189,6 +1193,7 @@ function setup() {
                     crash.play();
                     if(playerTwo.hp<4){
                         playerTwo.hp=0;
+                        explosions.play();
                         lastCollisionp2 = Date.now()
                     }
                     else {
@@ -1202,6 +1207,7 @@ function setup() {
                     crash.play();
                     if(playerTwo.hp<4){
                         playerTwo.hp=0;
+                        explosions.play();
                         lastCollisionp2 = Date.now()
                     }
                     else {
@@ -1214,29 +1220,33 @@ function setup() {
 
         for (var i = 0; i < vehicles.length; i++) {
 
+            if(rightShotsFired && ( vehicles[i].x < playerOne.x +150 && vehicles[i].x > playerOne.x -150) && vehicles[i].y > playerOne.y){
+                if(Date.now()> lastShot + 500) {
+                    vehicles[i].hp -= 50;
+                    lastShot= Date.now();
+                    console.log(vehicles[i].hp);
+                }
+            }
+            if(leftShotsFired && ( vehicles[i].x < playerOne.x +75 && vehicles[i].x > playerOne.x -75) && vehicles[i].y < playerOne.y){
+                if(Date.now()> lastShot + 500) {
+                    vehicles[i].hp -= 50;
+                    lastShot= Date.now();
+                    console.log(vehicles[i].hp);
+                }
+            }
+
             if(vehicles[i].hasState == true) {
                 var vehState = whichState(vehicles[i].hp);
                 vehicles[i].texture = PIXI.Texture.from(`${vehicles[i].spriteName}${vehState.sprite}.png`);
             }
 
-            if(rightShotsFired && ( vehicles[i].x < playerOne.x +50 && vehicles[i].x > playerOne.x -50) && vehicles[i].y > playerOne.y){
-                if(Date.now()> lastShot + 500) {
-                    vehicles[i].hp -= 20;
-                    lastShot= Date.now();
-                }
-            }
-            if(leftShotsFired && ( vehicles[i].x < playerOne.x +50 && vehicles[i].x > playerOne.x -50) && vehicles[i].y < playerOne.y){
-                if(Date.now()> lastShot + 500) {
-                    vehicles[i].hp -= 20;
-                    lastShot= Date.now();
-                }
-            }
           
             if(bump.hit(playerOne,vehicles[i],true, true)){
                 crash.play();
                 if(Date.now()> lastCollision + 150 && !playerOneIsExploding) {
                     if(hp<4){
                         hp=0;
+                        explosions.play();
                         vehicles[i].hp -= 20;
                         lastCollision = Date.now()
                     }
@@ -1254,6 +1264,7 @@ function setup() {
                         crash.play();
                         if (playerTwo.hp < 4) {
                             playerTwo.hp = 0;
+                            explosions.play();
                             vehicles[i].hp -= 20;
                             lastCollisionp2 = Date.now()
                         }
@@ -1291,6 +1302,7 @@ function setup() {
                 if(Date.now()> lastCollision + 150) {
                     if(hp<4){
                         hp= 0 ;
+                        explosions.play();
                         lastCollision = Date.now()
                     }
                     else {
@@ -1314,6 +1326,7 @@ function setup() {
                     crash.play();
                     if (playerTwo.hp < 4) {
                         playerTwo.hp = 0;
+                        explosions.play();
                         policeVehicles[i].hp -= 20;
                         lastCollisionp2 = Date.now()
                     }
@@ -1682,6 +1695,27 @@ function setup() {
             if(Date.now()> lastShot + 500) {
                 playerTwo.hp -= 20;
                 lastShot= Date.now();
+            }
+        }
+        if(playerTwo.hp<=0){
+            playerTwo.hp =0;
+            explosions.play();
+        }
+        if(hp<=0){
+            hp = 0;
+            explosions.play();
+        }
+        for (let i = 0; i < vehicles.length ; i++) {
+            if(vehicles[i].hp <=0){
+                vehicles[i].hp = 0;
+                explosions.play();
+            }
+
+        }
+        for (let i = 0; i < policeVehicles; i++) {
+            if(policeVehicles[i].hp<=0){
+                policeVehicles[i].hp = 0;
+                explosions.play();
             }
         }
     });
