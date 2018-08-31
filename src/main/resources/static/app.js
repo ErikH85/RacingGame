@@ -844,6 +844,20 @@ function setup() {
         //EV lägga till vehicle[i] till ta-bort-listan
     };
 
+    //Explosions policeVehicles
+    var policeVehicleIsExploding = false;
+    var explosionPoliceVehicle = new PIXI.AnimatedSprite(explosionAnimation);
+    app.stage.addChild(explosionPoliceVehicle);
+    explosionPoliceVehicle.visible = false;
+    explosionPoliceVehicle.loop = false;
+    explosionPoliceVehicle.onComplete = function() {
+        policeVehicleIsExploding = false;
+        explosionPoliceVehicle.visible = false;
+        explosionPoliceVehicle.stop();
+        lastCollision = Date.now();
+        //EV lägga till vehicle[i] till ta-bort-listan
+    };
+
     //END EXPLOSIONS
 
     app.ticker.add(function () {
@@ -972,6 +986,33 @@ function setup() {
                 vehicles.splice(i, 1);
             }
         }
+
+        //Explosions policeVehicles
+        for (var i = policeVehicles.length -1; i >= 0; i--) {
+            if (policeVehicles[i].hp < 1 && !policeVehicleIsExploding) {
+                policeVehicleIsExploding = true;
+                policeVehicles[i].visible = false;
+                explosionPoliceVehicle.visible = true;
+                explosionPoliceVehicle.gotoAndPlay(0);
+                explosionPoliceVehicle.x = policeVehicles[i].x;
+                explosionPoliceVehicle.y = policeVehicles[i].y;
+                if(policeVehicles[i].policeAnimationType != null){
+                    app.stage.removeChild(policeVehicles[i].policeAnimationType);
+                }
+                app.stage.removeChild(policeVehicles[i]);
+                policeVehicles.splice(i, 1);
+            }
+        }
+
+        /*
+        if (policeVehicles[i].x > app.screen.length + 100) {
+                app.stage.removeChild(policeVehicles[i]);
+                if(policeVehicles[i].policeAnimationType) {
+                    app.stage.removeChild(policeVehicles[i].policeAnimationType);
+                }
+                policeVehicles.splice(i, 1);
+            }
+         */
 
         for (var i = 0; i < vehicles.length; i++) {
 
@@ -1246,7 +1287,7 @@ function setup() {
             }
             if(bump.hit(playerOne, policeVehicles[i], true, true)){
                 crash.play();
-                policeVehicles[i].hp -= 10;
+                policeVehicles[i].hp -= 20;
                 if(Date.now()> lastCollision + 150) {
                     if(hp<4){
                         hp= 0 ;
