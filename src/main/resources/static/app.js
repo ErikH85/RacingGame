@@ -250,6 +250,7 @@ var playerOneOutOfBounds;
 var isOutOfBoundsP1 = false;
 var playerTwoOutOfBounds;
 var isOutOfBoundsP2 = false;
+var policePursuitVehicleGui;
 
 function setup() {
 
@@ -267,6 +268,52 @@ function setup() {
         dropShadowAngle: Math.PI / 6,
         dropShadowDistance: 6,
     });
+
+    var style2 = new PIXI.TextStyle({
+        fontFamily: 'Arial',
+        fontSize: 150,
+        fontStyle: 'italic',
+        fontWeight: 'bold',
+        fill: ['red', 'cyan'], // gradient
+        stroke: 'black',
+        strokeThickness: 5,
+        dropShadow: true,
+        dropShadowColor: '#000000',
+        dropShadowBlur: 4,
+        dropShadowAngle: Math.PI / 6,
+        dropShadowDistance: 6,
+    });
+
+    var style3 = new PIXI.TextStyle({
+        fontFamily: 'Arial',
+        fontSize: 60,
+        fontStyle: 'italic',
+        fontWeight: 'bold',
+        fill: ['red', 'cyan'], // gradient
+        stroke: 'black',
+        strokeThickness: 5,
+        dropShadow: true,
+        dropShadowColor: '#000000',
+        dropShadowBlur: 4,
+        dropShadowAngle: Math.PI / 6,
+        dropShadowDistance: 6,
+    });
+
+    var style4 = new PIXI.TextStyle({
+        fontFamily: 'Arial',
+        fontSize: 50,
+        fontStyle: 'italic',
+        fontWeight: 'bold',
+        fill: ['red', 'cyan'], // gradient
+        stroke: 'black',
+        strokeThickness: 5,
+        dropShadow: true,
+        dropShadowColor: '#000000',
+        dropShadowBlur: 4,
+        dropShadowAngle: Math.PI / 6,
+        dropShadowDistance: 6,
+    });
+
     explosions = new Audio('Audio/explosion.mp3');
     explosions.volume = 0.3;
     hpgui = new PIXI.Text('hp: ' + hp, style);
@@ -305,6 +352,10 @@ function setup() {
     wantedGui = new PIXI.Text('\u2606 \u2606 \u2606 \u2606 \u2606', style);
     wantedGui.x = 1100;
     wantedGui.y = 10;
+
+    policePursuitVehicleGui = new PIXI.Text('', style2);
+    policePursuitVehicleGui.x = 3000;
+    policePursuitVehicleGui.y = 500;
 
     music = new Audio('Audio/music.mp3');
     music.volume = 0.3;
@@ -977,20 +1028,36 @@ function setup() {
         if (score >= 400 && score < 2000) {
             wantedLevel = 1;
             wantedGui.text = '\u2605 \u2606 \u2606 \u2606 \u2606';
+            policePursuitVehicleGui.x = 3000;
+            policePursuitVehicleGui.text = 'The Cops Are Coming. Watch Out!'
+            app.stage.addChild(policePursuitVehicleGui);
         } else if (score >= 2000 && score < 4000) {
             wantedLevel = 2;
             wantedGui.text = '\u2605 \u2605 \u2606 \u2606 \u2606';
+            policePursuitVehicleGui.x = 3000;
+            policePursuitVehicleGui.text = 'The Classic Cops Are Coming. Take Them Out!'
+            app.stage.addChild(policePursuitVehicleGui);
         } else if (score >= 4000 && score < 6000) {
             wantedLevel = 3;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2606 \u2606';
+            policePursuitVehicleGui.x = 3000;
+            policePursuitVehicleGui.text = 'The Modern Cops Are Coming. Are You Ready?'
+            app.stage.addChild(policePursuitVehicleGui);
         } else if (score >= 6000 && score < 8000) {
             wantedLevel = 4;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2605 \u2606';
+            policePursuitVehicleGui.x = 3000;
+            policePursuitVehicleGui.text = 'S.W.A.T Is Coming. Don\'nt get Cocky!';
+            app.stage.addChild(policePursuitVehicleGui);
         } else if (score >= 8000) {
             wantedLevel = 5;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2605 \u2605';
+            policePursuitVehicleGui.x = 3000;
+            policePursuitVehicleGui.text = 'The Military Police Is After You. This Is The End For You...';
+            app.stage.addChild(policePursuitVehicleGui);
         }
         //End Wanted Level
+
         count += 1;
         tilingRoad.tilePosition.x -= 15;
         score += 1;
@@ -1104,49 +1171,6 @@ function setup() {
 
         if (life < 0){
             var gameOver = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/black.png"].texture);
-            var style2 = new PIXI.TextStyle({
-                fontFamily: 'Arial',
-                fontSize: 150,
-                fontStyle: 'italic',
-                fontWeight: 'bold',
-                fill: ['red', 'cyan'], // gradient
-                stroke: 'black',
-                strokeThickness: 5,
-                dropShadow: true,
-                dropShadowColor: '#000000',
-                dropShadowBlur: 4,
-                dropShadowAngle: Math.PI / 6,
-                dropShadowDistance: 6,
-            });
-
-            var style3 = new PIXI.TextStyle({
-                fontFamily: 'Arial',
-                fontSize: 60,
-                fontStyle: 'italic',
-                fontWeight: 'bold',
-                fill: ['red', 'cyan'], // gradient
-                stroke: 'black',
-                strokeThickness: 5,
-                dropShadow: true,
-                dropShadowColor: '#000000',
-                dropShadowBlur: 4,
-                dropShadowAngle: Math.PI / 6,
-                dropShadowDistance: 6,
-            });
-            var style4 = new PIXI.TextStyle({
-                fontFamily: 'Arial',
-                fontSize: 50,
-                fontStyle: 'italic',
-                fontWeight: 'bold',
-                fill: ['red', 'cyan'], // gradient
-                stroke: 'black',
-                strokeThickness: 5,
-                dropShadow: true,
-                dropShadowColor: '#000000',
-                dropShadowBlur: 4,
-                dropShadowAngle: Math.PI / 6,
-                dropShadowDistance: 6,
-            });
 
             if(!isGameOver) {
                 $.ajax({
@@ -1798,6 +1822,33 @@ function setup() {
     }
 
     function play(delta) {
+
+        if (score >= 400 && score < 2000) {
+            policePursuitVehicleGui.x -= 10;
+            if (policePursuitVehicleGui.x < -4000) {
+            app.stage.removeChild(policePursuitVehicleGui);
+            }
+        } else if (score >= 2000 && score < 4000) {
+            policePursuitVehicleGui.x -= 10;
+            if (policePursuitVehicleGui.x < -4000) {
+                app.stage.removeChild(policePursuitVehicleGui);
+            }
+        } else if (score >= 4000 && score < 6000) {
+            policePursuitVehicleGui.x -= 10;
+            if (policePursuitVehicleGui.x < -4000) {
+                app.stage.removeChild(policePursuitVehicleGui);
+            }
+        } else if (score >= 6000 && score < 8000) {
+            policePursuitVehicleGui.x -= 10;
+            if (policePursuitVehicleGui.x < -4000) {
+                app.stage.removeChild(policePursuitVehicleGui);
+            }
+        } else if (score >= 8000) {
+            policePursuitVehicleGui.x -= 10;
+            if (policePursuitVehicleGui.x < -4000) {
+                app.stage.removeChild(policePursuitVehicleGui);
+            }
+        }
 
         leftUzi.x = playerOne.x + 120;
         leftUzi.y = playerOne.y;
