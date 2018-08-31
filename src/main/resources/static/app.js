@@ -182,6 +182,7 @@ PIXI.Loader.shared
     .add("Sprites/wrench.png")
     .add("Sprites/spikestrip.png")
     .add("Sprites/black.png")
+    .add("Sprites/Weapons/ammo.png")
     .load(setup);
 
 var playerOne;
@@ -217,8 +218,11 @@ var siren;
 var honk;
 var money;
 var repair;
+var reload;
 var spikes;
 var explosions;
+var leftUzi;
+var rightUzi;
 var click;
 var lightsOn = false;
 var wantedLevel = 0;
@@ -263,7 +267,8 @@ function setup() {
         dropShadowAngle: Math.PI / 6,
         dropShadowDistance: 6,
     });
-
+    explosions = new Audio('Audio/explosion.mp3');
+    explosions.volume = 0.3;
     hpgui = new PIXI.Text('hp: ' + hp, style);
     hpgui.x = 30;
     hpgui.y = 10;
@@ -451,6 +456,32 @@ function setup() {
     }
     boost = new PIXI.AnimatedSprite(boostAnimation);
     //End boost
+
+    //Start uzi
+    var leftUziAnimation = [];
+
+    for (var i = 1; i <= 2; i++) {
+
+        var leftUziAnimationFrames = {
+            texture: PIXI.Texture.from("Sprites/Weapons/leftuzi" + i + ".png"),
+            time: 75
+        };
+        leftUziAnimation.push(leftUziAnimationFrames);
+    }
+    leftUzi = new PIXI.AnimatedSprite(leftUziAnimation);
+
+    var rightUziAnimation = [];
+
+    for (var i = 1; i <= 2; i++) {
+
+        var rightUziAnimationFrames = {
+            texture: PIXI.Texture.from("Sprites/Weapons/rightuzi" + i + ".png"),
+            time: 75
+        };
+        rightUziAnimation.push(rightUziAnimationFrames);
+    }
+    rightUzi = new PIXI.AnimatedSprite(rightUziAnimation);
+    //End uzi
     //END ANIMATIONS
 
     //Start light selection
@@ -586,6 +617,8 @@ function setup() {
         if(ammo > 0) {
             ammo -= 1;
             ammogui.text = 'Ammo: ' + ammo;
+            leftUzi.play();
+            app.stage.addChild(leftUzi);
             gun = new Audio('Audio/gun.mp3');
             gun.play();
             leftShotsFired = true;
@@ -597,6 +630,7 @@ function setup() {
     };
 
     q.release = () => {
+        app.stage.removeChild(leftUzi);
         leftShotsFired = false;
     };
 
@@ -604,6 +638,8 @@ function setup() {
         if(ammo > 0) {
             ammo -= 1;
             ammogui.text = 'Ammo: ' + ammo;
+            rightUzi.play();
+            app.stage.addChild(rightUzi);
             gun = new Audio('Audio/gun.mp3');
             gun.play();
             rightShotsFired = true;
@@ -615,6 +651,7 @@ function setup() {
     };
 
     e.release = () => {
+        app.stage.removeChild(rightUzi);
         rightShotsFired = false;
     };
 
@@ -828,7 +865,7 @@ function setup() {
             hpguiP2.x = 1900;
             hpguiP2.y = 10;
         }
-        if(playerTwo.hp <0){
+        if(playerTwo.hp <=0){
             playerTwo.hp = 0;
         }
 
@@ -937,19 +974,19 @@ function setup() {
         //End Boost
 
         //Start Wanted Level
-        if (score === 400) {
+        if (score >= 400 && score < 2000) {
             wantedLevel = 1;
             wantedGui.text = '\u2605 \u2606 \u2606 \u2606 \u2606';
-        } else if (score === 2000) {
+        } else if (score >= 2000 && score < 4000) {
             wantedLevel = 2;
             wantedGui.text = '\u2605 \u2605 \u2606 \u2606 \u2606';
-        } else if (score === 4000) {
+        } else if (score >= 4000 && score < 6000) {
             wantedLevel = 3;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2606 \u2606';
-        } else if (score === 6000) {
+        } else if (score >= 6000 && score < 8000) {
             wantedLevel = 4;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2605 \u2606';
-        } else if (score === 8000) {
+        } else if (score >= 8000) {
             wantedLevel = 5;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2605 \u2605';
         }
@@ -1176,12 +1213,13 @@ function setup() {
             if(bump.hit(playerOne, playerTwo, true, true)){
                 crash.play();
                 if(Date.now()> lastCollision + 150) {
-                    if(hp<4){
+                    if(hp<8){
                         hp= 0 ;
+                        explosions.play();
                         lastCollision = Date.now()
                     }
                     else {
-                        hp -= 4;
+                        hp -= 8;
                         lastCollision = Date.now()
                     }
                 }
@@ -1191,12 +1229,13 @@ function setup() {
         if(bump.hit(playerOne, topBoundary, true, true)){
             crash.play();
             if(Date.now()> lastCollision + 150) {
-                if(hp<4){
+                if(hp<8){
                     hp= 0 ;
+                    explosions.play();
                     lastCollision = Date.now()
                 }
                 else {
-                    hp -= 4;
+                    hp -= 8;
                     lastCollision = Date.now()
                 }
             }
@@ -1204,12 +1243,13 @@ function setup() {
         if(bump.hit(playerOne, bottomBoundary, true, true)){
             crash.play();
             if(Date.now()> lastCollision + 150) {
-                if(hp<4){
+                if(hp<8){
                     hp= 0 ;
+                    explosions.play();
                     lastCollision = Date.now()
                 }
                 else {
-                    hp -= 4;
+                    hp -= 8;
                     lastCollision = Date.now()
                 }
             }
@@ -1222,6 +1262,7 @@ function setup() {
                     crash.play();
                     if(playerTwo.hp<4){
                         playerTwo.hp=0;
+                        explosions.play();
                         lastCollisionp2 = Date.now()
                     }
                     else {
@@ -1235,6 +1276,7 @@ function setup() {
                     crash.play();
                     if(playerTwo.hp<4){
                         playerTwo.hp=0;
+                        explosions.play();
                         lastCollisionp2 = Date.now()
                     }
                     else {
@@ -1247,33 +1289,39 @@ function setup() {
 
         for (var i = 0; i < vehicles.length; i++) {
 
+
+            if(rightShotsFired && ( vehicles[i].x < playerOne.x +150 && vehicles[i].x > playerOne.x -150) && vehicles[i].y > playerOne.y){
+                if(Date.now()> lastShot + 300) {
+                    vehicles[i].hp -= 50;
+                    lastShot= Date.now();
+                    console.log(vehicles[i].hp);
+                }
+            }
+            if(leftShotsFired && ( vehicles[i].x < playerOne.x +75 && vehicles[i].x > playerOne.x -75) && vehicles[i].y < playerOne.y){
+                if(Date.now()> lastShot + 300) {
+                    vehicles[i].hp -= 50;
+                    lastShot= Date.now();
+                    console.log(vehicles[i].hp);
+                }
+            }
+
             if(vehicles[i].hasState == true) {
                 var vehState = whichState(vehicles[i].hp);
                 vehicles[i].texture = PIXI.Texture.from(`${vehicles[i].spriteName}${vehState.sprite}.png`);
             }
-            if(rightShotsFired && ( vehicles[i].x < playerOne.x +50 && vehicles[i].x > playerOne.x -50) && vehicles[i].y > playerOne.y){
-                if(Date.now()> lastShot + 500) {
-                    vehicles[i].hp -= 20;
-                    lastShot= Date.now();
-                }
-            }
-            if(leftShotsFired && ( vehicles[i].x < playerOne.x +50 && vehicles[i].x > playerOne.x -50) && vehicles[i].y < playerOne.y){
-                if(Date.now()> lastShot + 500) {
-                    vehicles[i].hp -= 20;
-                    lastShot= Date.now();
-                }
-            }
+
           
             if(bump.hit(playerOne,vehicles[i],true, true)){
                 crash.play();
                 if(Date.now()> lastCollision + 150 && !playerOneIsExploding) {
-                    if(hp<4){
+                    if(hp<8){
                         hp=0;
+                        explosions.play();
                         vehicles[i].hp -= 20;
                         lastCollision = Date.now()
                     }
                     else {
-                        hp -= 4;
+                        hp -= 8;
                         vehicles[i].hp -= 20;
                         lastCollision = Date.now()
                     }
@@ -1286,6 +1334,7 @@ function setup() {
                         crash.play();
                         if (playerTwo.hp < 4) {
                             playerTwo.hp = 0;
+                            explosions.play();
                             vehicles[i].hp -= 20;
                             lastCollisionp2 = Date.now()
                         }
@@ -1306,27 +1355,28 @@ function setup() {
         for (var i = 0; i < policeVehicles.length; i++) {
 
             if(rightShotsFired && ( policeVehicles[i].x < playerOne.x +50 && policeVehicles[i].x > playerOne.x -50) && policeVehicles[i].y > playerOne.y){
-                if(Date.now()> lastShot + 500) {
+                if(Date.now()> lastShot + 300) {
                     policeVehicles[i].hp -= 20;
                     lastShot= Date.now();
                 }
             }
             if(leftShotsFired && ( policeVehicles[i].x < playerOne.x +50 && policeVehicles[i].x > playerOne.x -50) && policeVehicles[i].y < playerOne.y){
-                if(Date.now()> lastShot + 500) {
+                if(Date.now()> lastShot + 300) {
                     policeVehicles[i].hp -= 20;
                     lastShot= Date.now();
                 }
             }
             if(bump.hit(playerOne, policeVehicles[i], true, true)){
                 crash.play();
-                policeVehicles[i].hp -= 20;
                 if(Date.now()> lastCollision + 150) {
-                    if(hp<4){
+                    policeVehicles[i].hp -= 20;
+                    if(hp<8){
                         hp= 0 ;
+                        explosions.play();
                         lastCollision = Date.now()
                     }
                     else {
-                        hp -= 4;
+                        hp -= 8;
                         lastCollision = Date.now()
                     }
                 }
@@ -1346,6 +1396,7 @@ function setup() {
                     crash.play();
                     if (playerTwo.hp < 4) {
                         playerTwo.hp = 0;
+                        explosions.play();
                         policeVehicles[i].hp -= 20;
                         lastCollisionp2 = Date.now()
                     }
@@ -1673,7 +1724,7 @@ function setup() {
 
         if (Date.now() > lastSpawnedItem + 5000) {
             lastSpawnedItem = Date.now();
-            var typeOfItem = Math.floor(Math.random() * (4 - 1) + 1);
+            var typeOfItem = Math.floor(Math.random() * (5 - 1) + 1);
             itemXPos = 2700;
             itemYPos = Math.floor(Math.random() * (650 - 150) + 150);
 
@@ -1692,6 +1743,10 @@ function setup() {
                     itemXPos = 2700;
                     itemyYPos = playerOne.y;
                     break;
+                case 4:
+                    item = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Weapons/ammo.png"].texture);
+                    item.itemID = 4;
+                    break;
             }
 
             item.x = itemXPos;
@@ -1702,15 +1757,36 @@ function setup() {
             app.stage.addChild(item);
         }
         if(rightShotsFired && ( playerTwo.x < playerOne.x +50 && playerTwo.x > playerOne.x -50) && playerTwo.y > playerOne.y){
-            if(Date.now()> lastShot + 500) {
+            if(Date.now()> lastShot + 300) {
                 playerTwo.hp -= 20;
                 lastShot= Date.now();
             }
         }
         if(leftShotsFired && ( playerTwo.x < playerOne.x +50 && playerTwo.x > playerOne.x -50) && playerTwo.y < playerOne.y){
-            if(Date.now()> lastShot + 500) {
+            if(Date.now()> lastShot + 300) {
                 playerTwo.hp -= 20;
                 lastShot= Date.now();
+            }
+        }
+        if(playerTwo.hp<=0){
+            playerTwo.hp =0;
+            explosions.play();
+        }
+        if(hp<=0){
+            hp = 0;
+            explosions.play();
+        }
+        for (let i = 0; i < vehicles.length ; i++) {
+            if(vehicles[i].hp <=0){
+                vehicles[i].hp = 0;
+                explosions.play();
+            }
+
+        }
+        for (let i = 0; i < policeVehicles.length; i++) {
+            if(policeVehicles[i].hp<=0){
+                policeVehicles[i].hp = 0;
+                explosions.play();
             }
         }
     });
@@ -1722,6 +1798,12 @@ function setup() {
     }
 
     function play(delta) {
+
+        leftUzi.x = playerOne.x + 120;
+        leftUzi.y = playerOne.y;
+
+        rightUzi.x = playerOne.x + 120;
+        rightUzi.y = playerOne.y + 90;
 
         brakelights.x = playerOne.x - 10;
         brakelights.y = playerOne.y;
@@ -1804,6 +1886,16 @@ function setup() {
                         app.stage.removeChild(items[i]);
                         spikes = new Audio('Audio/spike.mp3');
                         spikes.play();
+                        lastItem= Date.now();
+                    }
+                }
+                if(item.itemID == 4) {
+                    if (Date.now()> lastItem +1000) {
+                        ammo += 10;
+                        ammogui.text = 'Ammo: ' + ammo;
+                        app.stage.removeChild(items[i]);
+                        reload = new Audio('Audio/reload.mp3');
+                        reload.play();
                         lastItem= Date.now();
                     }
                 }
