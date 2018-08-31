@@ -242,6 +242,9 @@ var rightShotsFired = false;
 var lastShot = Date.now();
 var ammo = 10;
 var ammogui;
+var playerOneOutOfBounds;
+var isOutOfBoundsP1 = false;
+
 function setup() {
 
     var style = new PIXI.TextStyle({
@@ -869,6 +872,25 @@ function setup() {
             lifeguiP2.text = 'life x' + lifeP2;
         }
 
+
+        //PlayerOne Boundary Respawn
+        if((playerOne.x < 0) && !isOutOfBoundsP1){
+            playerOneOutOfBounds = Date.now();
+            isOutOfBoundsP1 = true;
+        }
+        if((playerOne.x > 2550 ) && !isOutOfBoundsP1){
+            playerOneOutOfBounds = Date.now();
+            isOutOfBoundsP1 = true;
+        }
+
+        if(Date.now() >= playerOneOutOfBounds + 3000 && isOutOfBoundsP1){
+            playerOne.x = 600;
+            playerOne.y = rightLane;
+            playerOne.vx = 0;
+            playerOne.vy = 0;
+            isOutOfBoundsP1 = false;
+        }
+
         //Start lights
         if (hp < 50) {
             app.stage.removeChild(lights);
@@ -1002,16 +1024,6 @@ function setup() {
                 policeVehicles.splice(i, 1);
             }
         }
-
-        /*
-        if (policeVehicles[i].x > app.screen.length + 100) {
-                app.stage.removeChild(policeVehicles[i]);
-                if(policeVehicles[i].policeAnimationType) {
-                    app.stage.removeChild(policeVehicles[i].policeAnimationType);
-                }
-                policeVehicles.splice(i, 1);
-            }
-         */
 
         for (var i = 0; i < vehicles.length; i++) {
 
@@ -1217,7 +1229,6 @@ function setup() {
                 var vehState = whichState(vehicles[i].hp);
                 vehicles[i].texture = PIXI.Texture.from(`${vehicles[i].spriteName}${vehState.sprite}.png`);
             }
-
             if(rightShotsFired && ( vehicles[i].x < playerOne.x +50 && vehicles[i].x > playerOne.x -50) && vehicles[i].y > playerOne.y){
                 if(Date.now()> lastShot + 500) {
                     vehicles[i].hp -= 20;
@@ -1406,6 +1417,7 @@ function setup() {
                 case 11:
                     vehicle = new PIXI.AnimatedSprite(ambulanceAnimation);
                     vehicle.play();
+                    vehicle.hasState = false;
                     break;
                 case 12:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car1/Car_1_01.png"].texture);
