@@ -1313,7 +1313,6 @@ function setup() {
 
         for (var i = 0; i < vehicles.length; i++) {
 
-
             if(rightShotsFired && ( vehicles[i].x < playerOne.x +150 && vehicles[i].x > playerOne.x -150) && vehicles[i].y > playerOne.y){
                 if(Date.now()> lastShot + 300) {
                     vehicles[i].hp -= 50;
