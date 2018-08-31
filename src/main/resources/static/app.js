@@ -220,6 +220,8 @@ var money;
 var repair;
 var spikes;
 var explosions;
+var leftUzi;
+var rightUzi;
 var click;
 var lightsOn = false;
 var wantedLevel = 0;
@@ -447,6 +449,32 @@ function setup() {
     }
     boost = new PIXI.AnimatedSprite(boostAnimation);
     //End boost
+
+    //Start uzi
+    var leftUziAnimation = [];
+
+    for (var i = 1; i <= 2; i++) {
+
+        var leftUziAnimationFrames = {
+            texture: PIXI.Texture.from("Sprites/Weapons/leftuzi" + i + ".png"),
+            time: 75
+        };
+        leftUziAnimation.push(leftUziAnimationFrames);
+    }
+    leftUzi = new PIXI.AnimatedSprite(leftUziAnimation);
+
+    var rightUziAnimation = [];
+
+    for (var i = 1; i <= 2; i++) {
+
+        var rightUziAnimationFrames = {
+            texture: PIXI.Texture.from("Sprites/Weapons/rightuzi" + i + ".png"),
+            time: 75
+        };
+        rightUziAnimation.push(rightUziAnimationFrames);
+    }
+    rightUzi = new PIXI.AnimatedSprite(rightUziAnimation);
+    //End uzi
     //END ANIMATIONS
 
     //Start light selection
@@ -582,6 +610,8 @@ function setup() {
         if(ammo > 0) {
             ammo -= 1;
             ammogui.text = 'Ammo: ' + ammo;
+            leftUzi.play();
+            app.stage.addChild(leftUzi);
             gun = new Audio('Audio/gun.mp3');
             gun.play();
             leftShotsFired = true;
@@ -593,6 +623,7 @@ function setup() {
     };
 
     q.release = () => {
+        app.stage.removeChild(leftUzi);
         leftShotsFired = false;
     };
 
@@ -600,6 +631,8 @@ function setup() {
         if(ammo > 0) {
             ammo -= 1;
             ammogui.text = 'Ammo: ' + ammo;
+            rightUzi.play();
+            app.stage.addChild(rightUzi);
             gun = new Audio('Audio/gun.mp3');
             gun.play();
             rightShotsFired = true;
@@ -611,6 +644,7 @@ function setup() {
     };
 
     e.release = () => {
+        app.stage.removeChild(rightUzi);
         rightShotsFired = false;
     };
 
@@ -1693,6 +1727,12 @@ function setup() {
     }
 
     function play(delta) {
+
+        leftUzi.x = playerOne.x + 120;
+        leftUzi.y = playerOne.y;
+
+        rightUzi.x = playerOne.x + 120;
+        rightUzi.y = playerOne.y + 90;
 
         brakelights.x = playerOne.x - 10;
         brakelights.y = playerOne.y;
