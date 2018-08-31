@@ -1178,14 +1178,14 @@ function setup() {
 
         for (var i = 0; i < vehicles.length; i++) {
 
-            if(rightShotsFired && ( vehicles[i].x < playerOne.x +50 && vehicles[i].x > playerOne.x -50) && vehicles[i].y > playerOne.y){
+            if(rightShotsFired && ( vehicles[i].x < playerOne.x +150 && vehicles[i].x > playerOne.x -150) && vehicles[i].y > playerOne.y){
                 if(Date.now()> lastShot + 500) {
                     vehicles[i].hp -= 50;
                     lastShot= Date.now();
                     console.log(vehicles[i].hp);
                 }
             }
-            if(leftShotsFired && ( vehicles[i].x < playerOne.x +50 && vehicles[i].x > playerOne.x -50) && vehicles[i].y < playerOne.y){
+            if(leftShotsFired && ( vehicles[i].x < playerOne.x +75 && vehicles[i].x > playerOne.x -75) && vehicles[i].y < playerOne.y){
                 if(Date.now()> lastShot + 500) {
                     vehicles[i].hp -= 50;
                     lastShot= Date.now();
@@ -1665,6 +1665,12 @@ function setup() {
                 explosions.play();
             }
 
+        }
+        for (let i = 0; i < policeVehicles; i++) {
+            if(policeVehicles[i].hp<=0){
+                policeVehicles[i].hp = 0;
+                explosions.play();
+            }
         }
     });
 
