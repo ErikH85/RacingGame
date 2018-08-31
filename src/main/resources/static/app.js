@@ -1046,7 +1046,7 @@ function setup() {
             wantedLevel = 4;
             wantedGui.text = '\u2605 \u2605 \u2605 \u2605 \u2606';
             policePursuitVehicleGui.x = 3000;
-            policePursuitVehicleGui.text = 'S.W.A.T Is Coming. Don\'nt get Cocky!';
+            policePursuitVehicleGui.text = 'S.W.A.T Is Coming. Don\'t get Cocky!';
             app.stage.addChild(policePursuitVehicleGui);
         } else if (score === 8000) {
             wantedLevel = 5;
