@@ -246,7 +246,12 @@ var rightShotsFired = false;
 var lastShot = Date.now();
 var ammo = 10;
 var ammogui;
+var playerOneOutOfBounds;
+var isOutOfBoundsP1 = false;
+var playerTwoOutOfBounds;
+var isOutOfBoundsP2 = false;
 var policePursuitVehicleGui;
+
 function setup() {
 
     var style = new PIXI.TextStyle({
@@ -957,6 +962,45 @@ function setup() {
             lifeguiP2.text = 'life x' + lifeP2;
         }
 
+
+        //PlayerOne Boundary Respawn
+        if((playerOne.x < 0) && !isOutOfBoundsP1){
+            playerOneOutOfBounds = Date.now();
+            isOutOfBoundsP1 = true;
+        }
+        if((playerOne.x > 2550 ) && !isOutOfBoundsP1){
+            playerOneOutOfBounds = Date.now();
+            isOutOfBoundsP1 = true;
+        }
+
+        if(Date.now() >= playerOneOutOfBounds + 3000 && isOutOfBoundsP1){
+            playerOne.x = 600;
+            playerOne.y = rightLane;
+            playerOne.vx = 0;
+            playerOne.vy = 0;
+            isOutOfBoundsP1 = false;
+        }
+
+
+        //playerTwo Boundary Respawn
+        if((playerTwo.x < 0) && !isOutOfBoundsP2){
+            playerTwoOutOfBounds = Date.now();
+            isOutOfBoundsP2 = true;
+        }
+        if((playerTwo.x > 2550 ) && !isOutOfBoundsP2){
+            playerTwoOutOfBounds = Date.now();
+            isOutOfBoundsP2 = true;
+        }
+
+        if(Date.now() >= playerTwoOutOfBounds + 3000 && isOutOfBoundsP2){
+            playerTwo.x = 300;
+            playerTwo.y = rightLane;
+            playerTwo.vx = 0;
+            playerTwo.vy = 0;
+            isOutOfBoundsP2 = false;
+        }
+         
+
         //Start lights
         if (hp < 50) {
             app.stage.removeChild(lights);
@@ -1106,16 +1150,6 @@ function setup() {
                 policeVehicles.splice(i, 1);
             }
         }
-
-        /*
-        if (policeVehicles[i].x > app.screen.length + 100) {
-                app.stage.removeChild(policeVehicles[i]);
-                if(policeVehicles[i].policeAnimationType) {
-                    app.stage.removeChild(policeVehicles[i].policeAnimationType);
-                }
-                policeVehicles.splice(i, 1);
-            }
-         */
 
         for (var i = 0; i < vehicles.length; i++) {
 
@@ -1278,6 +1312,7 @@ function setup() {
         }
 
         for (var i = 0; i < vehicles.length; i++) {
+
 
             if(rightShotsFired && ( vehicles[i].x < playerOne.x +150 && vehicles[i].x > playerOne.x -150) && vehicles[i].y > playerOne.y){
                 if(Date.now()> lastShot + 300) {
@@ -1479,6 +1514,7 @@ function setup() {
                 case 11:
                     vehicle = new PIXI.AnimatedSprite(ambulanceAnimation);
                     vehicle.play();
+                    vehicle.hasState = false;
                     break;
                 case 12:
                     vehicle = new PIXI.Sprite(PIXI.Loader.shared.resources["Sprites/Traffic/Car1/Car_1_01.png"].texture);
